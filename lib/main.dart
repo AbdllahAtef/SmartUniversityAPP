@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_university_app/screens/on_boarding_screen.dart';
 
-void main() {
-  runApp(const SmartUniversityApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ScreenUtil.ensureScreenSize();
+  runApp(const ProviderScope(child: SmartUniversityApp()));
 }
 
 class SmartUniversityApp extends StatelessWidget {
@@ -9,6 +14,22 @@ class SmartUniversityApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp();
+    return ScreenUtilInit(
+      designSize: const Size(393, 852),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp(
+          theme: ThemeData.light().copyWith(
+            scaffoldBackgroundColor: Colors.white,
+            textTheme: ThemeData.light().textTheme.apply(
+              fontFamily: 'Poppins',
+            ),
+          ),
+          debugShowCheckedModeBanner: false,
+          home: const OnBoardingScreen(),
+        );
+      },
+    );
   }
 }
