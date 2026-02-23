@@ -7,6 +7,16 @@ class TextStyles {
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
+  static  TextStyle textstyle18 = TextStyle(
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+  );
+  static  TextStyle textstyle14 = TextStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w300,
+    color: Colors.white,
+  );
   static  TextStyle textstyle20 = TextStyle(
     fontSize: 20.sp,
     fontWeight: FontWeight.w500,
