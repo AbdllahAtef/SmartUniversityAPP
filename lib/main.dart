@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_university_app/screens/on_boarding_screen.dart';
+import 'package:smart_university_app/screens/splach_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,12 +22,10 @@ class SmartUniversityApp extends StatelessWidget {
         return MaterialApp(
           theme: ThemeData.light().copyWith(
             scaffoldBackgroundColor: Colors.white,
-            textTheme: ThemeData.light().textTheme.apply(
-              fontFamily: 'Poppins',
-            ),
+            textTheme: ThemeData.light().textTheme.apply(fontFamily: 'Poppins'),
           ),
           debugShowCheckedModeBanner: false,
-          home: const OnBoardingScreen(),
+          home: const SplashView(),
         );
       },
     );
