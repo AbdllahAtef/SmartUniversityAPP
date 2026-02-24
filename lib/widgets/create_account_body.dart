@@ -20,7 +20,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 50.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 30.h),
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
