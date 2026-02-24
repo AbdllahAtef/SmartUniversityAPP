@@ -22,6 +22,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 50.h),
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

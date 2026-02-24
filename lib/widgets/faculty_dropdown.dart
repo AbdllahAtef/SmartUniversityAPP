@@ -35,21 +35,26 @@ class FacultyDropdown extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
-        DropdownButtonFormField<String>(
-          focusColor: Colors.transparent,
-          dropdownColor: Colors.grey.shade100,
-          value: selectedFaculty,
-          hint: const Text("Choose your faculty"),
-          items: faculties.map((faculty) {
-            return DropdownMenuItem(value: faculty, child: Text(faculty));
-          }).toList(),
-          onChanged: onChanged,
-          decoration: InputDecoration(
-            border: OutLineBorder(),
-            focusedBorder: OutLineBorder(),
-            enabledBorder: OutLineBorder(),
-            errorBorder: OutLineBorder(),
-            focusedErrorBorder: OutLineBorder(),
+        SizedBox(
+          width: double.infinity,
+          child: DropdownButtonFormField<String>(
+            isExpanded: true,
+            menuMaxHeight: 300,
+            focusColor: Colors.transparent,
+            dropdownColor: Colors.grey.shade100,
+            value: selectedFaculty,
+            hint: const Text("Choose your faculty"),
+            items: faculties.map((faculty) {
+              return DropdownMenuItem(value: faculty, child: Text(faculty));
+            }).toList(),
+            onChanged: onChanged,
+            decoration: InputDecoration(
+              border: OutLineBorder(),
+              focusedBorder: OutLineBorder(),
+              enabledBorder: OutLineBorder(),
+              errorBorder: OutLineBorder(),
+              focusedErrorBorder: OutLineBorder(),
+            ),
           ),
         ),
       ],
