@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_university_app/screens/create_account_screen.dart';
 import 'package:smart_university_app/utils/styles.dart';
 
 class SignUpButton extends StatelessWidget {
@@ -22,7 +23,12 @@ class SignUpButton extends StatelessWidget {
             minimumSize: Size.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          onPressed: () {},
+          onPressed: () {
+             Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const CreateAccountScreen()),
+            );
+          },
           child: Text(
             'Sign Up',
             style: TextStyles.textstyle16.copyWith(
