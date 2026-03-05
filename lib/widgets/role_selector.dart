@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/widgets/custom_radio_list_tile.dart';
 
 class RoleSelector extends StatelessWidget {
@@ -20,7 +21,7 @@ class RoleSelector extends StatelessWidget {
           "Select Role",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -29,16 +30,13 @@ class RoleSelector extends StatelessWidget {
               onChanged: onChanged,
               role: 'Student',
             ),
+
             CustomRadioListTile(
               selectedRole: selectedRole,
               onChanged: onChanged,
               role: 'Doctor',
             ),
-            CustomRadioListTile(
-              selectedRole: selectedRole,
-              onChanged: onChanged,
-              role: 'Admin',
-            ),
+            SizedBox(width: 50.w),
           ],
         ),
       ],

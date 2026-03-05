@@ -5,20 +5,21 @@ import 'package:smart_university_app/widgets/custom_elevated_button.dart';
 import 'package:smart_university_app/widgets/custom_text_form_field.dart';
 import 'package:smart_university_app/widgets/faculty_dropdown.dart';
 import 'package:smart_university_app/widgets/role_selector.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smart_university_app/providers/create_account_provider.dart';
 
-class CreateAccountBody extends StatefulWidget {
+class CreateAccountBody extends ConsumerStatefulWidget {
   const CreateAccountBody({super.key});
 
   @override
-  State<CreateAccountBody> createState() => _CreateAccountBodyState();
+  ConsumerState<CreateAccountBody> createState() => _CreateAccountBodyState();
 }
 
-class _CreateAccountBodyState extends State<CreateAccountBody> {
-  String selectedRole = "Student";
-  String? selectedFaculty;
-
+class _CreateAccountBodyState extends ConsumerState<CreateAccountBody> {
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(createAccountProvider);
+    final notifier = ref.read(createAccountProvider.notifier);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 30.h),
       child: SingleChildScrollView(
@@ -29,36 +30,34 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
             const CreateAccountHeader(),
             SizedBox(height: 40.h),
             const CustomTextFormField(isPassword: false, hint: 'UserName'),
-            SizedBox(height: 10.h),
+            SizedBox(height: 15.h),
             const CustomTextFormField(isPassword: false, hint: 'Email'),
-            SizedBox(height: 10.h),
+            SizedBox(height: 15.h),
+            const CustomTextFormField(isPassword: false, hint: 'Id' ,isID: true),
+            SizedBox(height: 15.h),
             const CustomTextFormField(isPassword: true, hint: 'Password'),
-            SizedBox(height: 10.h),
+            SizedBox(height: 15.h),
             const CustomTextFormField(
               isPassword: true,
               hint: 'Retype Password',
             ),
             const SizedBox(height: 30),
             RoleSelector(
-              selectedRole: selectedRole,
+              selectedRole: state.role ?? '',
               onChanged: (value) {
-                setState(() {
-                  selectedRole = value;
-                });
+                notifier.changeRole(value);
               },
             ),
-            if (selectedRole == "Student") ...[
+            if (state.role == "Student") ...[
               const SizedBox(height: 30),
               FacultyDropdown(
-                selectedFaculty: selectedFaculty,
+                selectedFaculty: state.faculty,
                 onChanged: (value) {
-                  setState(() {
-                    selectedFaculty = value;
-                  });
+                  notifier.changeFaculty(value);
                 },
               ),
             ],
-            SizedBox(height: 40.h),
+            SizedBox(height: 50.h),
             CustomElevatedButton(onPressed: () {}, text: 'Continue'),
           ],
         ),

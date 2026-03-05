@@ -7,8 +7,10 @@ class CustomTextFormField extends StatefulWidget {
     super.key,
     required this.isPassword,
     required this.hint,
+    this.isID = false,
   });
   final bool isPassword;
+  final bool isID;
   final String hint;
 
   @override
@@ -29,6 +31,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: TextFormField(
+        keyboardType: widget.isID ? TextInputType.number : TextInputType.text,
         obscureText: _obscureText,
         decoration: InputDecoration(
           labelText: widget.hint,
