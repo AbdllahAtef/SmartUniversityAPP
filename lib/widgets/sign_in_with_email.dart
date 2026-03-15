@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_university_app/screens/home_screen.dart';
 import 'package:smart_university_app/utils/styles.dart';
 import 'package:smart_university_app/widgets/custom_elevated_button.dart';
 import 'package:smart_university_app/widgets/custom_text_form_field.dart';
@@ -22,7 +23,15 @@ class SignInWithEmail extends StatelessWidget {
             SizedBox(height: 10.h),
             const CustomTextFormField(isPassword: true, hint: 'Password'),
             SizedBox(height: 50.h),
-            CustomElevatedButton(onPressed: () {}, text: 'Log In'),
+            CustomElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeView()),
+                );
+              },
+              text: 'Log In',
+            ),
             SizedBox(height: 20.h),
             TextButton(
               onPressed: () {},
