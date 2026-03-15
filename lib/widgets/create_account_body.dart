@@ -41,6 +41,7 @@ class _CreateAccountBodyState extends ConsumerState<CreateAccountBody> {
               isPassword: true,
               hint: 'Retype Password',
             ),
+            
             const SizedBox(height: 30),
             RoleSelector(
               selectedRole: state.role ?? '',

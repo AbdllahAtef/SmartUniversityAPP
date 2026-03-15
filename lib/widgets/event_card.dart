@@ -28,7 +28,7 @@ class EventCard extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

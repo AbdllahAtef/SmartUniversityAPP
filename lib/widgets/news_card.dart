@@ -43,7 +43,7 @@ class NewsCard extends StatelessWidget {
                       fontSize: 17.sp,
                     ),
                   ),
-                  const SizedBox(height: 6),
+
                   Text(
                     news.description,
                     style: TextStyles.textstyle14.copyWith(

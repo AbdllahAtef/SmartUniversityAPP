@@ -87,3 +87,22 @@ final List<EventModel> eventsList = [
     image: "assets/images/event3.jpg",
   ),
 ];
+final List<String> courses = [
+  'Digital Marketing',
+  'Design Learning',
+  'Artificial Intelligence',
+  'Software Management',
+  'Digital Logical Thoughts',
+  'Web 3.0',
+  'Calculas',
+  'Physics',
+  'Mathematics',
+  'Data Science',
+  'Machine Learning',
+  'Cloud Computing',
+  'Cybersecurity',
+  'Mobile App Development',
+  'Game Development',
+  'Blockchain Technology',
+  'Internet of Things',
+];

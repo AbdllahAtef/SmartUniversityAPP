@@ -22,7 +22,7 @@ class HomeViewBody extends StatelessWidget {
         ),
         Expanded(
           child: Container(
-            color: const Color(0xFFF4F3FF),
+            color: Colors.grey.withOpacity(0.1),
             child: const NewsEventsList(),
           ),
         ),
