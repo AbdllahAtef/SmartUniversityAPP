@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/providers/schedule_provider.dart';
 import 'package:smart_university_app/utils/date_utils.dart';
+import 'package:smart_university_app/utils/styles.dart';
 import 'package:smart_university_app/widgets/date_header.dart';
 import 'package:smart_university_app/widgets/date_list_view.dart';
 import 'package:smart_university_app/widgets/schedule_list_view.dart';
+import 'package:smart_university_app/widgets/time_courses_header.dart';
 
 class Scheduleviewbody extends ConsumerWidget {
   const Scheduleviewbody({super.key});
@@ -43,6 +46,7 @@ class Scheduleviewbody extends ConsumerWidget {
                   indent: 24,
                   endIndent: 24,
                 ),
+                const TimeCoursesHeader(),
                 const Expanded(child: ScheduleListView()),
               ],
             ),
