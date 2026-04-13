@@ -33,7 +33,7 @@ class CustomBottomNavigationBar extends ConsumerWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.event_outlined),
           activeIcon: Icon(Icons.event_outlined),
-          label: 'Events',
+          label: 'Schedule',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.bar_chart_outlined),

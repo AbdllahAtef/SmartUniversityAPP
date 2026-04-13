@@ -17,6 +17,11 @@ class TextStyles {
     fontWeight: FontWeight.w300,
     color: Colors.white,
   );
+  static TextStyle textstyle12 = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w300,
+    color: Colors.white,
+  );
   static TextStyle textstyle8 = TextStyle(
     fontSize: 8.sp,
     fontWeight: FontWeight.w500,
