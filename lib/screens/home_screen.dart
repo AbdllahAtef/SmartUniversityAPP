@@ -15,7 +15,9 @@ class HomeView extends ConsumerWidget {
     final currentItem = navigationItems[currentIndex];
 
     return Scaffold(
-      appBar: CustomAppBar(title: currentItem.title),
+      appBar: currentItem.title == "Result"
+          ? null
+          : CustomAppBar(title: currentItem.title),
       body: SafeArea(
         child: IndexedStack(
           index: currentIndex,

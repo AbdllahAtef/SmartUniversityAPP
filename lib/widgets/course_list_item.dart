@@ -21,7 +21,6 @@ class CourseListItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
@@ -36,20 +35,29 @@ class CourseListItem extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: Text(
-                  title,
-                  style: TextStyles.textstyle16.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    title,
+                    style: TextStyles.textstyle16.copyWith(
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
-              trailing ??
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 20,
-                  ),
+              Padding(
+                padding: trailing == null
+                    ? const EdgeInsets.symmetric(horizontal: 16)
+                    : EdgeInsets.zero,
+                child:
+                    trailing ??
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey,
+                      size: 20,
+                    ),
+              ),
             ],
           ),
         ),
