@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_university_app/models/events_model.dart';
+import 'package:smart_university_app/models/grades_model.dart';
 import 'package:smart_university_app/models/lecture_model.dart';
 import 'package:smart_university_app/models/news_model.dart';
 import 'package:smart_university_app/models/subject_model.dart';
@@ -163,4 +164,21 @@ final lecturesMock = [
     instructor: "Sara Ahmed",
     color: const Color(0xff81D4FA),
   ),
+];
+final List<GradesModel> mockGrades = [
+  GradesModel(name: "Digital Marketing", grade: "A+", semester: "S2023"),
+  GradesModel(name: "Design Learning", grade: "B", semester: "S2023"),
+  GradesModel(name: "Software Management", grade: "B+", semester: "S2023"),
+  GradesModel(name: "Digital Logic", grade: "C", semester: "S2023"),
+  GradesModel(name: "Artificial Intelligence", grade: "F", semester: "S2023"),
+  GradesModel(name: "Physics", grade: "A+", semester: "S2023"),
+  GradesModel(name: "Mathematics", grade: "B", semester: "S2023"),
+  GradesModel(name: "Data Science", grade: "B+", semester: "S2023"),
+  GradesModel(name: "Machine Learning", grade: "C", semester: "S2023"),
+  GradesModel(name: "Cloud Computing", grade: "F", semester: "S2023"),
+  GradesModel(name: "Cybersecurity", grade: "A+", semester: "S2023"),
+  GradesModel(name: "Mobile App Development", grade: "B", semester: "S2023"),
+  GradesModel(name: "Game Development", grade: "B+", semester: "S2023"),
+  GradesModel(name: "Blockchain Technology", grade: "C", semester: "S2023"),
+  GradesModel(name: "Internet of Things", grade: "F", semester: "S2023"),
 ];
