@@ -4,13 +4,13 @@ import 'package:smart_university_app/utils/styles.dart';
 class ProfileHeader extends StatelessWidget {
   final String name;
   final String studentId;
-  final String? avatarPath;
+  final String avatarPath;
 
   const ProfileHeader({
     super.key,
     required this.name,
     required this.studentId,
-    this.avatarPath,
+    required this.avatarPath,
   });
 
   @override
@@ -22,11 +22,9 @@ class ProfileHeader extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: const Color(0XFF8B2072), width: 2),
           ),
-          child: const CircleAvatar(
+          child: CircleAvatar(
             radius: 30,
-            foregroundImage: NetworkImage(
-              'https://images.pexels.com/photos/31438472/pexels-photo-31438472.jpeg',
-            ),
+            foregroundImage: NetworkImage(avatarPath),
           ),
         ),
         const SizedBox(width: 14),
