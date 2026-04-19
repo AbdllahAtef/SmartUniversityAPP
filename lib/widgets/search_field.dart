@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_university_app/providers/search_provide.dart';
+import 'package:smart_university_app/providers/courses_provider.dart';
 import 'package:smart_university_app/utils/styles.dart';
 
 class SearchField extends ConsumerWidget {

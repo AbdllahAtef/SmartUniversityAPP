@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:smart_university_app/models/assignments_model.dart';
 import 'package:smart_university_app/models/courses_model.dart';
 import 'package:smart_university_app/models/events_model.dart';
 import 'package:smart_university_app/models/grades_model.dart';
 import 'package:smart_university_app/models/lecture_model.dart';
 import 'package:smart_university_app/models/news_model.dart';
+import 'package:smart_university_app/models/quizes_model.dart';
 import 'package:smart_university_app/models/subject_model.dart';
 
 final List<SubjectModel> mockSubjects = [
@@ -246,4 +248,58 @@ final List<GradesModel> mockGrades = [
   GradesModel(name: "Game Development", grade: "B+", semester: "S2023"),
   GradesModel(name: "Blockchain Technology", grade: "C", semester: "S2023"),
   GradesModel(name: "Internet of Things", grade: "F", semester: "S2023"),
+];
+final assignments = [
+  AssignmentModel(
+    id: 1,
+    courseId: 1,
+    title: "Data Structures Assignment",
+    description: "Analyze time complexity for linked lists",
+    dueDate: DateTime(2026, 5, 10),
+    maxGrade: 20,
+  ),
+  AssignmentModel(
+    id: 2,
+    courseId: 1,
+    title: "Algorithms Homework",
+    description: "Sorting algorithms implementation",
+    dueDate: DateTime(2026, 5, 15),
+    maxGrade: 25,
+  ),
+  AssignmentModel(
+    id: 3,
+    courseId: 1,
+    title: "Operating Systems Assignment",
+    description:
+        "Implement process scheduling algorithms (FCFS & Round Robin).",
+    dueDate: DateTime(2026, 5, 20),
+    maxGrade: 30,
+  ),
+
+  AssignmentModel(
+    id: 4,
+    courseId: 1,
+    title: "Database Systems Project",
+    description: "Design a relational database with normalization and ERD.",
+    dueDate: DateTime(2026, 5, 25),
+    maxGrade: 40,
+  ),
+];
+final quizzes = [
+  QuizModel(
+    id: 1,
+    courseId: 1,
+    title: "Quiz 1",
+    totalGrade: 10,
+    quizDate: DateTime(2026, 5, 5),
+    durationMinutes: 15,
+  ),
+  QuizModel(
+    id: 2,
+    courseId: 1,
+    title: "Quiz 2",
+    totalGrade: 15,
+    quizDate: DateTime(2026, 5, 8),
+    durationMinutes: 20,
+  ),
 ];

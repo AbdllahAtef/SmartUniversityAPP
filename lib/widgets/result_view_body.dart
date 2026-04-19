@@ -28,22 +28,23 @@ class ResultListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final grades = ref.watch(gradesProvider);
-
     return Expanded(
       child: Container(
         color: Colors.grey.withOpacity(0.1),
-        child: ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: grades.length,
-          itemBuilder: (context, index) {
-            final item = grades[index];
-            return CourseListItem(
-              title: item.name,
-              onTap: () {},
-              trailing: GradesBox(grades: item),
-            );
-          },
-        ),
+        child: grades.isEmpty
+            ? const Center(child: Text("No results available"))
+            : ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: grades.length,
+                itemBuilder: (context, index) {
+                  final item = grades[index];
+                  return CourseListItem(
+                    title: item.name,
+                    onTap: () {},
+                    trailing: GradesBox(grades: item),
+                  );
+                },
+              ),
       ),
     );
   }
