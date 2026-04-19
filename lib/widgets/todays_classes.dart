@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/utils/styles.dart';
+import 'package:smart_university_app/widgets/scheduleviewbody.dart';
 import 'package:smart_university_app/widgets/session_card.dart';
 
 class TodaysClasses extends StatelessWidget {
@@ -23,7 +24,14 @@ class TodaysClasses extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Scheduleviewbody(),
+                    ),
+                  );
+                },
                 child: Row(
                   children: [
                     Text(
@@ -34,7 +42,7 @@ class TodaysClasses extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 5),
-                     Icon(
+                    Icon(
                       Icons.arrow_forward_ios,
                       size: 15.sp,
                       color: const Color.fromARGB(255, 189, 189, 189),

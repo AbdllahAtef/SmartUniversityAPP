@@ -129,8 +129,8 @@ final lecturesMock = [
     color: const Color(0xffDCE775),
   ),
   LectureModel(
-    startTime: DateTime(2026, 4, 12, 15, 00),
-    endTime: DateTime(2026, 4, 12, 16, 30),
+    startTime: DateTime(2026, 4, 19, 15, 00),
+    endTime: DateTime(2026, 4, 19, 16, 30),
     title: "UI/UX Design",
     subtitle: "Wireframing Basics",
     room: "Room 5B - 210",
@@ -138,8 +138,8 @@ final lecturesMock = [
     color: const Color(0xff81D4FA),
   ),
   LectureModel(
-    startTime: DateTime(2026, 4, 12, 11, 35),
-    endTime: DateTime(2026, 4, 12, 13, 05),
+    startTime: DateTime(2026, 4, 19, 11, 35),
+    endTime: DateTime(2026, 4, 19, 13, 05),
     title: "Computer Science",
     subtitle: "Lecture 2: Data management",
     room: "Room 2 - 124",
@@ -147,8 +147,8 @@ final lecturesMock = [
     color: const Color(0xffA5D6A7),
   ),
   LectureModel(
-    startTime: DateTime(2026, 4, 13, 13, 15),
-    endTime: DateTime(2026, 4, 13, 14, 45),
+    startTime: DateTime(2026, 4, 18, 13, 15),
+    endTime: DateTime(2026, 4, 18, 14, 45),
     title: "Digital Marketing",
     subtitle: "Lecture 3: Shopify Creation",
     room: "Room 3A - G4",
@@ -156,8 +156,8 @@ final lecturesMock = [
     color: const Color(0xffDCE775),
   ),
   LectureModel(
-    startTime: DateTime(2026, 4, 13, 15, 00),
-    endTime: DateTime(2026, 4, 13, 16, 30),
+    startTime: DateTime(2026, 4, 18, 15, 00),
+    endTime: DateTime(2026, 4, 18, 16, 30),
     title: "UI/UX Design",
     subtitle: "Wireframing Basics",
     room: "Room 5B - 210",

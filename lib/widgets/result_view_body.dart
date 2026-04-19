@@ -11,7 +11,7 @@ class ResultViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(padding: EdgeInsetsGeometry.all(16), child: GradesDropdown()),

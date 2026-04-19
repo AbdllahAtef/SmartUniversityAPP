@@ -38,7 +38,6 @@ class LectureCard extends StatelessWidget {
                   title,
                   style: TextStyles.textstyle18.copyWith(color: Colors.black),
                 ),
-                Icon(Icons.more_vert, size: 18.sp),
               ],
             ),
             const SizedBox(height: 4),
