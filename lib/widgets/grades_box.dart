@@ -9,6 +9,7 @@ class GradesBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isfinal = grades.type.toLowerCase() == "final grades";
     return Container(
       width: 60.w,
       height: 60.h,
@@ -27,15 +28,24 @@ class GradesBox extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            grades.grade,
-            style: TextStyles.textstyle12.copyWith(
-              color: const Color(0XFF8B2072),
-            ),
-          ),
+          isfinal
+              ? Text(
+                  grades.letterGrade ?? "-",
+                  style: TextStyles.textstyle18.copyWith(
+                    color: const Color(0XFF8B2072),
+                    fontWeight: FontWeight.w600,
+                  ),
+                )
+              : Text(
+                  "${grades.score?.toInt()}/${grades.total?.toInt()}",
+                  style: TextStyles.textstyle18.copyWith(
+                    color: const Color(0XFF8B2072),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
           const SizedBox(height: 4),
           Text(
-            grades.semester,
+            "S${grades.season}",
             style: TextStyles.textstyle12.copyWith(color: Colors.grey.shade600),
           ),
         ],

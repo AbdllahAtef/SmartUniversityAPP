@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:smart_university_app/utils/mock_data.dart';
 import 'package:smart_university_app/widgets/event_card.dart';

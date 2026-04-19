@@ -49,11 +49,11 @@ class FacultyDropdown extends StatelessWidget {
             }).toList(),
             onChanged: onChanged,
             decoration: InputDecoration(
-              border: OutLineBorder(),
-              focusedBorder: OutLineBorder(),
-              enabledBorder: OutLineBorder(),
-              errorBorder: OutLineBorder(),
-              focusedErrorBorder: OutLineBorder(),
+              border: outlineBorder(),
+              focusedBorder: outlineBorder(),
+              enabledBorder: outlineBorder(),
+              errorBorder: outlineBorder(),
+              focusedErrorBorder: outlineBorder(),
             ),
           ),
         ),
@@ -61,7 +61,7 @@ class FacultyDropdown extends StatelessWidget {
     );
   }
 
-  UnderlineInputBorder OutLineBorder() {
+  UnderlineInputBorder outlineBorder() {
     return UnderlineInputBorder(
       borderSide: BorderSide(color: const Color(0xFF949494).withOpacity(0.5)),
     );
