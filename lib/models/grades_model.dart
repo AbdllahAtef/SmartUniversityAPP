@@ -1,13 +1,17 @@
 class GradesModel {
   final String name;
-  final String grade;
-  final String semester;
+  final String type;
+  final String season;
+  final String? letterGrade;
+  final double? score;
+  final double? total;
 
   GradesModel({
     required this.name,
-    required this.grade,
-    required this.semester,
+    required this.type,
+    required this.season,
+    this.letterGrade,
+    this.score,
+    this.total,
   });
 }
-
-

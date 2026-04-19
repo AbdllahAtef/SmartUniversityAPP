@@ -3,7 +3,7 @@ import 'package:smart_university_app/utils/styles.dart';
 
 class CourseListItem extends StatelessWidget {
   final String title;
-  final VoidCallback onTap;
+  final void Function()? onTap;
   final Widget? trailing;
 
   const CourseListItem({

@@ -8,8 +8,8 @@ class GradesDropdown extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final grades = ref.watch(gradesListProvider);
-    final selected = ref.watch(selectedGradeProvider);
+    final types = ref.watch(gradesTypesProvider);
+    final selected = ref.watch(selectedTypeProvider);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -20,10 +20,12 @@ class GradesDropdown extends ConsumerWidget {
         ),
         DropdownButtonHideUnderline(
           child: DropdownButton<String>(
-            style: TextStyles.textstyle18.copyWith(color: Colors.purple),
+            style: TextStyles.textstyle18.copyWith(
+              color: const Color(0XFF8B2072),
+            ),
             value: selected,
             icon: const Icon(Icons.keyboard_arrow_down),
-            items: grades.map((e) {
+            items: types.map((e) {
               return DropdownMenuItem(
                 value: e,
                 child: Text(
@@ -36,7 +38,7 @@ class GradesDropdown extends ConsumerWidget {
               );
             }).toList(),
             onChanged: (value) {
-              ref.read(selectedGradeProvider.notifier).state = value!;
+              ref.read(selectedTypeProvider.notifier).state = value!;
             },
           ),
         ),

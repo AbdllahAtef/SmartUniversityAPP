@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:smart_university_app/models/assignments_model.dart';
+import 'package:smart_university_app/models/courses_model.dart';
 import 'package:smart_university_app/models/events_model.dart';
 import 'package:smart_university_app/models/grades_model.dart';
 import 'package:smart_university_app/models/lecture_model.dart';
 import 'package:smart_university_app/models/news_model.dart';
+import 'package:smart_university_app/models/quizes_model.dart';
 import 'package:smart_university_app/models/subject_model.dart';
 
 final List<SubjectModel> mockSubjects = [
@@ -90,24 +93,88 @@ final List<EventModel> eventsList = [
     image: "assets/images/event3.jpg",
   ),
 ];
-final List<String> courses = [
-  'Digital Marketing',
-  'Design Learning',
-  'Artificial Intelligence',
-  'Software Management',
-  'Digital Logical Thoughts',
-  'Web 3.0',
-  'Calculas',
-  'Physics',
-  'Mathematics',
-  'Data Science',
-  'Machine Learning',
-  'Cloud Computing',
-  'Cybersecurity',
-  'Mobile App Development',
-  'Game Development',
-  'Blockchain Technology',
-  'Internet of Things',
+final courses = [
+  const CourseModel(
+    id: 1,
+    name: "Computer Science",
+    code: "CS101",
+    description:
+        "Introduction to programming, algorithms, and problem solving.",
+    doctorId: "D01",
+    facultyId: "F01",
+  ),
+  const CourseModel(
+    id: 2,
+    name: "Mathematics",
+    code: "MATH201",
+    description: "Advanced calculus, limits, derivatives, and integrals.",
+    doctorId: "D02",
+    facultyId: "F01",
+  ),
+  const CourseModel(
+    id: 3,
+    name: "Physics",
+    code: "PHY101",
+    description: "Basic physics concepts including motion and energy.",
+    doctorId: "D03",
+    facultyId: "F02",
+  ),
+  const CourseModel(
+    id: 4,
+    name: "Data Structures",
+    code: "CS202",
+    description: "Stacks, queues, linked lists, trees, and graphs.",
+    doctorId: "D01",
+    facultyId: "F01",
+  ),
+  const CourseModel(
+    id: 5,
+    name: "Operating Systems",
+    code: "CS303",
+    description: "Processes, threads, memory management, and scheduling.",
+    doctorId: "D04",
+    facultyId: "F01",
+  ),
+  const CourseModel(
+    id: 6,
+    name: "Database Systems",
+    code: "CS204",
+    description: "SQL, normalization, and database design principles.",
+    doctorId: "D05",
+    facultyId: "F01",
+  ),
+  const CourseModel(
+    id: 7,
+    name: "Artificial Intelligence",
+    code: "CS405",
+    description: "Machine learning, search algorithms, and neural networks.",
+    doctorId: "D06",
+    facultyId: "F01",
+  ),
+  const CourseModel(
+    id: 8,
+    name: "Software Engineering",
+    code: "CS301",
+    description: "Software lifecycle, design patterns, and testing.",
+    doctorId: "D07",
+    facultyId: "F01",
+  ),
+  const CourseModel(
+    id: 9,
+    name: "Computer Networks",
+    code: "CS302",
+    description: "OSI model, TCP/IP, routing, and network security.",
+    doctorId: "D08",
+    facultyId: "F01",
+  ),
+  const CourseModel(
+    id: 10,
+    name: "Mobile App Development",
+    code: "CS406",
+    description: "Building cross-platform apps using Flutter.",
+    doctorId: "D09",
+    facultyId: "F01",
+  ),
 ];
 final lecturesMock = [
   LectureModel(
@@ -165,20 +232,493 @@ final lecturesMock = [
     color: const Color(0xff81D4FA),
   ),
 ];
-final List<GradesModel> mockGrades = [
-  GradesModel(name: "Digital Marketing", grade: "A+", semester: "S2023"),
-  GradesModel(name: "Design Learning", grade: "B", semester: "S2023"),
-  GradesModel(name: "Software Management", grade: "B+", semester: "S2023"),
-  GradesModel(name: "Digital Logic", grade: "C", semester: "S2023"),
-  GradesModel(name: "Artificial Intelligence", grade: "F", semester: "S2023"),
-  GradesModel(name: "Physics", grade: "A+", semester: "S2023"),
-  GradesModel(name: "Mathematics", grade: "B", semester: "S2023"),
-  GradesModel(name: "Data Science", grade: "B+", semester: "S2023"),
-  GradesModel(name: "Machine Learning", grade: "C", semester: "S2023"),
-  GradesModel(name: "Cloud Computing", grade: "F", semester: "S2023"),
-  GradesModel(name: "Cybersecurity", grade: "A+", semester: "S2023"),
-  GradesModel(name: "Mobile App Development", grade: "B", semester: "S2023"),
-  GradesModel(name: "Game Development", grade: "B+", semester: "S2023"),
-  GradesModel(name: "Blockchain Technology", grade: "C", semester: "S2023"),
-  GradesModel(name: "Internet of Things", grade: "F", semester: "S2023"),
+final mockGrades = [
+  // ================= 🔵 2023 =================
+
+  // Final
+  GradesModel(
+    name: "Mathematics I",
+    type: "Final Grades",
+    season: "2023",
+    letterGrade: "A",
+  ),
+  GradesModel(
+    name: "Physics I",
+    type: "Final Grades",
+    season: "2023",
+    letterGrade: "B+",
+  ),
+  GradesModel(
+    name: "Chemistry",
+    type: "Final Grades",
+    season: "2023",
+    letterGrade: "A-",
+  ),
+  GradesModel(
+    name: "Biology",
+    type: "Final Grades",
+    season: "2023",
+    letterGrade: "B",
+  ),
+  GradesModel(
+    name: "English",
+    type: "Final Grades",
+    season: "2023",
+    letterGrade: "A",
+  ),
+
+  // Midterm
+  GradesModel(
+    name: "Mathematics I",
+    type: "Midterm",
+    season: "2023",
+    score: 42,
+    total: 50,
+  ),
+  GradesModel(
+    name: "Physics I",
+    type: "Midterm",
+    season: "2023",
+    score: 38,
+    total: 50,
+  ),
+  GradesModel(
+    name: "Chemistry",
+    type: "Midterm",
+    season: "2023",
+    score: 40,
+    total: 50,
+  ),
+  GradesModel(
+    name: "Biology",
+    type: "Midterm",
+    season: "2023",
+    score: 44,
+    total: 50,
+  ),
+  GradesModel(
+    name: "English",
+    type: "Midterm",
+    season: "2023",
+    score: 46,
+    total: 50,
+  ),
+
+  // Assignments
+  GradesModel(
+    name: "Mathematics I",
+    type: "Assignments",
+    season: "2023",
+    score: 18,
+    total: 20,
+  ),
+  GradesModel(
+    name: "Physics I",
+    type: "Assignments",
+    season: "2023",
+    score: 17,
+    total: 20,
+  ),
+  GradesModel(
+    name: "Chemistry",
+    type: "Assignments",
+    season: "2023",
+    score: 19,
+    total: 20,
+  ),
+  GradesModel(
+    name: "Biology",
+    type: "Assignments",
+    season: "2023",
+    score: 16,
+    total: 20,
+  ),
+  GradesModel(
+    name: "English",
+    type: "Assignments",
+    season: "2023",
+    score: 20,
+    total: 20,
+  ),
+
+  // Quizzes
+  GradesModel(
+    name: "Mathematics I",
+    type: "Quizzes",
+    season: "2023",
+    score: 8,
+    total: 10,
+  ),
+  GradesModel(
+    name: "Physics I",
+    type: "Quizzes",
+    season: "2023",
+    score: 7,
+    total: 10,
+  ),
+  GradesModel(
+    name: "Chemistry",
+    type: "Quizzes",
+    season: "2023",
+    score: 9,
+    total: 10,
+  ),
+  GradesModel(
+    name: "Biology",
+    type: "Quizzes",
+    season: "2023",
+    score: 8,
+    total: 10,
+  ),
+  GradesModel(
+    name: "English",
+    type: "Quizzes",
+    season: "2023",
+    score: 9,
+    total: 10,
+  ),
+
+  // ================= 🔵 2024 =================
+
+  // Final
+  GradesModel(
+    name: "Data Structures",
+    type: "Final Grades",
+    season: "2024",
+    letterGrade: "A+",
+  ),
+  GradesModel(
+    name: "Algorithms",
+    type: "Final Grades",
+    season: "2024",
+    letterGrade: "A",
+  ),
+  GradesModel(
+    name: "Databases",
+    type: "Final Grades",
+    season: "2024",
+    letterGrade: "B+",
+  ),
+  GradesModel(
+    name: "Operating Systems",
+    type: "Final Grades",
+    season: "2024",
+    letterGrade: "B",
+  ),
+  GradesModel(
+    name: "Discrete Math",
+    type: "Final Grades",
+    season: "2024",
+    letterGrade: "A-",
+  ),
+
+  // Midterm
+  GradesModel(
+    name: "Data Structures",
+    type: "Midterm",
+    season: "2024",
+    score: 47,
+    total: 50,
+  ),
+  GradesModel(
+    name: "Algorithms",
+    type: "Midterm",
+    season: "2024",
+    score: 44,
+    total: 50,
+  ),
+  GradesModel(
+    name: "Databases",
+    type: "Midterm",
+    season: "2024",
+    score: 41,
+    total: 50,
+  ),
+  GradesModel(
+    name: "Operating Systems",
+    type: "Midterm",
+    season: "2024",
+    score: 39,
+    total: 50,
+  ),
+  GradesModel(
+    name: "Discrete Math",
+    type: "Midterm",
+    season: "2024",
+    score: 45,
+    total: 50,
+  ),
+
+  // Assignments
+  GradesModel(
+    name: "Data Structures",
+    type: "Assignments",
+    season: "2024",
+    score: 20,
+    total: 20,
+  ),
+  GradesModel(
+    name: "Algorithms",
+    type: "Assignments",
+    season: "2024",
+    score: 19,
+    total: 20,
+  ),
+  GradesModel(
+    name: "Databases",
+    type: "Assignments",
+    season: "2024",
+    score: 18,
+    total: 20,
+  ),
+  GradesModel(
+    name: "Operating Systems",
+    type: "Assignments",
+    season: "2024",
+    score: 17,
+    total: 20,
+  ),
+  GradesModel(
+    name: "Discrete Math",
+    type: "Assignments",
+    season: "2024",
+    score: 19,
+    total: 20,
+  ),
+
+  // Quizzes
+  GradesModel(
+    name: "Data Structures",
+    type: "Quizzes",
+    season: "2024",
+    score: 9,
+    total: 10,
+  ),
+  GradesModel(
+    name: "Algorithms",
+    type: "Quizzes",
+    season: "2024",
+    score: 8,
+    total: 10,
+  ),
+  GradesModel(
+    name: "Databases",
+    type: "Quizzes",
+    season: "2024",
+    score: 7,
+    total: 10,
+  ),
+  GradesModel(
+    name: "Operating Systems",
+    type: "Quizzes",
+    season: "2024",
+    score: 8,
+    total: 10,
+  ),
+  GradesModel(
+    name: "Discrete Math",
+    type: "Quizzes",
+    season: "2024",
+    score: 9,
+    total: 10,
+  ),
+
+  // ================= 🔵 2025 =================
+
+  // Final
+  GradesModel(
+    name: "Artificial Intelligence",
+    type: "Final Grades",
+    season: "2025",
+    letterGrade: "A+",
+  ),
+  GradesModel(
+    name: "Machine Learning",
+    type: "Final Grades",
+    season: "2025",
+    letterGrade: "A",
+  ),
+  GradesModel(
+    name: "Computer Networks",
+    type: "Final Grades",
+    season: "2025",
+    letterGrade: "B+",
+  ),
+  GradesModel(
+    name: "Cyber Security",
+    type: "Final Grades",
+    season: "2025",
+    letterGrade: "A-",
+  ),
+  GradesModel(
+    name: "Mobile Development",
+    type: "Final Grades",
+    season: "2025",
+    letterGrade: "A",
+  ),
+
+  // Midterm
+  GradesModel(
+    name: "Artificial Intelligence",
+    type: "Midterm",
+    season: "2025",
+    score: 48,
+    total: 50,
+  ),
+  GradesModel(
+    name: "Machine Learning",
+    type: "Midterm",
+    season: "2025",
+    score: 45,
+    total: 50,
+  ),
+  GradesModel(
+    name: "Computer Networks",
+    type: "Midterm",
+    season: "2025",
+    score: 42,
+    total: 50,
+  ),
+  GradesModel(
+    name: "Cyber Security",
+    type: "Midterm",
+    season: "2025",
+    score: 44,
+    total: 50,
+  ),
+  GradesModel(
+    name: "Mobile Development",
+    type: "Midterm",
+    season: "2025",
+    score: 46,
+    total: 50,
+  ),
+
+  // Assignments
+  GradesModel(
+    name: "Artificial Intelligence",
+    type: "Assignments",
+    season: "2025",
+    score: 20,
+    total: 20,
+  ),
+  GradesModel(
+    name: "Machine Learning",
+    type: "Assignments",
+    season: "2025",
+    score: 19,
+    total: 20,
+  ),
+  GradesModel(
+    name: "Computer Networks",
+    type: "Assignments",
+    season: "2025",
+    score: 18,
+    total: 20,
+  ),
+  GradesModel(
+    name: "Cyber Security",
+    type: "Assignments",
+    season: "2025",
+    score: 19,
+    total: 20,
+  ),
+  GradesModel(
+    name: "Mobile Development",
+    type: "Assignments",
+    season: "2025",
+    score: 20,
+    total: 20,
+  ),
+
+  // Quizzes
+  GradesModel(
+    name: "Artificial Intelligence",
+    type: "Quizzes",
+    season: "2025",
+    score: 10,
+    total: 10,
+  ),
+  GradesModel(
+    name: "Machine Learning",
+    type: "Quizzes",
+    season: "2025",
+    score: 9,
+    total: 10,
+  ),
+  GradesModel(
+    name: "Computer Networks",
+    type: "Quizzes",
+    season: "2025",
+    score: 8,
+    total: 10,
+  ),
+  GradesModel(
+    name: "Cyber Security",
+    type: "Quizzes",
+    season: "2025",
+    score: 9,
+    total: 10,
+  ),
+  GradesModel(
+    name: "Mobile Development",
+    type: "Quizzes",
+    season: "2025",
+    score: 10,
+    total: 10,
+  ),
+];
+final assignments = [
+  AssignmentModel(
+    id: 1,
+    courseId: 1,
+    title: "Data Structures Assignment",
+    description: "Analyze time complexity for linked lists",
+    dueDate: DateTime(2026, 5, 10),
+    maxGrade: 20,
+  ),
+  AssignmentModel(
+    id: 2,
+    courseId: 1,
+    title: "Algorithms Homework",
+    description: "Sorting algorithms implementation",
+    dueDate: DateTime(2026, 5, 15),
+    maxGrade: 25,
+  ),
+  AssignmentModel(
+    id: 3,
+    courseId: 1,
+    title: "Operating Systems Assignment",
+    description:
+        "Implement process scheduling algorithms (FCFS & Round Robin).",
+    dueDate: DateTime(2026, 5, 20),
+    maxGrade: 30,
+  ),
+
+  AssignmentModel(
+    id: 4,
+    courseId: 1,
+    title: "Database Systems Project",
+    description: "Design a relational database with normalization and ERD.",
+    dueDate: DateTime(2026, 5, 25),
+    maxGrade: 40,
+  ),
+];
+final quizzes = [
+  QuizModel(
+    id: 1,
+    courseId: 1,
+    title: "Quiz 1",
+    totalGrade: 10,
+    quizDate: DateTime(2026, 5, 5),
+    durationMinutes: 15,
+  ),
+  QuizModel(
+    id: 2,
+    courseId: 1,
+    title: "Quiz 2",
+    totalGrade: 15,
+    quizDate: DateTime(2026, 5, 8),
+    durationMinutes: 20,
+  ),
 ];

@@ -7,12 +7,14 @@ class EventListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: eventsList.length,
-      itemBuilder: (context, index) {
-        return EventCard(event: eventsList[index]);
-      },
-    );
+    return eventsList.isEmpty
+        ? const Center(child: Text("No events available"))
+        : ListView.builder(
+            shrinkWrap: true,
+            itemCount: eventsList.length,
+            itemBuilder: (context, index) {
+              return EventCard(event: eventsList[index]);
+            },
+          );
   }
 }

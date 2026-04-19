@@ -7,12 +7,13 @@ class NewsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      
-      itemCount: newsList.length,
-      itemBuilder: (context, index) {
-        return NewsCard(news: newsList[index]);
-      },
-    );
+    return newsList.isEmpty
+        ? const Center(child: Text("No news available"))
+        : ListView.builder(
+            itemCount: newsList.length,
+            itemBuilder: (context, index) {
+              return NewsCard(news: newsList[index]);
+            },
+          );
   }
 }

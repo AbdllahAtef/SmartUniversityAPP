@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_university_app/providers/home_view_provider.dart';
 import 'package:smart_university_app/utils/styles.dart';
-import 'package:smart_university_app/widgets/scheduleviewbody.dart';
 import 'package:smart_university_app/widgets/session_card.dart';
 
-class TodaysClasses extends StatelessWidget {
+class TodaysClasses extends ConsumerWidget {
   const TodaysClasses({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -23,15 +24,15 @@ class TodaysClasses extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Scheduleviewbody(),
-                    ),
-                  );
+              TextButton(
+                onPressed: () {
+                  ref.read(bottomNavProvider.notifier).state = 2;
                 },
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(0, 0),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
                 child: Row(
                   children: [
                     Text(
