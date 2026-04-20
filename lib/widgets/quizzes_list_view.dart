@@ -14,7 +14,6 @@ class QuizzesListView extends StatelessWidget {
             itemCount: quizzes.length,
             itemBuilder: (context, index) {
               final quiz = quizzes[index];
-
               return UniversalCard(
                 title: quiz.title,
                 description: "Total Grade: ${quiz.totalGrade}",
@@ -22,6 +21,7 @@ class QuizzesListView extends StatelessWidget {
                 extra: "${quiz.durationMinutes} min",
                 icon: Icons.quiz,
                 color: const Color(0XFF8B2072),
+                quizId: quiz.id,
               );
             },
           );

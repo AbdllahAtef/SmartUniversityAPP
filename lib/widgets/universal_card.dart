@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_university_app/utils/styles.dart';
+import 'package:smart_university_app/widgets/card_action.dart';
+import 'package:smart_university_app/widgets/card_content.dart';
+import 'package:smart_university_app/widgets/card_leading.dart';
 
 class UniversalCard extends StatelessWidget {
   final String title;
@@ -9,6 +11,8 @@ class UniversalCard extends StatelessWidget {
   final String? extra;
   final IconData icon;
   final Color color;
+  final int? assignmentId;
+  final int? quizId;
 
   const UniversalCard({
     super.key,
@@ -18,6 +22,8 @@ class UniversalCard extends StatelessWidget {
     this.extra,
     required this.icon,
     required this.color,
+    this.assignmentId,
+    this.quizId,
   });
 
   @override
@@ -35,62 +41,18 @@ class UniversalCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(icon, color: color),
-          ),
+          CardLeading(icon: icon, color: color),
           const SizedBox(width: 12),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyles.textstyle16.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: TextStyles.textstyle12.copyWith(color: Colors.grey),
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  children: [
-                    Text(
-                      date,
-                      style: TextStyles.textstyle12.copyWith(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    if (extra != null) ...[
-                      const SizedBox(width: 8),
-                      Text(
-                        extra!,
-                        style: TextStyles.textstyle12.copyWith(color: color),
-                      ),
-                    ],
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
+            child: CardContent(
+              title: title,
+              description: description,
+              date: date,
+              extra: extra,
               color: color,
-              borderRadius: BorderRadius.circular(24),
             ),
-            child: icon == Icons.assignment
-                ? const Icon(Icons.upload_file_outlined, color: Colors.white)
-                : const Icon(Icons.start_sharp, color: Colors.white),
           ),
+          CardAction(color: color, assignmentId: assignmentId, quizId: quizId),
         ],
       ),
     );

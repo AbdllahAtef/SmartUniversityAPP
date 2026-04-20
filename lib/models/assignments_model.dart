@@ -5,6 +5,7 @@ class AssignmentModel {
   final String description;
   final DateTime dueDate;
   final double maxGrade;
+  
 
   const AssignmentModel({
     required this.id,
