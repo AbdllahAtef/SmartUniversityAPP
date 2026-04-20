@@ -10,9 +10,10 @@ class UploadCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final file = ref.watch(fileProvider);
+    final isPicking = ref.watch(isPickingFileProvider);
 
     return GestureDetector(
-      onTap: () => pickFile(ref, context),
+      onTap: isPicking ? null : () => pickFile(ref, context),
       child: Container(
         width: double.infinity,
         margin: EdgeInsets.symmetric(horizontal: 20.w),

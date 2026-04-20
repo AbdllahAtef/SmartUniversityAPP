@@ -4,20 +4,40 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_university_app/providers/courses_provider.dart';
 
 Future<void> pickFile(WidgetRef ref, BuildContext context) async {
-  final result = await FilePicker.pickFiles();
+  final isPicking = ref.read(isPickingFileProvider);
 
-  if (result != null) {
-    final file = result.files.first;
+  if (isPicking) return;
 
-    const maxSize = 25 * 1024 * 1024;
+  ref.read(isPickingFileProvider.notifier).state = true;
 
-    if (file.size > maxSize) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("File is too large (max 25 MB)")),
-      );
-      return;
+  try {
+    final result = await FilePicker.pickFiles();
+
+    if (result != null && result.files.isNotEmpty) {
+      final pickedFile = result.files.first;
+
+      const maxSize = 25 * 1024 * 1024; // 25MB
+
+      if (pickedFile.size > maxSize) {
+        ref.read(fileProvider.notifier).state = null;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("File is too large. Max size is 25 MB ❌"),
+          ),
+        );
+
+        return;
+      }
+      ref.read(fileProvider.notifier).state = pickedFile;
     }
+  } catch (e) {
+    debugPrint(e.toString());
 
-    ref.read(fileProvider.notifier).state = file;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text("Error while picking file")));
+  } finally {
+    ref.read(isPickingFileProvider.notifier).state = false;
   }
 }

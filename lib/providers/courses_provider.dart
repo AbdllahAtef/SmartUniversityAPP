@@ -52,4 +52,5 @@ final filteredSubjectsProvider = Provider<List<CourseModel>>((ref) {
         course.code.toLowerCase().contains(search);
   }).toList();
 });
+final isPickingFileProvider = StateProvider<bool>((ref) => false);
 final fileProvider = StateProvider<PlatformFile?>((ref) => null);
