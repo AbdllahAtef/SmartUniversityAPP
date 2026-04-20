@@ -671,54 +671,69 @@ final mockGrades = [
 final assignments = [
   AssignmentModel(
     id: 1,
-    courseId: 1,
-    title: "Data Structures Assignment",
-    description: "Analyze time complexity for linked lists",
+    courseId: 4, // Data Structures
+    title: "Linked List Analysis",
+    description:
+        "Analyze time complexity of linked list operations and implement basic functions.",
     dueDate: DateTime(2026, 5, 10),
     maxGrade: 20,
   ),
   AssignmentModel(
     id: 2,
-    courseId: 1,
-    title: "Algorithms Homework",
-    description: "Sorting algorithms implementation",
+    courseId: 1, // CS
+    title: "Sorting Algorithms",
+    description: "Implement sorting algorithms and compare their performance. ",
     dueDate: DateTime(2026, 5, 15),
     maxGrade: 25,
   ),
   AssignmentModel(
     id: 3,
-    courseId: 1,
-    title: "Operating Systems Assignment",
-    description:
-        "Implement process scheduling algorithms (FCFS & Round Robin).",
+    courseId: 5, // OS
+    title: "Process Scheduling",
+    description: "FCFS & Round Robin scheduling algorithms implementation and analysis.",
     dueDate: DateTime(2026, 5, 20),
     maxGrade: 30,
   ),
-
   AssignmentModel(
     id: 4,
-    courseId: 1,
-    title: "Database Systems Project",
-    description: "Design a relational database with normalization and ERD.",
+    courseId: 6, // DB
+    title: "Database Design",
+    description: "ERD + normalization for a library management system.",
     dueDate: DateTime(2026, 5, 25),
     maxGrade: 40,
+  ),
+  AssignmentModel(
+    id: 5,
+    courseId: 10, // Mobile
+    title: "Flutter UI",
+    description: "Build responsive UI for a to-do list app using Flutter.",
+    dueDate: DateTime(2026, 6, 1),
+    maxGrade: 20,
   ),
 ];
 final quizzes = [
   QuizModel(
     id: 1,
-    courseId: 1,
-    title: "Quiz 1",
+    courseId: 4,
+    title: "DS Quiz",
     totalGrade: 10,
     quizDate: DateTime(2026, 5, 5),
     durationMinutes: 15,
   ),
   QuizModel(
     id: 2,
-    courseId: 1,
-    title: "Quiz 2",
+    courseId: 6,
+    title: "DB Quiz",
     totalGrade: 15,
     quizDate: DateTime(2026, 5, 8),
     durationMinutes: 20,
+  ),
+  QuizModel(
+    id: 3,
+    courseId: 10,
+    title: "Flutter Quiz",
+    totalGrade: 20,
+    quizDate: DateTime(2026, 5, 12),
+    durationMinutes: 25,
   ),
 ];

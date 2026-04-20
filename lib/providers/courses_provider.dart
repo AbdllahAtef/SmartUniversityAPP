@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:smart_university_app/models/assignments_model.dart';
@@ -24,9 +25,16 @@ final tasksCountProvider = Provider.family<int, int>((ref, courseId) {
   final tabIndex = ref.watch(tabIndexProvider);
 
   final assignments = ref.watch(assignmentsByCourseProvider(courseId));
+
   final quizzes = ref.watch(quizzesByCourseProvider(courseId));
 
   return tabIndex == 0 ? assignments.length : quizzes.length;
+});
+final assignmentByIdProvider = Provider.family<AssignmentModel, int>((
+  ref,
+  assignmentId,
+) {
+  return assignments.firstWhere((a) => a.id == assignmentId);
 });
 
 const tabs = ["Assignments", "Quizzes"];
@@ -44,3 +52,4 @@ final filteredSubjectsProvider = Provider<List<CourseModel>>((ref) {
         course.code.toLowerCase().contains(search);
   }).toList();
 });
+final fileProvider = StateProvider<PlatformFile?>((ref) => null);
