@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:smart_university_app/core/utils/mock_data.dart';
+import 'package:smart_university_app/features/schedule/presentation/views/widgets/event_card.dart';
+
+class EventListView extends StatelessWidget {
+  const EventListView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return eventsList.isEmpty
+        ? const Center(child: Text("No events available"))
+        : ListView.builder(
+            shrinkWrap: true,
+            itemCount: eventsList.length,
+            itemBuilder: (context, index) {
+              return EventCard(event: eventsList[index]);
+            },
+          );
+  }
+}

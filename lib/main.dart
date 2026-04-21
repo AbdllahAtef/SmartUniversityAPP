@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_university_app/screens/splach_screen.dart';
+import 'package:smart_university_app/core/styles/app_theme.dart';
+import 'package:smart_university_app/features/splash/presentation/views/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,10 +21,7 @@ class SmartUniversityApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
-          theme: ThemeData.light().copyWith(
-            scaffoldBackgroundColor: Colors.white,
-            textTheme: ThemeData.light().textTheme.apply(fontFamily: 'Poppins'),
-          ),
+          theme: AppTheme.lightTheme,
           debugShowCheckedModeBanner: false,
           home: const SplashView(),
         );

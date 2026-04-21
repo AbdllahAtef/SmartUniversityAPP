@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+import 'package:smart_university_app/core/styles/styles.dart';
+import 'package:smart_university_app/core/widgets/custom_list_tile.dart';
+
+class DashBoard extends StatelessWidget {
+  const DashBoard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF4F3FF),
+        border: BoxBorder.all(color: const Color(0xFF8B2072), width: 1),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              "Dashboard",
+              style: TextStyles.textstyle16.copyWith(
+                color: Colors.grey,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Column(
+            children: [
+              CustomListTile(
+                icon: Icons.settings,
+                title: "Setting",
+                iconColor: Colors.blue,
+                onTap: () {},
+              ),
+              CustomListTile(
+                icon: Icons.smart_toy,
+                title: "Your AI Assistant",
+                iconColor: Colors.orange,
+                onTap: () {},
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
