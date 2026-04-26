@@ -16,12 +16,13 @@ class LoginState {
     String? password,
     bool? isLoading,
     String? error,
+    bool clearError = false,
   }) {
     return LoginState(
       email: email ?? this.email,
       password: password ?? this.password,
       isLoading: isLoading ?? this.isLoading,
-      error: error,
+      error: clearError ? null : (error ?? this.error),
     );
   }
 }

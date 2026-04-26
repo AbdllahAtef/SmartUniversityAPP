@@ -31,7 +31,6 @@ class AuthService {
       data: {"email": email, "password": password},
     );
   }
-  
 
   Future<Response> getFaculties() async {
     return await DioHelper.dio.get('/api/Faculties');

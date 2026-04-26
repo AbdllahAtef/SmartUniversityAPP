@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'dart:io';
-
 import 'package:dio/io.dart';
 
 class DioHelper {
@@ -9,12 +8,8 @@ class DioHelper {
   static void init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://10.0.2.2:5242',
-        receiveDataWhenStatusError: true,
+        baseUrl: 'https://10.0.2.2:7146',
         headers: {'Content-Type': 'application/json'},
-        validateStatus: (status) {
-          return status != null && status < 400;
-        },
       ),
     );
 
