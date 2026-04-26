@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/models/news_model.dart';
+import 'package:smart_university_app/utils/date_utils.dart';
 import 'package:smart_university_app/utils/styles.dart';
 
 class NewsCard extends StatelessWidget {
@@ -45,7 +46,7 @@ class NewsCard extends StatelessWidget {
                   ),
 
                   Text(
-                    news.description,
+                    news.content,
                     style: TextStyles.textstyle14.copyWith(
                       color: Colors.grey[600],
                       fontSize: 13.sp,
@@ -62,7 +63,7 @@ class NewsCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                news.date,
+                formatDatePretty(news.createdAt),
                 style: TextStyles.textstyle8.copyWith(
                   color: Colors.black,
                   fontSize: 9.sp,

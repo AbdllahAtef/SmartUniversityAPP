@@ -16,7 +16,7 @@ Future<void> pickFile(WidgetRef ref, BuildContext context) async {
     if (result != null && result.files.isNotEmpty) {
       final pickedFile = result.files.first;
 
-      const maxSize = 25 * 1024 * 1024; // 25MB
+      const maxSize = 25 * 1024 * 1024;  
 
       if (pickedFile.size > maxSize) {
         ref.read(fileProvider.notifier).state = null;
