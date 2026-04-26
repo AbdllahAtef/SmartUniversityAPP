@@ -7,10 +7,12 @@ class CustomElevatedButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.text,
+    this.child,
   });
 
   final void Function()? onPressed;
   final String text;
+  final Widget? child;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,7 +28,7 @@ class CustomElevatedButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 14),
           ),
           onPressed: onPressed,
-          child: Text(text, style: TextStyles.textstyle20),
+          child: child ?? Text(text, style: TextStyles.textstyle20),
         ),
       ),
     );

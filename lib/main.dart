@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/screens/splach_screen.dart';
+import 'package:smart_university_app/utils/dio_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  DioHelper.init();
   await ScreenUtil.ensureScreenSize();
   runApp(const ProviderScope(child: SmartUniversityApp()));
 }

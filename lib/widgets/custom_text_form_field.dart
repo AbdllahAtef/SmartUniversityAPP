@@ -5,13 +5,18 @@ import 'package:smart_university_app/utils/styles.dart';
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     super.key,
+    required this.onChanged,
     required this.isPassword,
     required this.hint,
     this.isID = false,
+    this.validator,
   });
+
+  final Function(String)? onChanged;
   final bool isPassword;
   final bool isID;
   final String hint;
+  final String? Function(String?)? validator;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -31,6 +36,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: TextFormField(
+        validator: widget.validator,
+        onChanged: widget.onChanged,
         keyboardType: widget.isID ? TextInputType.number : TextInputType.text,
         obscureText: _obscureText,
         decoration: InputDecoration(

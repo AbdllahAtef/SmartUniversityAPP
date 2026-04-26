@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smart_university_app/models/faculty_model.dart';
+import 'package:smart_university_app/providers/create_account_provider.dart';
 
-class FacultyDropdown extends StatelessWidget {
-  final String? selectedFaculty;
-  final Function(String?) onChanged;
-
-  static final List<String> faculties = [
-    "Computer Science",
-    "Engineering",
-    "Medicine",
-    "Pharmacy",
-    "Commerce",
-    "Law",
-    "Arts",
-    "Business",
-    "Science",
-    "Humanities",
-    "Social Sciences",
-    "Other",
-  ];
+class FacultyDropdown extends ConsumerWidget {
+  final Faculty? selectedFaculty;
+  final Function(Faculty?) onChanged;
 
   const FacultyDropdown({
     super.key,
@@ -26,38 +14,28 @@ class FacultyDropdown extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          "Select Faculty",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        SizedBox(
-          width: double.infinity,
-          child: DropdownButtonFormField<String>(
-            isExpanded: true,
-            menuMaxHeight: 300,
-            focusColor: Colors.transparent,
-            dropdownColor: Colors.grey.shade100,
-            value: selectedFaculty,
-            hint: const Text("Choose your faculty"),
-            items: faculties.map((faculty) {
-              return DropdownMenuItem(value: faculty, child: Text(faculty));
-            }).toList(),
-            onChanged: onChanged,
-            decoration: InputDecoration(
-              border: outlineBorder(),
-              focusedBorder: outlineBorder(),
-              enabledBorder: outlineBorder(),
-              errorBorder: outlineBorder(),
-              focusedErrorBorder: outlineBorder(),
-            ),
-          ),
-        ),
-      ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final facultiesAsync = ref.watch(facultiesProvider);
+
+    return facultiesAsync.when(
+      data: (faculties) {
+        return DropdownButtonFormField<Faculty>(
+          value: selectedFaculty,
+          hint: const Text("Choose your faculty"),
+          items: faculties.map((faculty) {
+            return DropdownMenuItem(value: faculty, child: Text(faculty.name));
+          }).toList(),
+          onChanged: onChanged,
+          validator: (value) {
+            if (value == null) {
+              return 'Please select a faculty';
+            }
+            return null;
+          },
+        );
+      },
+      loading: () => const CircularProgressIndicator(),
+      error: (e, _) => Text('Error: $e'),
     );
   }
 

@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_university_app/providers/login_provider.dart';
 import 'package:smart_university_app/screens/home_screen.dart';
 import 'package:smart_university_app/utils/styles.dart';
+import 'package:smart_university_app/utils/validator.dart';
 import 'package:smart_university_app/widgets/custom_elevated_button.dart';
 import 'package:smart_university_app/widgets/custom_text_form_field.dart';
 import 'package:smart_university_app/widgets/sign_up_button.dart';
 
-class SignInWithEmail extends StatelessWidget {
+class SignInWithEmail extends ConsumerWidget {
   const SignInWithEmail({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(loginProvider);
+    final notifier = ref.read(loginProvider.notifier);
+
     return Expanded(
       child: SingleChildScrollView(
         padding: EdgeInsets.only(
@@ -19,20 +25,51 @@ class SignInWithEmail extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 20.h),
-            const CustomTextFormField(isPassword: false, hint: 'Email'),
+
+            CustomTextFormField(
+              isPassword: false,
+              hint: 'Email',
+              onChanged: notifier.updateEmail,
+              validator: Validators.email,
+            ),
+
             SizedBox(height: 10.h),
-            const CustomTextFormField(isPassword: true, hint: 'Password'),
+
+            CustomTextFormField(
+              isPassword: true,
+              hint: 'Password',
+              onChanged: notifier.updatePassword,
+              validator: Validators.password,
+            ),
+
             SizedBox(height: 50.h),
+
             CustomElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeView()),
-                );
-              },
+              onPressed: state.isLoading
+                  ? null
+                  : () async {
+                      final success = await notifier.login();
+
+                      if (success) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeView(),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(state.error ?? "Login failed"),
+                          ),
+                        );
+                      }
+                    },
               text: 'Log In',
             ),
+
             SizedBox(height: 20.h),
+
             TextButton(
               onPressed: () {},
               child: Text(
@@ -43,6 +80,7 @@ class SignInWithEmail extends StatelessWidget {
                 ),
               ),
             ),
+
             const SignUpButton(),
             SizedBox(height: 30.h),
           ],
