@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/models/events_model.dart';
+import 'package:smart_university_app/utils/date_utils.dart';
 import 'package:smart_university_app/utils/styles.dart';
 
 class EventCard extends StatelessWidget {
@@ -49,7 +50,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      event.eventDate,
+                      formatEventDateTime(DateTime.parse(event.eventDate)),
                       style: TextStyles.textstyle14.copyWith(
                         color: Colors.grey[600],
                         fontSize: 13.sp,

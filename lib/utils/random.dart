@@ -10,27 +10,3 @@ String getRandomImage() {
   final random = Random();
   return eventImages[random.nextInt(eventImages.length)];
 }
-
-String getRandomDate() {
-  final random = Random();
-
-  const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-
-  final month = months[random.nextInt(months.length)];
-  final day = random.nextInt(28) + 1;
-
-  return '$month $day';
-}

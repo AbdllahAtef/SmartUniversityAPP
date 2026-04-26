@@ -10,6 +10,51 @@ List<DateTime> generateDates() {
   );
 }
 
+String formatDatePretty(DateTime date) {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  return "${months[date.month - 1]} ${date.day.toString().padLeft(2, '0')}";
+}
+
+String formatEventDateTime(DateTime date) {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  int hour = date.hour;
+  final minute = date.minute.toString().padLeft(2, '0');
+
+  String period = hour >= 12 ? "PM" : "AM";
+  hour = hour % 12;
+  if (hour == 0) hour = 12;
+
+  return "${date.year} ${months[date.month - 1]} ${date.day} - $hour:$minute $period";
+}
+
 bool isSameDay(DateTime a, DateTime b) {
   return a.year == b.year && a.month == b.month && a.day == b.day;
 }
