@@ -6,6 +6,9 @@ class CreateAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: CreateAccountBody());
+    return const Scaffold(
+      body: CreateAccountBody(),
+      resizeToAvoidBottomInset: true,
+    );
   }
 }
