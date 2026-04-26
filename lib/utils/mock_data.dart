@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smart_university_app/models/assignments_model.dart';
 import 'package:smart_university_app/models/courses_model.dart';
-import 'package:smart_university_app/models/events_model.dart';
+
 import 'package:smart_university_app/models/grades_model.dart';
 import 'package:smart_university_app/models/lecture_model.dart';
-import 'package:smart_university_app/models/news_model.dart';
+
 import 'package:smart_university_app/models/quizes_model.dart';
 import 'package:smart_university_app/models/subject_model.dart';
 
@@ -17,82 +17,7 @@ final List<SubjectModel> mockSubjects = [
   ),
   SubjectModel(title: "Art", image: "assets/images/Art.jpg"),
 ];
-final List<NewsModel> newsList = [
-  NewsModel(
-    title: "FBISE",
-    description:
-        "The Federal Board of Intermediate and Secondary Education has officially announced the date for the results.",
-    date: "May 01",
-  ),
-  NewsModel(
-    title: "Gaza",
-    description:
-        "The Pakistan Medical and Dental Council has permitted medical/dental students from Gaza.",
-    date: "June 07",
-  ),
-  NewsModel(
-    title: "LUMS",
-    description:
-        "LUMS recently celebrated the graduation of its latest batch of students.",
-    date: "May 01",
-  ),
-  NewsModel(
-    title: "FBISE",
-    description:
-        "The Federal Board of Intermediate and Secondary Education has officially announced the date for the results.",
-    date: "May 01",
-  ),
-  NewsModel(
-    title: "Gaza",
-    description:
-        "The Pakistan Medical and Dental Council has permitted medical/dental students from Gaza.",
-    date: "June 07",
-  ),
-  NewsModel(
-    title: "LUMS",
-    description:
-        "LUMS recently celebrated the graduation of its latest batch of students.",
-    date: "May 01",
-  ),
-];
-final List<EventModel> eventsList = [
-  EventModel(
-    title: "IDP Study Abroad Expo",
-    location: "Islamabad",
-    date: "Wed, 28 Feb 2024",
-    image: "assets/images/event1.jpg",
-  ),
-  EventModel(
-    title: "Pathways to Development Conference",
-    location: "Lahore",
-    date: "Fri, 19 Apr 2024",
-    image: "assets/images/event2.jpg",
-  ),
-  EventModel(
-    title: "IELTS Information Session",
-    location: "Karachi",
-    date: "Mon, 10 Jun 2024",
-    image: "assets/images/event3.jpg",
-  ),
-  EventModel(
-    title: "IDP Study Abroad Expo",
-    location: "Islamabad",
-    date: "Wed, 28 Feb 2024",
-    image: "assets/images/event1.jpg",
-  ),
-  EventModel(
-    title: "Pathways to Development Conference",
-    location: "Lahore",
-    date: "Fri, 19 Apr 2024",
-    image: "assets/images/event2.jpg",
-  ),
-  EventModel(
-    title: "IELTS Information Session",
-    location: "Karachi",
-    date: "Mon, 10 Jun 2024",
-    image: "assets/images/event3.jpg",
-  ),
-];
+
 final courses = [
   const CourseModel(
     id: 1,
@@ -690,7 +615,8 @@ final assignments = [
     id: 3,
     courseId: 5, // OS
     title: "Process Scheduling",
-    description: "FCFS & Round Robin scheduling algorithms implementation and analysis.",
+    description:
+        "FCFS & Round Robin scheduling algorithms implementation and analysis.",
     dueDate: DateTime(2026, 5, 20),
     maxGrade: 30,
   ),

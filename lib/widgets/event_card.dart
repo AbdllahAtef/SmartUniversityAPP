@@ -41,7 +41,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      event.location,
+                      event.description,
                       style: TextStyles.textstyle14.copyWith(
                         color: Colors.grey[600],
                         fontSize: 13.sp,
@@ -49,7 +49,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      event.date,
+                      event.eventDate,
                       style: TextStyles.textstyle14.copyWith(
                         color: Colors.grey[600],
                         fontSize: 13.sp,

@@ -8,7 +8,6 @@ class AuthValidation {
 
     final trimmed = email.trim();
 
-    // Length check
     if (trimmed.length > 254) {
       return 'Email is too long';
     }
