@@ -1,18 +1,28 @@
 class AssignmentModel {
   final int id;
-  final int courseId;
+  final int? courseId;
   final String title;
   final String description;
   final DateTime dueDate;
-  final double maxGrade;
-  
+  final int maxGrade;
 
-  const AssignmentModel({
+  AssignmentModel({
     required this.id,
-    required this.courseId,
+    this.courseId,
     required this.title,
     required this.description,
     required this.dueDate,
     required this.maxGrade,
   });
+
+  factory AssignmentModel.fromJson(Map<String, dynamic> json) {
+    return AssignmentModel(
+      id: json['id'],
+      courseId: json['courseId'] ?? json['course']?['id'], 
+      title: json['title'],
+      description: json['description'],
+      dueDate: DateTime.parse(json['dueDate']),
+      maxGrade: json['maxGrade'],
+    );
+  }
 }

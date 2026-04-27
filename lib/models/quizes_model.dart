@@ -2,11 +2,11 @@ class QuizModel {
   final int id;
   final int courseId;
   final String title;
-  final double totalGrade;
+  final int totalGrade;
   final DateTime quizDate;
   final int durationMinutes;
 
-  const QuizModel({
+  QuizModel({
     required this.id,
     required this.courseId,
     required this.title,
@@ -14,4 +14,15 @@ class QuizModel {
     required this.quizDate,
     required this.durationMinutes,
   });
+
+  factory QuizModel.fromJson(Map<String, dynamic> json) {
+    return QuizModel(
+      id: json['id'],
+      courseId: json['courseId'],
+      title: json['title'],
+      totalGrade: json['totalGrade'],
+      quizDate: DateTime.parse(json['quizDate']),
+      durationMinutes: json['durationMinutes'],
+    );
+  }
 }

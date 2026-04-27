@@ -11,6 +11,7 @@ class CreateAccountNotifier extends StateNotifier<CreateAccountState> {
 
   final AuthService _authService = AuthService();
 
+
   void changeRole(String? role) {
     state = state.copyWith(role: role);
   }

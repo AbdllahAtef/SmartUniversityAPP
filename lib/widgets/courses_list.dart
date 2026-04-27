@@ -9,26 +9,35 @@ class CoursesList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final courses = ref.watch(filteredSubjectsProvider);
+    final coursesAsync = ref.watch(coursesProvider);
 
-    return courses.isEmpty
-        ? const Center(child: Text("No courses found"))
-        : ListView.builder(
-            itemCount: courses.length,
-            itemBuilder: (context, index) {
-              final course = courses[index];
-              return CourseListItem(
-                title: course.name,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => CoursesDetailsScreen(course: course),
-                    ),
-                  );
-                },
-              );
-            },
-          );
+    return coursesAsync.when(
+      data: (courses) {
+        if (courses.isEmpty) {
+          return const Center(child: Text("No courses found"));
+        }
+
+        return ListView.builder(
+          itemCount: courses.length,
+          itemBuilder: (context, index) {
+            final course = courses[index];
+
+            return CourseListItem(
+              title: course.name,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CoursesDetailsScreen(course: course),
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => Center(child: Text("Error: $e")),
+    );
   }
 }

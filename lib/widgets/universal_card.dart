@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_university_app/models/assignments_model.dart';
 import 'package:smart_university_app/widgets/card_action.dart';
 import 'package:smart_university_app/widgets/card_content.dart';
 import 'package:smart_university_app/widgets/card_leading.dart';
@@ -11,7 +12,7 @@ class UniversalCard extends StatelessWidget {
   final String? extra;
   final IconData icon;
   final Color color;
-  final int? assignmentId;
+  final AssignmentModel? assignment;
   final int? quizId;
 
   const UniversalCard({
@@ -22,7 +23,7 @@ class UniversalCard extends StatelessWidget {
     this.extra,
     required this.icon,
     required this.color,
-    this.assignmentId,
+    this.assignment,
     this.quizId,
   });
 
@@ -52,7 +53,7 @@ class UniversalCard extends StatelessWidget {
               color: color,
             ),
           ),
-          CardAction(color: color, assignmentId: assignmentId, quizId: quizId),
+          CardAction(color: color, assignment: assignment, quizId: quizId),
         ],
       ),
     );

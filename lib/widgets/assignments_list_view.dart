@@ -16,7 +16,6 @@ class AssignmentsListView extends StatelessWidget {
             itemCount: assignments.length,
             itemBuilder: (context, index) {
               final assignment = assignments[index];
-
               return UniversalCard(
                 title: assignment.title,
                 description: assignment.description,
@@ -24,7 +23,7 @@ class AssignmentsListView extends StatelessWidget {
                 extra: "Max: ${assignment.maxGrade}",
                 icon: Icons.assignment,
                 color: const Color(0XFF8B2072),
-                assignmentId: assignment.id,
+                assignment: assignment,
               );
             },
           );

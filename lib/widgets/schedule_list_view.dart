@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/providers/schedule_provider.dart';
+import 'package:smart_university_app/utils/date_utils.dart';
 import 'package:smart_university_app/widgets/lecture_item.dart';
 
 class ScheduleListView extends ConsumerWidget {
@@ -44,8 +45,4 @@ class ScheduleListView extends ConsumerWidget {
   }
 }
 
-String formatTime(DateTime time) {
-  final hour = time.hour.toString().padLeft(2, '0');
-  final minute = time.minute.toString().padLeft(2, '0');
-  return "$hour:$minute";
-}
+

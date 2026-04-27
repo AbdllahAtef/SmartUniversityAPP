@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:smart_university_app/models/assignments_model.dart';
 import 'package:smart_university_app/screens/assigment_submission_screen.dart';
 
 class CardAction extends StatelessWidget {
   final Color color;
-  final int? assignmentId;
+  final AssignmentModel? assignment;
   final int? quizId;
 
   const CardAction({
     super.key,
     required this.color,
-    this.assignmentId,
+    this.assignment,
     this.quizId,
   });
 
@@ -24,7 +25,7 @@ class CardAction extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
         ),
         child: Icon(
-          assignmentId != null ? Icons.upload_file_outlined : Icons.start_sharp,
+          assignment?.id != null ? Icons.upload_file_outlined : Icons.start_sharp,
           color: Colors.white,
         ),
       ),
@@ -32,12 +33,12 @@ class CardAction extends StatelessWidget {
   }
 
   void handleNavigation(BuildContext context) {
-    assignmentId != null
+    assignment?.id != null
         ? Navigator.push(
             context,
             MaterialPageRoute(
               builder: (_) =>
-                  AssigmentSubmissionScreen(assignmentId: assignmentId!),
+                  AssigmentSubmissionScreen(assignment: assignment!),
             ),
           )
         : null;

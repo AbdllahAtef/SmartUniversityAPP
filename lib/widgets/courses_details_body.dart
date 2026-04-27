@@ -17,16 +17,14 @@ class CoursesDetailsBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tabIndex = ref.watch(tabIndexProvider);
-    final assignments = ref.watch(assignmentsByCourseProvider(course.id));
-    final quizzes = ref.watch(quizzesByCourseProvider(course.id));
-    final count = ref.watch(tasksCountProvider(course.id));
+    final assignmentsAsync = ref.watch(assignmentsProvider(course.id));
+    final quizzesAsync = ref.watch(quizzesProvider(course.id));
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         children: [
           const CourseHeader(title: "Course Details"),
-
           CourseDetailsCard(
             title: course.name,
             description: course.description,
@@ -34,12 +32,40 @@ class CoursesDetailsBody extends ConsumerWidget {
           const SizedBox(height: 12),
           const CustomTabs(),
           const SizedBox(height: 12),
-          TasksHeader(count: count),
+          TasksHeader(
+            count: tabIndex == 0
+                ? assignmentsAsync.value?.length ?? 0
+                : quizzesAsync.value?.length ?? 0,
+          ),
           const SizedBox(height: 8),
           Expanded(
             child: tabIndex == 0
-                ? AssignmentsListView(assignments: assignments)
-                : QuizzesListView(quizzes: quizzes),
+                ? assignmentsAsync.when(
+                    data: (assignments) {
+                      if (assignments.isEmpty) {
+                        return const Center(
+                          child: Text("No assignments found"),
+                        );
+                      }
+                      return AssignmentsListView(assignments: assignments);
+                    },
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (e, _) => Center(child: Text("Error: $e")),
+                  )
+                : quizzesAsync.when(
+                    data: (quizzes) {
+                      if (quizzes.isEmpty) {
+                        return const Center(
+                          child: Text("No quizzes available"),
+                        );
+                      }
+                      return QuizzesListView(quizzes: quizzes);
+                    },
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (e, _) => Center(child: Text("Error: $e")),
+                  ),
           ),
         ],
       ),
