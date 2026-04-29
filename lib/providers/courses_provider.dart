@@ -11,6 +11,7 @@ import 'package:smart_university_app/providers/quiz_state.dart';
 import 'package:smart_university_app/providers/user_id_provider.dart';
 import 'package:smart_university_app/utils/services/assignment_services.dart';
 import 'package:smart_university_app/utils/services/courses_services.dart';
+import 'package:smart_university_app/utils/services/enrollment_service.dart';
 import 'package:smart_university_app/utils/services/quiz_services.dart';
 
 // 🔹 tabs
@@ -28,6 +29,15 @@ final courseServiceProvider = Provider((ref) {
 final coursesProvider = FutureProvider<List<CourseModel>>((ref) async {
   final service = ref.read(courseServiceProvider);
   return service.getCourses();
+});
+final enrollmentServiceProvider = Provider((ref) {
+  return EnrollmentService();
+});
+
+final myCoursesProvider = FutureProvider<List<CourseModel>>((ref) async {
+  final service = ref.read(enrollmentServiceProvider);
+
+  return service.getMyCourses(ref.watch(userIdProvider) ?? 0);
 });
 
 // 🔹 filtered courses

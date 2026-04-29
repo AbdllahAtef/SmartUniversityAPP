@@ -90,10 +90,7 @@ class _QuizViewBodyState extends ConsumerState<QuizViewBody> {
 
                   return resultAsync.when(
                     data: (result) {
-                      final total = result.questions.fold(
-                        0,
-                        (sum, q) => sum + q.grade,
-                      );
+                      final total = questions.fold(0, (sum, q) => sum + 10);
                       return QuizResultView(
                         score: result.totalScore,
                         total: total,
