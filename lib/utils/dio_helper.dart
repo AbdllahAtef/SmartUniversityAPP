@@ -4,12 +4,15 @@ import 'package:dio/io.dart';
 
 class DioHelper {
   static late Dio dio;
-  static String? _token; 
+  static String? _token;
 
   static void init() {
     dio = Dio(
       BaseOptions(
         baseUrl: 'https://10.0.2.2:7146',
+        headers: {
+          "Content-Type": "application/json",
+        },
       ),
     );
 
@@ -19,6 +22,9 @@ class DioHelper {
           if (_token != null && _token!.isNotEmpty) {
             options.headers["Authorization"] = "Bearer $_token";
           }
+
+          print("TOKEN: $_token"); // 🔥 debug
+
           return handler.next(options);
         },
       ),

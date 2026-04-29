@@ -10,8 +10,10 @@ class QuizzesListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return quizzes.isEmpty
         ? const Center(child: Text("No quizzes available"))
-        : ListView.builder(
+        : 
+        ListView.builder(
             itemCount: quizzes.length,
+            
             itemBuilder: (context, index) {
               final quiz = quizzes[index];
               return UniversalCard(
@@ -21,7 +23,7 @@ class QuizzesListView extends StatelessWidget {
                 extra: "${quiz.durationMinutes} min",
                 icon: Icons.quiz,
                 color: const Color(0XFF8B2072),
-                quizId: quiz.id,
+                quiz: quiz,
               );
             },
           );

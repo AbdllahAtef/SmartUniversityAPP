@@ -1,23 +1,29 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_university_app/models/assignments_model.dart';
+import 'package:smart_university_app/models/quizes_model.dart';
+import 'package:smart_university_app/providers/courses_provider.dart';
 import 'package:smart_university_app/screens/assigment_submission_screen.dart';
+import 'package:smart_university_app/screens/quiz_screen.dart';
+import 'package:smart_university_app/utils/helper_services.dart';
 
-class CardAction extends StatelessWidget {
+class CardAction extends ConsumerWidget {
   final Color color;
   final AssignmentModel? assignment;
-  final int? quizId;
+  final QuizModel? quiz;
 
   const CardAction({
     super.key,
     required this.color,
     this.assignment,
-    this.quizId,
+    this.quiz,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => handleNavigation(context),
+      onTap: () => handleNavigation(context, ref),
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -25,28 +31,52 @@ class CardAction extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
         ),
         child: Icon(
-          assignment?.id != null ? Icons.upload_file_outlined : Icons.start_sharp,
+          assignment != null ? Icons.upload_file_outlined : Icons.start_sharp,
           color: Colors.white,
         ),
       ),
     );
   }
 
-  void handleNavigation(BuildContext context) {
-    assignment?.id != null
-        ? Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) =>
-                  AssigmentSubmissionScreen(assignment: assignment!),
-            ),
-          )
-        : null;
+  Future<void> handleNavigation(BuildContext context, WidgetRef ref) async {
+    if (assignment != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => AssigmentSubmissionScreen(assignment: assignment!),
+        ),
+      );
+      return;
+    }
 
-    // if (quizId != null) {
-    //   Navigator.push(
-    //     context,
-    //     MaterialPageRoute(builder: (_) => QuizScreen(quizId: quizId!)),
-    //   );
+    if (quiz != null) {
+      try {
+        final status = await ref.read(quizStatusProvider(quiz!.id).future);
+
+        if (status.isFinished) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("You already submitted this quiz")),
+          );
+          return;
+        }
+        ref.read(quizProvider.notifier).reset();
+        if (!status.hasStarted) {
+          await ref.read(quizServiceProvider).startQuiz(quiz!.id);
+        }
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => QuizScreen(quiz: quiz!)),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              e is DioException ? getErrorMessage(e) : e.toString(),
+            ),
+          ),
+        );
+      }
+    }
   }
 }

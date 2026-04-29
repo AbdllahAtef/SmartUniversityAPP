@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:smart_university_app/models/lecture_model.dart';
 
 List<DateTime> generateDates() {
@@ -93,8 +94,29 @@ List<LectureModel> getLecturesForDate(
         lecture.startTime.day == selectedDate.day;
   }).toList();
 }
+
 String formatTime(DateTime time) {
   final hour = time.hour.toString().padLeft(2, '0');
   final minute = time.minute.toString().padLeft(2, '0');
   return "$hour:$minute";
+}
+
+extension DateFormatting on DateTime {
+  String get formattedDate => DateFormat('d MMMM').format(this);
+  String get formattedTime => DateFormat('hh:mm a').format(this);
+}
+
+String formatTime2(int seconds) {
+  final hours = seconds ~/ 3600;
+  final minutes = (seconds % 3600) ~/ 60;
+  final secs = seconds % 60;
+
+  if (hours > 0) {
+    return '${hours.toString().padLeft(2, '0')}:'
+        '${minutes.toString().padLeft(2, '0')}:'
+        '${secs.toString().padLeft(2, '0')}';
+  } else {
+    return '${minutes.toString().padLeft(2, '0')}:'
+        '${secs.toString().padLeft(2, '0')}';
+  }
 }

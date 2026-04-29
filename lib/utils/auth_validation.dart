@@ -1,6 +1,5 @@
-/// Business logic validation for auth fields
+
 class AuthValidation {
-  /// Validates email format with comprehensive checks
   static String? validateEmail(String? email) {
     if (email == null || email.trim().isEmpty) {
       return 'Email is required';

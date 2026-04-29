@@ -1,18 +1,21 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:smart_university_app/providers/courses_provider.dart';
 import 'package:smart_university_app/providers/login_state.dart';
 import 'package:smart_university_app/utils/dio_helper.dart';
 import 'package:smart_university_app/utils/services/auth_services.dart';
 
 final loginProvider = StateNotifierProvider<LoginNotifier, LoginState>((ref) {
-  return LoginNotifier();
+  return LoginNotifier(ref);
 });
 
 class LoginNotifier extends StateNotifier<LoginState> {
-  LoginNotifier() : super(LoginState());
+  final Ref ref;
+
+  LoginNotifier(this.ref) : super(LoginState());
 
   final AuthService _authService = AuthService();
-
   void updateEmail(String email) {
     state = state.copyWith(email: email);
   }
@@ -27,6 +30,9 @@ class LoginNotifier extends StateNotifier<LoginState> {
       return false;
     }
 
+    DioHelper.setToken("");
+    ref.read(tokenProvider.notifier).state = "";
+
     state = state.copyWith(isLoading: true, clearError: true);
 
     try {
@@ -37,7 +43,13 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
       if (response.statusCode == 200) {
         final token = response.data['token'];
+
         DioHelper.setToken(token);
+        ref.read(tokenProvider.notifier).state = token;
+
+        print("✅ NEW TOKEN: $token");
+        print("✅ USER ID: ${ref.read(userIdProvider)}");
+
         return true;
       }
 

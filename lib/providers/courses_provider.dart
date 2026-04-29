@@ -4,7 +4,11 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:smart_university_app/models/assignments_model.dart';
 import 'package:smart_university_app/models/courses_model.dart';
+import 'package:smart_university_app/models/question_model.dart';
+import 'package:smart_university_app/models/quiz_result_model.dart';
+import 'package:smart_university_app/models/quiz_status_model.dart';
 import 'package:smart_university_app/models/quizes_model.dart';
+import 'package:smart_university_app/providers/quiz_state.dart';
 import 'package:smart_university_app/utils/services/assignment_services.dart';
 import 'package:smart_university_app/utils/services/courses_services.dart';
 import 'package:smart_university_app/utils/services/quiz_services.dart';
@@ -54,7 +58,6 @@ final assignmentsProvider = FutureProvider.family<List<AssignmentModel>, int>((
   return service.getAssignments(courseId);
 });
 
-
 final tokenProvider = StateProvider<String>((ref) => '');
 
 final userIdProvider = Provider<int>((ref) {
@@ -80,6 +83,99 @@ final quizzesProvider = FutureProvider.family<List<QuizModel>, int>((
 ) async {
   final service = ref.read(quizServiceProvider);
   return service.getQuizzes(courseId);
+});
+
+class QuizNotifier extends StateNotifier<QuizState> {
+  final Ref ref;
+
+  QuizNotifier(this.ref) : super(QuizState());
+
+  void next(int totalQuestions) {
+    if (state.currentIndex < totalQuestions - 1) {
+      state = state.copyWith(currentIndex: state.currentIndex + 1);
+    }
+  }
+
+  void previous() {
+    if (state.currentIndex > 0) {
+      state = state.copyWith(currentIndex: state.currentIndex - 1);
+    }
+  }
+  void reset() {
+    state = QuizState();
+  }
+
+  void selectAnswer(int questionId, int optionId) {
+    final updated = Map<int, int>.from(state.answers);
+    updated[questionId] = optionId;
+
+    state = state.copyWith(answers: updated);
+  }
+
+ Future<void> submitQuiz(int quizId, List<QuestionModel> questions) async {
+    // 🔥 يمنع الإرسال المتكرر
+    if (state.isSubmitting) return;
+
+    try {
+      state = state.copyWith(isSubmitting: true, error: null);
+
+      int score = 0;
+
+      for (var q in questions) {
+        final selected = state.answers[q.id];
+
+        final correct = q.options.firstWhere(
+          (o) => o.isCorrect,
+          orElse: () => OptionModel(id: -1, text: '', isCorrect: false),
+        );
+
+        if (selected == correct.id) {
+          score++;
+        }
+      }
+
+      await ref.read(quizServiceProvider).submitQuiz(quizId, state.answers);
+
+      state = state.copyWith(
+        currentIndex: -1,
+        score: score,
+        isSubmitting: false,
+      );
+    } catch (e) {
+      state = state.copyWith(isSubmitting: false, error: e.toString());
+    }
+  }
+}
+
+final quizProvider = StateNotifierProvider<QuizNotifier, QuizState>((ref) {
+  return QuizNotifier(ref);
+});
+
+final questionsProvider = FutureProvider.family<List<QuestionModel>, int>((
+  ref,
+  quizId,
+) {
+  return QuizService().getQuestions(quizId);
+});
+final quizStatusProvider = FutureProvider.family<QuizStatusModel, int>((
+  ref,
+  quizId,
+) async {
+  final token = ref.watch(tokenProvider);
+
+  if (token.isEmpty) {
+    if (token.isEmpty) {
+      await Future.delayed(const Duration(milliseconds: 200));
+    }
+  }
+
+  return ref.read(quizServiceProvider).getQuizStatus(quizId);
+});
+final quizResultProvider = FutureProvider.family<QuizResultModel, int>((
+  ref,
+  quizId,
+) {
+  return ref.read(quizServiceProvider).getQuizResult(quizId);
 });
 
 // 🔹 upload

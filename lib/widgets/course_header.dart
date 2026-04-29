@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:smart_university_app/screens/quiz_screen.dart';
 import 'package:smart_university_app/utils/styles.dart';
+import 'package:smart_university_app/widgets/quiz_timer_widget.dart';
 
 class CourseHeader extends StatelessWidget {
-  const CourseHeader({super.key, required this.title});
+  const CourseHeader({super.key, required this.title, this.isquiz = false});
   final String title;
+  final bool isquiz;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,6 +30,8 @@ class CourseHeader extends StatelessWidget {
                 color: const Color(0xFF8B2072),
               ),
             ),
+            if (isquiz) const QuizTimerWidget(),
+
             const Icon(Icons.more_vert),
           ],
         ),
