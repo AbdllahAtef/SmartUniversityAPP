@@ -89,15 +89,14 @@ List<LectureModel> getLecturesForDate(
   DateTime selectedDate,
 ) {
   return lectures.where((lecture) {
-    return lecture.startTime.year == selectedDate.year &&
-        lecture.startTime.month == selectedDate.month &&
-        lecture.startTime.day == selectedDate.day;
+    return lecture.day == selectedDate.weekday;
   }).toList();
 }
 
-String formatTime(DateTime time) {
-  final hour = time.hour.toString().padLeft(2, '0');
-  final minute = time.minute.toString().padLeft(2, '0');
+String formatTime(String time) {
+  final parts = time.split(":");
+  final hour = parts[0];
+  final minute = parts[1];
   return "$hour:$minute";
 }
 

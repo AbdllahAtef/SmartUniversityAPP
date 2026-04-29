@@ -24,7 +24,7 @@ class CreateAccountNotifier extends StateNotifier<CreateAccountState> {
     state = state.copyWith(isLoading: true, error: null);
 
     try {
-      final response = await _authService.register(
+       await _authService.register(
         fullName: state.fullName,
         email: state.email,
         password: state.password,

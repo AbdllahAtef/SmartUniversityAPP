@@ -1,7 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:smart_university_app/models/assignments_model.dart';
 import 'package:smart_university_app/models/courses_model.dart';
 import 'package:smart_university_app/models/question_model.dart';
@@ -9,6 +8,7 @@ import 'package:smart_university_app/models/quiz_result_model.dart';
 import 'package:smart_university_app/models/quiz_status_model.dart';
 import 'package:smart_university_app/models/quizes_model.dart';
 import 'package:smart_university_app/providers/quiz_state.dart';
+import 'package:smart_university_app/providers/user_id_provider.dart';
 import 'package:smart_university_app/utils/services/assignment_services.dart';
 import 'package:smart_university_app/utils/services/courses_services.dart';
 import 'package:smart_university_app/utils/services/quiz_services.dart';
@@ -58,20 +58,6 @@ final assignmentsProvider = FutureProvider.family<List<AssignmentModel>, int>((
   return service.getAssignments(courseId);
 });
 
-final tokenProvider = StateProvider<String>((ref) => '');
-
-final userIdProvider = Provider<int>((ref) {
-  final token = ref.watch(tokenProvider);
-  if (token.isEmpty) return 0;
-
-  final decodedToken = JwtDecoder.decode(token);
-
-  final id =
-      decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
-
-  return int.tryParse(id.toString()) ?? 0;
-});
-
 // 🔹 quizzes API
 final quizServiceProvider = Provider((ref) {
   return QuizService();
@@ -101,6 +87,7 @@ class QuizNotifier extends StateNotifier<QuizState> {
       state = state.copyWith(currentIndex: state.currentIndex - 1);
     }
   }
+
   void reset() {
     state = QuizState();
   }
@@ -112,8 +99,7 @@ class QuizNotifier extends StateNotifier<QuizState> {
     state = state.copyWith(answers: updated);
   }
 
- Future<void> submitQuiz(int quizId, List<QuestionModel> questions) async {
-    // 🔥 يمنع الإرسال المتكرر
+  Future<void> submitQuiz(int quizId, List<QuestionModel> questions) async {
     if (state.isSubmitting) return;
 
     try {
@@ -163,8 +149,8 @@ final quizStatusProvider = FutureProvider.family<QuizStatusModel, int>((
 ) async {
   final token = ref.watch(tokenProvider);
 
-  if (token.isEmpty) {
-    if (token.isEmpty) {
+  if (token == null || token.isEmpty) {
+    if (token == null || token.isEmpty) {
       await Future.delayed(const Duration(milliseconds: 200));
     }
   }
