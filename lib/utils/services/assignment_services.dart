@@ -6,15 +6,32 @@ import 'package:smart_university_app/utils/dio_helper.dart';
 
 class AssignmentService {
   Future<List<AssignmentModel>> getAssignments(int courseId) async {
-    final response = await DioHelper.dio.get(
-      '/api/Assignments/course/$courseId',
-    );
+    try {
+      final response = await DioHelper.dio.get(
+        '/api/Assignments/course/$courseId',
+      );
 
-    final data = response.data is List ? response.data : response.data['data'];
+      final rawData = response.data;
 
-    return List<AssignmentModel>.from(
-      data.map((e) => AssignmentModel.fromJson(e)),
-    );
+      if (rawData == null) {
+        return [];
+      }
+
+      final data = rawData is List ? rawData : rawData['data'];
+
+      if (data == null || data is! List || data.isEmpty) {
+        return [];
+      }
+
+      return data
+          .map<AssignmentModel>((e) => AssignmentModel.fromJson(e))
+          .toList();
+    } catch (e) {
+      if (e is DioException && e.response?.statusCode == 404) {
+        return [];
+      }
+      rethrow;
+    }
   }
 
   Future<void> submitAssignment({
@@ -32,15 +49,34 @@ class AssignmentService {
   Future<List<AssignmentSubmissionModel>> getSubmissions(
     int assignmentId,
   ) async {
-    final response = await DioHelper.dio.get(
-      '/api/AssignmentSubmissions/assignment/$assignmentId',
-    );
+    try {
+      final response = await DioHelper.dio.get(
+        '/api/AssignmentSubmissions/assignment/$assignmentId',
+      );
 
-    final data = response.data is List ? response.data : response.data['data'];
+      final rawData = response.data;
 
-    return List<AssignmentSubmissionModel>.from(
-      data.map((e) => AssignmentSubmissionModel.fromJson(e)),
-    );
+      if (rawData == null) {
+        return [];
+      }
+
+      final data = rawData is List ? rawData : rawData['data'];
+
+      if (data == null || data is! List || data.isEmpty) {
+        return [];
+      }
+
+      return data
+          .map<AssignmentSubmissionModel>(
+            (e) => AssignmentSubmissionModel.fromJson(e),
+          )
+          .toList();
+    } catch (e) {
+      if (e is DioException && e.response?.statusCode == 404) {
+        return [];
+      }
+      rethrow;
+    }
   }
 
   Future<void> deleteSubmission(int id) async {

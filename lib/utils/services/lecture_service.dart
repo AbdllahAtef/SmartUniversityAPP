@@ -1,28 +1,67 @@
+import 'package:dio/dio.dart';
 import 'package:smart_university_app/models/courses_model.dart';
 import 'package:smart_university_app/models/lecture_model.dart';
 import 'package:smart_university_app/utils/dio_helper.dart';
 
 class ScheduleService {
   Future<List<CourseModel>> getMyCourses(int studentId) async {
-    final response = await DioHelper.dio.get(
-      '/api/Enrollment/my-courses/$studentId',
-    );
+    try {
+      final response = await DioHelper.dio.get(
+        '/api/Enrollment/my-courses/$studentId',
+      );
 
-    final List data = response.data;
+      final rawData = response.data;
 
-    return data.map((e) => CourseModel.fromJson(e)).toList();
+      if (rawData == null) {
+        return [];
+      }
+
+      final data = rawData is List ? rawData : rawData['data'];
+
+      if (data == null || data is! List || data.isEmpty) {
+        return [];
+      }
+
+      return data.map<CourseModel>((e) => CourseModel.fromJson(e)).toList();
+    } catch (e) {
+      if (e is DioException && e.response?.statusCode == 404) {
+        return [];
+      }
+      rethrow;
+    }
   }
 
   Future<List<LectureModel>> getLectures(int courseId) async {
-    final response = await DioHelper.dio.get('/api/lectures/$courseId');
+    try {
+      final response = await DioHelper.dio.get('/api/lectures/$courseId');
 
-    final List data = response.data;
+      final rawData = response.data;
 
-    return data.map((e) => LectureModel.fromJson(e)).toList();
+      if (rawData == null) {
+        return [];
+      }
+
+      final data = rawData is List ? rawData : rawData['data'];
+
+      if (data == null || data is! List || data.isEmpty) {
+        return [];
+      }
+
+      return data.map<LectureModel>((e) => LectureModel.fromJson(e)).toList();
+    } catch (e) {
+      if (e is DioException && e.response?.statusCode == 404) {
+        return [];
+      }
+      rethrow;
+    }
   }
 
   Future<List<LectureModel>> getAllLecturesForStudent(int studentId) async {
     final courses = await getMyCourses(studentId);
+
+    if (courses.isEmpty) {
+      return [];
+    }
 
     final futures = courses.map((course) {
       return getLectures(course.id);

@@ -1,14 +1,28 @@
 import 'package:dio/dio.dart';
 import 'package:smart_university_app/models/grades_model.dart';
+import 'package:smart_university_app/utils/dio_helper.dart';
 
 class GradesService {
-  final Dio dio;
+  Future<GradesModel?> getGradeByCourseId(int courseId) async {
+    try {
+      final response = await DioHelper.dio.get('/api/grades/$courseId');
 
-  GradesService(this.dio);
+      final data = response.data;
 
-  Future<GradesModel> getGradeByCourseId(int courseId) async {
-    final response = await dio.get('/api/grades/$courseId');
+      if (data == null) {
+        return null;
+      }
 
-    return GradesModel.fromJson(response.data);
+      if (data is Map<String, dynamic>) {
+        return GradesModel.fromJson(data);
+      }
+
+      return null;
+    } catch (e) {
+      if (e is DioException && e.response?.statusCode == 404) {
+        return null;
+      }
+      rethrow;
+    }
   }
 }

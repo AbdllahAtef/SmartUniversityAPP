@@ -13,10 +13,6 @@ class ScheduleListView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final lecturesAsync = ref.watch(filteredLecturesProvider);
     return lecturesAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-
-      error: (e, _) => Center(child: Text("Error: $e")),
-
       data: (lectures) {
         if (lectures.isEmpty) {
           return Center(
@@ -57,6 +53,8 @@ class ScheduleListView extends ConsumerWidget {
           ),
         );
       },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => Center(child: Text("Error: $e")),
     );
   }
 }

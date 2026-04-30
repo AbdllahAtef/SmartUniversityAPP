@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smart_university_app/models/quizes_model.dart';
 import 'package:smart_university_app/providers/courses_provider.dart';
 import 'package:smart_university_app/providers/timer_provider.dart';
 import 'package:smart_university_app/widgets/answers_list_view.dart';
@@ -10,9 +11,9 @@ import 'package:smart_university_app/widgets/quiz_progress.dart';
 import 'package:smart_university_app/widgets/quiz_result_view.dart';
 
 class QuizViewBody extends ConsumerStatefulWidget {
-  final int quizId;
+  final QuizModel quiz;
 
-  const QuizViewBody({super.key, required this.quizId});
+  const QuizViewBody({super.key, required this.quiz});
 
   @override
   ConsumerState<QuizViewBody> createState() => _QuizViewBodyState();
@@ -32,14 +33,14 @@ class _QuizViewBodyState extends ConsumerState<QuizViewBody> {
       final quizState = ref.read(quizProvider);
       if (next == 0 && previous != 0 && !quizState.isSubmitting) {
         final questions = await ref.read(
-          questionsProvider(widget.quizId).future,
+          questionsProvider(widget.quiz.id).future,
         );
 
         ref.read(quizTimerProvider.notifier).stop();
 
         await ref
             .read(quizProvider.notifier)
-            .submitQuiz(widget.quizId, questions);
+            .submitQuiz(widget.quiz.id, questions);
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -59,7 +60,7 @@ class _QuizViewBodyState extends ConsumerState<QuizViewBody> {
   @override
   Widget build(BuildContext context) {
     final quizState = ref.watch(quizProvider);
-    final questionsAsync = ref.watch(questionsProvider(widget.quizId));
+    final questionsAsync = ref.watch(questionsProvider(widget.quiz.id));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -85,12 +86,17 @@ class _QuizViewBodyState extends ConsumerState<QuizViewBody> {
                 }
                 if (quizState.currentIndex == -1) {
                   final resultAsync = ref.watch(
-                    quizResultProvider(widget.quizId),
+                    quizResultProvider(widget.quiz.id),
                   );
 
-                  return resultAsync.when(
+                 return resultAsync.when(
                     data: (result) {
-                      final total = questions.fold(0, (sum, q) => sum + 10);
+                      if (result == null) {
+                        return const Center(child: Text("No result available"));
+                      }
+
+                     final total = widget.quiz.totalGrade;
+
                       return QuizResultView(
                         score: result.totalScore,
                         total: total,
@@ -126,7 +132,7 @@ class _QuizViewBodyState extends ConsumerState<QuizViewBody> {
 
                           await ref
                               .read(quizProvider.notifier)
-                              .submitQuiz(widget.quizId, questions);
+                              .submitQuiz(widget.quiz.id, questions);
                         } else {
                           ref
                               .read(quizProvider.notifier)

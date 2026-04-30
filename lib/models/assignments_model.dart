@@ -18,7 +18,7 @@ class AssignmentModel {
   factory AssignmentModel.fromJson(Map<String, dynamic> json) {
     return AssignmentModel(
       id: json['id'],
-      courseId: json['courseId'] ?? json['course']?['id'], 
+      courseId: json['courseId'] ?? json['course']?['id'] ?? 0,
       title: json['title'],
       description: json['description'],
       dueDate: DateTime.parse(json['dueDate']),

@@ -16,7 +16,7 @@ import 'package:smart_university_app/utils/services/quiz_services.dart';
 
 // 🔹 tabs
 final tabIndexProvider = StateProvider<int>((ref) => 0);
-const tabs = ["Assignments", "Quizzes"];
+const tabs = ["Assignments", "Quizzes", "Attendance"];
 
 // 🔹 search
 final searchProvider = StateProvider<String>((ref) => '');
@@ -153,21 +153,19 @@ final questionsProvider = FutureProvider.family<List<QuestionModel>, int>((
 ) {
   return QuizService().getQuestions(quizId);
 });
-final quizStatusProvider = FutureProvider.family<QuizStatusModel, int>((
+final quizStatusProvider = FutureProvider.family<QuizStatusModel?, int>((
   ref,
   quizId,
 ) async {
   final token = ref.watch(tokenProvider);
 
   if (token == null || token.isEmpty) {
-    if (token == null || token.isEmpty) {
-      await Future.delayed(const Duration(milliseconds: 200));
-    }
+    await Future.delayed(const Duration(milliseconds: 200));
   }
 
   return ref.read(quizServiceProvider).getQuizStatus(quizId);
 });
-final quizResultProvider = FutureProvider.family<QuizResultModel, int>((
+final quizResultProvider = FutureProvider.family<QuizResultModel?, int>((
   ref,
   quizId,
 ) {

@@ -11,9 +11,9 @@ class QuizStatusModel {
 
   factory QuizStatusModel.fromJson(Map<String, dynamic> json) {
     return QuizStatusModel(
-      hasStarted: json['hasStarted'],
-      isFinished: json['isFinished'],
-      remainingSeconds: json['remainingSeconds'],
+      hasStarted: json['hasStarted'] ?? false,
+      isFinished: json['isFinished'] ?? false,
+      remainingSeconds: json['remainingSeconds'] ?? 0,
     );
   }
 }

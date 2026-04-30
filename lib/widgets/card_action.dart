@@ -38,45 +38,54 @@ class CardAction extends ConsumerWidget {
     );
   }
 
-  Future<void> handleNavigation(BuildContext context, WidgetRef ref) async {
-    if (assignment != null) {
+ Future<void> handleNavigation(BuildContext context, WidgetRef ref) async {
+  if (assignment != null) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => AssigmentSubmissionScreen(assignment: assignment!),
+      ),
+    );
+    return;
+  }
+
+  if (quiz != null) {
+    try {
+      final status = await ref.read(quizStatusProvider(quiz!.id).future);
+
+      if (status == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("No data available for this quiz")),
+        );
+        return;
+      }
+
+      if (status.isFinished) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("You already submitted this quiz")),
+        );
+        return;
+      }
+
+      ref.read(quizProvider.notifier).reset();
+
+      if (!status.hasStarted) {
+        await ref.read(quizServiceProvider).startQuiz(quiz!.id);
+      }
+
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (_) => AssigmentSubmissionScreen(assignment: assignment!),
+        MaterialPageRoute(builder: (_) => QuizScreen(quiz: quiz!)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            e is DioException ? getErrorMessage(e) : e.toString(),
+          ),
         ),
       );
-      return;
-    }
-
-    if (quiz != null) {
-      try {
-        final status = await ref.read(quizStatusProvider(quiz!.id).future);
-
-        if (status.isFinished) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("You already submitted this quiz")),
-          );
-          return;
-        }
-        ref.read(quizProvider.notifier).reset();
-        if (!status.hasStarted) {
-          await ref.read(quizServiceProvider).startQuiz(quiz!.id);
-        }
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => QuizScreen(quiz: quiz!)),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              e is DioException ? getErrorMessage(e) : e.toString(),
-            ),
-          ),
-        );
-      }
     }
   }
+}
 }

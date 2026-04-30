@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:smart_university_app/providers/courses_provider.dart';
 import 'package:smart_university_app/providers/login_state.dart';
 import 'package:smart_university_app/providers/user_id_provider.dart';
 import 'package:smart_university_app/utils/dio_helper.dart';
@@ -17,6 +15,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   LoginNotifier(this.ref) : super(LoginState());
 
   final AuthService _authService = AuthService();
+
   void updateEmail(String email) {
     state = state.copyWith(email: email);
   }
@@ -37,44 +36,22 @@ class LoginNotifier extends StateNotifier<LoginState> {
     state = state.copyWith(isLoading: true, clearError: true);
 
     try {
-      final response = await _authService.login(
+      final data = await _authService.login(
         email: state.email,
         password: state.password,
       );
 
-      if (response.statusCode == 200) {
-        final token = response.data['token'];
+      final token = data['token'];
 
-        DioHelper.setToken(token);
-        ref.read(tokenProvider.notifier).state = token;
-        return true;
+      if (token == null) {
+        state = state.copyWith(error: "Login failed");
+        return false;
       }
 
-      state = state.copyWith(error: "Login failed");
-      return false;
-    } on DioException catch (e) {
-      String message;
+      DioHelper.setToken(token);
+      ref.read(tokenProvider.notifier).state = token;
 
-      if (e.response != null) {
-        final data = e.response?.data;
-        if (data is Map<String, dynamic>) {
-          message =
-              data['error'] ??
-              data['message'] ??
-              data['title'] ??
-              data['errors']?.toString() ??
-              "Something went wrong";
-        } else if (data is String && data.trim().isNotEmpty) {
-          message = data;
-        } else {
-          message = "Something went wrong";
-        }
-      } else {
-        message = "No internet connection";
-      }
-
-      state = state.copyWith(error: message);
-      return false;
+      return true;
     } catch (e) {
       state = state.copyWith(error: e.toString());
       return false;

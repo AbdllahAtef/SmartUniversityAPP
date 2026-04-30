@@ -14,10 +14,10 @@ final selectedTypeProvider = StateProvider<String>((ref) {
 });
 
 final gradesServiceProvider = Provider<GradesService>((ref) {
-  return GradesService(DioHelper.dio);
+  return GradesService();
 });
 
-final gradeProvider = FutureProvider.family<GradesModel, int>((
+final gradeProvider = FutureProvider.family<GradesModel?, int>((
   ref,
   courseId,
 ) async {
@@ -30,11 +30,14 @@ final allGradesProvider = FutureProvider<List<GradeWithCourse>>((ref) async {
 
   final List<GradeWithCourse> result = [];
 
-  for (var course in courses) {
-    final grade = await gradeService.getGradeByCourseId(course.id);
+  final results = await Future.wait(
+    courses.map((course) async {
+      final grade = await gradeService.getGradeByCourseId(course.id);
+      if (grade == null) return null;
 
-    result.add(GradeWithCourse(grade: grade, course: course));
-  }
+      return GradeWithCourse(grade: grade, course: course);
+    }),
+  );
 
-  return result;
+  return results.whereType<GradeWithCourse>().toList();
 });

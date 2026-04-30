@@ -7,23 +7,51 @@ import 'package:smart_university_app/utils/dio_helper.dart';
 
 class QuizService {
   Future<List<QuizModel>> getQuizzes(int courseId) async {
-    final response = await DioHelper.dio.get('/api/courses/$courseId/quizzes');
+    try {
+      final response = await DioHelper.dio.get(
+        '/api/courses/$courseId/quizzes',
+      );
 
-    final List data = response.data is List
-        ? response.data as List
-        : response.data['data'] as List;
+      final rawData = response.data;
 
-    return data
-        .map((e) => QuizModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+      if (rawData == null) {
+        return [];
+      }
+
+      final data = rawData is List ? rawData : rawData['data'];
+
+      if (data == null || data is! List || data.isEmpty) {
+        return [];
+      }
+
+      return data.map<QuizModel>((e) => QuizModel.fromJson(e)).toList();
+    } catch (e) {
+      if (e is DioException && e.response?.statusCode == 404) {
+        return [];
+      }
+      rethrow;
+    }
   }
 
-  Future<QuizStatusModel> getQuizStatus(int quizId) async {
-    final response = await DioHelper.dio.get(
-      '/api/QuizSubmissions/status/$quizId',
-    );
+  Future<QuizStatusModel?> getQuizStatus(int quizId) async {
+    try {
+      final response = await DioHelper.dio.get(
+        '/api/QuizSubmissions/status/$quizId',
+      );
 
-    return QuizStatusModel.fromJson(response.data);
+      final data = response.data;
+
+      if (data == null || data is! Map<String, dynamic>) {
+        return null;
+      }
+
+      return QuizStatusModel.fromJson(data);
+    } catch (e) {
+      if (e is DioException && e.response?.statusCode == 404) {
+        return null;
+      }
+      rethrow;
+    }
   }
 
   Future<void> startQuiz(int quizId) async {
@@ -31,11 +59,28 @@ class QuizService {
   }
 
   Future<List<QuestionModel>> getQuestions(int quizId) async {
-    final response = await DioHelper.dio.get('/api/Questions/quiz/$quizId');
+    try {
+      final response = await DioHelper.dio.get('/api/Questions/quiz/$quizId');
 
-    final data = response.data;
+      final rawData = response.data;
 
-    return (data as List).map((e) => QuestionModel.fromJson(e)).toList();
+      if (rawData == null) {
+        return [];
+      }
+
+      final data = rawData is List ? rawData : rawData['data'];
+
+      if (data == null || data is! List || data.isEmpty) {
+        return [];
+      }
+
+      return data.map<QuestionModel>((e) => QuestionModel.fromJson(e)).toList();
+    } catch (e) {
+      if (e is DioException && e.response?.statusCode == 404) {
+        return [];
+      }
+      rethrow;
+    }
   }
 
   Future<void> submitQuiz(int quizId, Map<int, int> answers) async {
@@ -50,33 +95,27 @@ class QuizService {
           .toList(),
     };
 
-    print("=== QUIZ SUBMISSION DEBUG ===");
-    print("Quiz ID: $quizId");
-    print("Answers Map: $answers");
-    print("Request Body: $body");
-    print("=============================");
-
-    try {
-      final response = await DioHelper.dio.post(
-        "/api/QuizSubmissions",
-        data: body,
-      );
-
-      print("SUCCESS RESPONSE: ${response.data}");
-    } on DioException catch (e) {
-      print("SUBMISSION ERROR - STATUS: ${e.response?.statusCode}");
-      print("SUBMISSION ERROR - DATA: ${e.response?.data}");
-      print("SUBMISSION ERROR - MESSAGE: ${e.message}");
-      print("SUBMISSION ERROR - REQUEST DATA: ${e.requestOptions.data}");
-      rethrow;
-    }
+    await DioHelper.dio.post("/api/QuizSubmissions", data: body);
   }
 
-  Future<QuizResultModel> getQuizResult(int quizId) async {
-    final response = await DioHelper.dio.get(
-      '/api/QuizSubmissions/result/$quizId',
-    );
+  Future<QuizResultModel?> getQuizResult(int quizId) async {
+    try {
+      final response = await DioHelper.dio.get(
+        '/api/QuizSubmissions/result/$quizId',
+      );
 
-    return QuizResultModel.fromJson(response.data);
+      final data = response.data;
+
+      if (data == null || data is! Map<String, dynamic>) {
+        return null;
+      }
+
+      return QuizResultModel.fromJson(data);
+    } catch (e) {
+      if (e is DioException && e.response?.statusCode == 404) {
+        return null;
+      }
+      rethrow;
+    }
   }
 }

@@ -8,8 +8,7 @@ class QuizScreen extends StatelessWidget {
   const QuizScreen({super.key, required this.quiz});
 
   @override
-
   Widget build(BuildContext context) {
-    return Scaffold(body: QuizViewBody(quizId: quiz.id));
+    return Scaffold(body: QuizViewBody(quiz: quiz));
   }
 }
