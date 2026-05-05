@@ -30,4 +30,15 @@ class CourseService {
       rethrow;
     }
   }
+    Future<List<CourseModel>> getDoctorCourses() async {
+    final response = await DioHelper.dio.get('/api/Courses/doctor');
+
+    final data = response.data;
+
+    if (data == null || data is! List) {
+      return [];
+    }
+
+    return data.map<CourseModel>((e) => CourseModel.fromJson(e)).toList();
+  }
 }

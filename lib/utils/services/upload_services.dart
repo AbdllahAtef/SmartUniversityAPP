@@ -1,7 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_university_app/providers/courses_provider.dart';
+import 'package:smart_university_app/providers/assignment_provider.dart';
 
 Future<void> pickFile(WidgetRef ref, BuildContext context) async {
   final isPicking = ref.read(isPickingFileProvider);

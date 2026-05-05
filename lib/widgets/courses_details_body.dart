@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/models/courses_model.dart';
+import 'package:smart_university_app/providers/assignment_provider.dart';
 import 'package:smart_university_app/providers/courses_provider.dart';
+import 'package:smart_university_app/providers/quiz_provider.dart';
+import 'package:smart_university_app/providers/schedule_provider.dart';
+import 'package:smart_university_app/screens/create_assignment_screen.dart';
+import 'package:smart_university_app/screens/create_quiz_screen.dart';
 import 'package:smart_university_app/widgets/assignments_list_view.dart';
+import 'package:smart_university_app/widgets/attendence_list_view.dart';
 import 'package:smart_university_app/widgets/course_details_card.dart';
 import 'package:smart_university_app/widgets/course_header.dart';
 import 'package:smart_university_app/widgets/custom_tabs.dart';
@@ -16,9 +22,12 @@ class CoursesDetailsBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final tabs = ref.watch(tabsProvider);
     final tabIndex = ref.watch(tabIndexProvider);
+    final safeIndex = tabIndex >= tabs.length ? 0 : tabIndex;
     final assignmentsAsync = ref.watch(assignmentsProvider(course.id));
     final quizzesAsync = ref.watch(quizzesProvider(course.id));
+    final lecturesAsync = ref.watch(lecturesByCourseProvider(course.id));
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -33,13 +42,32 @@ class CoursesDetailsBody extends ConsumerWidget {
           const CustomTabs(),
           const SizedBox(height: 12),
           TasksHeader(
-            count: tabIndex == 0
+            onTab: safeIndex == 0
+                ? () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => CreateAssignmentScreen(course: course),
+                      ),
+                    );
+                  }
+                : safeIndex == 1
+                ? () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => CreateQuizScreen(course: course)),
+                    );
+                  }
+                : null,
+            count: safeIndex == 0
                 ? assignmentsAsync.value?.length ?? 0
-                : quizzesAsync.value?.length ?? 0,
+                : safeIndex == 1
+                ? quizzesAsync.value?.length ?? 0
+                : lecturesAsync.value?.length ?? 0,
           ),
           const SizedBox(height: 8),
           Expanded(
-            child: tabIndex == 0
+            child: safeIndex == 0
                 ? assignmentsAsync.when(
                     data: (assignments) {
                       if (assignments.isEmpty) {
@@ -53,7 +81,8 @@ class CoursesDetailsBody extends ConsumerWidget {
                         const Center(child: CircularProgressIndicator()),
                     error: (e, _) => Center(child: Text("Error: $e")),
                   )
-                : quizzesAsync.when(
+                : safeIndex == 1
+                ? quizzesAsync.when(
                     data: (quizzes) {
                       if (quizzes.isEmpty) {
                         return const Center(
@@ -61,6 +90,19 @@ class CoursesDetailsBody extends ConsumerWidget {
                         );
                       }
                       return QuizzesListView(quizzes: quizzes);
+                    },
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (e, _) => Center(child: Text("Error: $e")),
+                  )
+                : lecturesAsync.when(
+                    data: (lectures) {
+                      if (lectures.isEmpty) {
+                        return const Center(
+                          child: Text("No lectures available"),
+                        );
+                      }
+                      return AttendenceListView(lectures: lectures);
                     },
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),

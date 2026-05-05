@@ -9,15 +9,16 @@ class CoursesList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final coursesAsync = ref.watch(coursesProvider);
+    final coursesAsync = ref.watch(coursesByRoleProvider);
 
     return coursesAsync.when(
       data: (courses) {
         if (courses.isEmpty) {
-          return const Center(child: Text("No courses found"));
+          return const Center(child: Text("No courses Registered"));
         }
 
         return ListView.builder(
+          padding: EdgeInsets.zero,
           itemCount: courses.length,
           itemBuilder: (context, index) {
             final course = courses[index];

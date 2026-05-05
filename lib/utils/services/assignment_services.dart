@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:smart_university_app/models/assignment_submission_model.dart';
 import 'package:smart_university_app/models/assignments_model.dart';
+import 'package:smart_university_app/models/create_assignment_model.dart';
 import 'package:smart_university_app/utils/dio_helper.dart';
 
 class AssignmentService {
@@ -81,5 +82,9 @@ class AssignmentService {
 
   Future<void> deleteSubmission(int id) async {
     await DioHelper.dio.delete('/api/AssignmentSubmissions/$id');
+  }
+
+  Future<void> createAssignment(CreateAssignmentModel model) async {
+    await DioHelper.dio.post('/api/Assignments', data: model.toJson());
   }
 }

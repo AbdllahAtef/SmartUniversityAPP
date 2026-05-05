@@ -5,10 +5,10 @@ import 'package:smart_university_app/providers/courses_provider.dart';
 
 class CustomTabs extends ConsumerWidget {
   const CustomTabs({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(tabIndexProvider);
+    final tabs = ref.watch(tabsProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Row(

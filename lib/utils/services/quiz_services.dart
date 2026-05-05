@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:smart_university_app/models/create_question_model.dart';
+import 'package:smart_university_app/models/create_quiz_model.dart';
 import 'package:smart_university_app/models/question_model.dart';
 import 'package:smart_university_app/models/quiz_result_model.dart';
 import 'package:smart_university_app/models/quiz_status_model.dart';
@@ -18,7 +20,11 @@ class QuizService {
         return [];
       }
 
-      final data = rawData is List ? rawData : rawData['data'];
+      final data = rawData is List
+          ? rawData
+          : rawData is Map
+          ? rawData['data']
+          : null;
 
       if (data == null || data is! List || data.isEmpty) {
         return [];
@@ -31,6 +37,16 @@ class QuizService {
       }
       rethrow;
     }
+  }
+
+  Future<List<QuestionModel>> getQuestionsWithAnswers(int quizId) async {
+    final response = await DioHelper.dio.get(
+      "/api/quizzes/$quizId/questionsWithAnswers",
+    );
+
+    return (response.data as List)
+        .map((e) => QuestionModel.fromJson(e))
+        .toList();
   }
 
   Future<QuizStatusModel?> getQuizStatus(int quizId) async {
@@ -68,7 +84,11 @@ class QuizService {
         return [];
       }
 
-      final data = rawData is List ? rawData : rawData['data'];
+      final data = rawData is List
+          ? rawData
+          : rawData is Map
+          ? rawData['data']
+          : null;
 
       if (data == null || data is! List || data.isEmpty) {
         return [];
@@ -117,5 +137,17 @@ class QuizService {
       }
       rethrow;
     }
+  }
+
+  Future<dynamic> createQuiz(CreateQuizModel request) async {
+    final response = await DioHelper.dio.post(
+      '/api/quizzes',
+      data: request.toJson(),
+    );
+    return response.data['id'];
+  }
+
+  Future<void> createQuestion(CreateQuestionModel request) async {
+    await DioHelper.dio.post('/api/questions', data: request.toJson());
   }
 }

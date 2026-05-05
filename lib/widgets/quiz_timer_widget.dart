@@ -10,17 +10,13 @@ class QuizTimerWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final seconds = ref.watch(quizTimerProvider);
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: const Color(0xFFE9E8E8),
+        color: const Color(0xFF8B2072),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Text(
-        formatTime2(seconds),
-        style: TextStyles.textstyle16.copyWith(color: Colors.purple),
-      ),
+      child: Text(formatTime2(seconds), style: TextStyles.textstyle16),
     );
   }
 }

@@ -29,7 +29,7 @@ class OptionModel {
     return OptionModel(
       id: json['id'],
       text: json['text'],
-      isCorrect: json['isCorrect'] ?? false,
+      isCorrect: json['isCorrect'] == true || json['isCorrect'] == 1,
     );
   }
 }

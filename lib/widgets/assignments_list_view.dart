@@ -10,22 +10,21 @@ class AssignmentsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return assignments.isEmpty
-        ? const Center(child: Text("No assignments found."))
-        : ListView.builder(
-            itemCount: assignments.length,
-            itemBuilder: (context, index) {
-              final assignment = assignments[index];
-              return UniversalCard(
-                title: assignment.title,
-                description: assignment.description,
-                date: DateFormat('MMM d, yyyy').format(assignment.dueDate),
-                extra: "Max: ${assignment.maxGrade}",
-                icon: Icons.assignment,
-                color: const Color(0XFF8B2072),
-                assignment: assignment,
-              );
-            },
-          );
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: assignments.length,
+      itemBuilder: (context, index) {
+        final assignment = assignments[index];
+        return UniversalCard(
+          title: assignment.title,
+          description: assignment.description,
+          date: DateFormat('MMM d, yyyy').format(assignment.dueDate),
+          extra: "Max: ${assignment.maxGrade}",
+          icon: Icons.assignment,
+          color: const Color(0XFF8B2072),
+          assignment: assignment,
+        );
+      },
+    );
   }
 }

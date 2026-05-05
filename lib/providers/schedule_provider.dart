@@ -43,3 +43,21 @@ final filteredLecturesProvider = Provider<AsyncValue<List<LectureModel>>>((
     return lectures.where((lecture) => lecture.day == day).toList();
   });
 });
+final lecturesByCourseProvider = FutureProvider.family<List<LectureModel>, int>(
+  (ref, courseId) async {
+    final service = ref.read(scheduleServiceProvider);
+    return service.getLectures(courseId);
+  },
+);
+List<LectureModel> sortLectures(List<LectureModel> lectures) {
+  final sorted = [...lectures];
+
+  sorted.sort((a, b) {
+    if (a.day != b.day) {
+      return a.day.compareTo(b.day);
+    }
+    return a.startTime.compareTo(b.startTime);
+  });
+
+  return sorted;
+}

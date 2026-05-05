@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_university_app/models/quizes_model.dart';
-import 'package:smart_university_app/providers/courses_provider.dart';
+import 'package:smart_university_app/providers/quiz_provider.dart';
 import 'package:smart_university_app/providers/timer_provider.dart';
 import 'package:smart_university_app/widgets/answers_list_view.dart';
 import 'package:smart_university_app/widgets/bottom_quiz_buttons.dart';
@@ -23,17 +23,27 @@ class _QuizViewBodyState extends ConsumerState<QuizViewBody> {
   late final ProviderSubscription<int> _timerSub;
 
   @override
+  @override
   void initState() {
     super.initState();
+
+    Future.microtask(() async {
+      final status = await ref.read(quizStatusProvider(widget.quiz.id).future);
+
+      if (status != null) {
+        ref.read(quizTimerProvider.notifier).start(status.remainingSeconds);
+      }
+    });
 
     _timerSub = ref.listenManual<int>(quizTimerProvider, (
       previous,
       next,
     ) async {
       final quizState = ref.read(quizProvider);
+
       if (next == 0 && previous != 0 && !quizState.isSubmitting) {
         final questions = await ref.read(
-          questionsProvider(widget.quiz.id).future,
+          questionsWithAnswersProvider(widget.quiz.id).future,
         );
 
         ref.read(quizTimerProvider.notifier).stop();
@@ -60,7 +70,7 @@ class _QuizViewBodyState extends ConsumerState<QuizViewBody> {
   @override
   Widget build(BuildContext context) {
     final quizState = ref.watch(quizProvider);
-    final questionsAsync = ref.watch(questionsProvider(widget.quiz.id));
+    final questionsAsync = ref.watch(quizInitProvider(widget.quiz.id));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -84,22 +94,21 @@ class _QuizViewBodyState extends ConsumerState<QuizViewBody> {
                 if (questions.isEmpty) {
                   return const Center(child: Text("No questions available"));
                 }
+
                 if (quizState.currentIndex == -1) {
                   final resultAsync = ref.watch(
                     quizResultProvider(widget.quiz.id),
                   );
 
-                 return resultAsync.when(
+                  return resultAsync.when(
                     data: (result) {
                       if (result == null) {
                         return const Center(child: Text("No result available"));
                       }
 
-                     final total = widget.quiz.totalGrade;
-
                       return QuizResultView(
                         score: result.totalScore,
-                        total: total,
+                        total: widget.quiz.totalGrade,
                       );
                     },
                     loading: () =>
@@ -130,16 +139,19 @@ class _QuizViewBodyState extends ConsumerState<QuizViewBody> {
 
                           ref.read(quizTimerProvider.notifier).stop();
 
+                          final questionsWithAnswers = await ref.read(
+                            questionsWithAnswersProvider(widget.quiz.id).future,
+                          );
+
                           await ref
                               .read(quizProvider.notifier)
-                              .submitQuiz(widget.quiz.id, questions);
+                              .submitQuiz(widget.quiz.id, questionsWithAnswers);
                         } else {
                           ref
                               .read(quizProvider.notifier)
                               .next(questions.length);
                         }
                       },
-
                       onPrev: () {
                         ref.read(quizProvider.notifier).previous();
                       },
@@ -147,9 +159,7 @@ class _QuizViewBodyState extends ConsumerState<QuizViewBody> {
                   ],
                 );
               },
-
               loading: () => const Center(child: CircularProgressIndicator()),
-
               error: (e, _) => const Center(child: Text("Error loading quiz")),
             ),
           ),

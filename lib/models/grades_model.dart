@@ -28,9 +28,35 @@ class GradesModel {
     );
   }
 }
+
 class GradeWithCourse {
-  final GradesModel grade;
+  final GradeResponseModel grade;
   final CourseModel course;
 
   GradeWithCourse({required this.grade, required this.course});
+}
+class GradeResponseModel {
+  final int midterm;
+  final int finalGrade;
+  final int maxMidterm;
+  final int maxFinal;
+  final int total;
+
+  GradeResponseModel({
+    required this.midterm,
+    required this.finalGrade,
+    required this.maxMidterm,
+    required this.maxFinal,
+    required this.total,
+  });
+
+  factory GradeResponseModel.fromJson(Map<String, dynamic> json) {
+    return GradeResponseModel(
+      midterm: json['midterm'] ?? 0,
+      finalGrade: json['final'] ?? 0,
+      maxMidterm: json['maxMidterm'] ?? 0,
+      maxFinal: json['maxFinal'] ?? 0,
+      total: json['total'] ?? 0,
+    );
+  }
 }

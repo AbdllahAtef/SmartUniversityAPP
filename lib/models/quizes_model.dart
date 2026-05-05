@@ -17,13 +17,14 @@ class QuizModel {
 
   factory QuizModel.fromJson(Map<String, dynamic> json) {
     return QuizModel(
-      id: json['id'] ?? 0,
-      courseId: json['courseId'] ?? 0,
+      id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
+      courseId: int.tryParse(json['courseId']?.toString() ?? '') ?? 0,
       title: json['title'] ?? '',
-      totalGrade: json['totalGrade'] ?? 0,
-      durationMinutes: json['durationMinutes'] ?? 0,
+      totalGrade: int.tryParse(json['totalGrade']?.toString() ?? '') ?? 0,
+      durationMinutes:
+          int.tryParse(json['durationMinutes']?.toString() ?? '') ?? 0,
       quizDate: json['quizDate'] != null
-          ? DateTime.parse(json['quizDate'])
+          ? DateTime.parse(json['quizDate'].toString())
           : DateTime.now(),
     );
   }

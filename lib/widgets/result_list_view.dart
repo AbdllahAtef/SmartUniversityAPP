@@ -18,7 +18,12 @@ class ResultListView extends ConsumerWidget {
         error: (err, stack) => Center(child: Text(err.toString())),
 
         data: (list) {
+          if (list.isEmpty) {
+            return const Center(child: Text("No grades available"));
+          }
+
           return ListView.builder(
+            padding: EdgeInsets.zero,
             itemCount: list.length,
             itemBuilder: (context, index) {
               final item = list[index];

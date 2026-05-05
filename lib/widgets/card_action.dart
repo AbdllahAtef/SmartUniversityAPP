@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_university_app/models/assignments_model.dart';
 import 'package:smart_university_app/models/quizes_model.dart';
-import 'package:smart_university_app/providers/courses_provider.dart';
+import 'package:smart_university_app/providers/quiz_provider.dart';
 import 'package:smart_university_app/screens/assigment_submission_screen.dart';
+import 'package:smart_university_app/screens/quiz_result_screen.dart';
 import 'package:smart_university_app/screens/quiz_screen.dart';
 import 'package:smart_university_app/utils/helper_services.dart';
 
@@ -38,54 +39,55 @@ class CardAction extends ConsumerWidget {
     );
   }
 
- Future<void> handleNavigation(BuildContext context, WidgetRef ref) async {
-  if (assignment != null) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => AssigmentSubmissionScreen(assignment: assignment!),
-      ),
-    );
-    return;
-  }
-
-  if (quiz != null) {
-    try {
-      final status = await ref.read(quizStatusProvider(quiz!.id).future);
-
-      if (status == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("No data available for this quiz")),
-        );
-        return;
-      }
-
-      if (status.isFinished) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("You already submitted this quiz")),
-        );
-        return;
-      }
-
-      ref.read(quizProvider.notifier).reset();
-
-      if (!status.hasStarted) {
-        await ref.read(quizServiceProvider).startQuiz(quiz!.id);
-      }
-
+  Future<void> handleNavigation(BuildContext context, WidgetRef ref) async {
+    if (assignment != null) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => QuizScreen(quiz: quiz!)),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            e is DioException ? getErrorMessage(e) : e.toString(),
-          ),
+        MaterialPageRoute(
+          builder: (_) => AssigmentSubmissionScreen(assignment: assignment!),
         ),
       );
+      return;
+    }
+
+    if (quiz != null) {
+      try {
+        final status = await ref.read(quizStatusProvider(quiz!.id).future);
+
+        if (status == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("No data available for this quiz")),
+          );
+          return;
+        }
+
+        if (status.isSubmitted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => QuizResultScreen(quiz: quiz!)),
+          );
+          return;
+        }
+
+        ref.read(quizProvider.notifier).reset();
+
+        if (!status.hasStarted) {
+          await ref.read(quizServiceProvider).startQuiz(quiz!.id);
+        }
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => QuizScreen(quiz: quiz!)),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              e is DioException ? getErrorMessage(e) : e.toString(),
+            ),
+          ),
+        );
+      }
     }
   }
-}
 }

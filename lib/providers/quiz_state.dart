@@ -13,7 +13,7 @@ class QuizState {
     this.error,
   });
 
-  QuizState copyWith({
+ QuizState copyWith({
     int? currentIndex,
     Map<int, int>? answers,
     int? score,
@@ -25,7 +25,7 @@ class QuizState {
       answers: answers ?? this.answers,
       score: score ?? this.score,
       isSubmitting: isSubmitting ?? this.isSubmitting,
-      error: error,
+      error: error ?? this.error,
     );
   }
 }

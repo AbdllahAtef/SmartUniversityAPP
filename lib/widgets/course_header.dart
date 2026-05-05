@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_university_app/screens/quiz_screen.dart';
 import 'package:smart_university_app/utils/styles.dart';
 import 'package:smart_university_app/widgets/quiz_timer_widget.dart';
 

@@ -7,7 +7,8 @@ import 'package:smart_university_app/utils/styles.dart';
 
 class GradesBox extends ConsumerWidget {
   const GradesBox({super.key, required this.grades});
-  final GradesModel grades;
+
+  final GradeResponseModel grades;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,7 +16,7 @@ class GradesBox extends ConsumerWidget {
 
     final isFinal = selectedType == "Final Grades";
 
-    final value = isFinal ? grades.finalGrade : grades.midtermGrade;
+    final value = isFinal ? grades.total : grades.midterm;
 
     return Container(
       width: 60.w,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_university_app/models/question_model.dart';
-import 'package:smart_university_app/providers/courses_provider.dart';
+import 'package:smart_university_app/providers/quiz_provider.dart';
 import 'package:smart_university_app/widgets/answer_item.dart';
 
 class AnswersListView extends ConsumerWidget {
