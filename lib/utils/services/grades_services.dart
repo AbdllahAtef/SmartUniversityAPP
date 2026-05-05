@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:smart_university_app/models/add_grades_model.dart';
 import 'package:smart_university_app/models/grades_model.dart';
 import 'package:smart_university_app/utils/dio_helper.dart';
 
@@ -22,5 +23,8 @@ class GradesService {
       }
       rethrow;
     }
+  }
+  Future<void> submitGrade(SubmitGradeModel model) async {
+    await DioHelper.dio.post(model.endpoint, data: model.toJson());
   }
 }

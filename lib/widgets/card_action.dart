@@ -10,7 +10,7 @@ import 'package:smart_university_app/screens/assigment_submission_screen.dart';
 import 'package:smart_university_app/screens/attendance_screen.dart';
 import 'package:smart_university_app/screens/quiz_result_screen.dart';
 import 'package:smart_university_app/screens/quiz_screen.dart';
-import 'package:smart_university_app/utils/helper_services.dart';
+import 'package:smart_university_app/utils/helpers.dart';
 
 class CardAction extends ConsumerWidget {
   final Color color;

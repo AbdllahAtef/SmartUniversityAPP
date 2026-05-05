@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:smart_university_app/models/grades_model.dart';
@@ -43,3 +44,35 @@ final allGradesProvider = FutureProvider<List<GradeWithCourse>>((ref) async {
 
   return results.whereType<GradeWithCourse>().toList();
 });
+final gradeControllersProvider =
+    StateNotifierProvider<
+      GradeControllersNotifier,
+      Map<int, TextEditingController>
+    >((ref) => GradeControllersNotifier());
+
+class GradeControllersNotifier
+    extends StateNotifier<Map<int, TextEditingController>> {
+  GradeControllersNotifier() : super({});
+
+TextEditingController getController(int id, WidgetRef ref) {
+    if (state.containsKey(id)) return state[id]!;
+
+    final controller = TextEditingController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!state.containsKey(id)) {
+        state = {...state, id: controller};
+      }
+    });
+
+    return controller;
+  }
+
+  @override
+  void dispose() {
+    for (final c in state.values) {
+      c.dispose();
+    }
+    super.dispose();
+  }
+}

@@ -11,15 +11,12 @@ import 'package:smart_university_app/widgets/students_attendance_list_view.dart'
 
 class AttendenceViewBody extends ConsumerWidget {
   final CourseModel course;
-
   const AttendenceViewBody({super.key, required this.course});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final studentsAsync = ref.watch(filteredStudentsProvider(course.id));
     final attendance = ref.watch(attendanceProvider);
     final isSubmitting = ref.watch(isSubmittingProvider);
-
     return Column(
       children: [
         Expanded(
@@ -28,22 +25,16 @@ class AttendenceViewBody extends ConsumerWidget {
               if (students.isEmpty) {
                 return const Center(child: Text("No students"));
               }
-
               return Column(
                 children: [
-                  /// 🔥 هنا الحل
                   CourseHeader(
                     title: "Attendence",
                     isAttendance: true,
                     students: students.map((e) => e.id).toList(),
                   ),
-
                   const SizedBox(height: 10),
-
                   SearchField(provider: studentSearchProvider),
-
                   const SizedBox(height: 10),
-
                   Expanded(
                     child: StudentsAttendanceListView(
                       attendance: attendance,
@@ -57,7 +48,6 @@ class AttendenceViewBody extends ConsumerWidget {
             error: (e, _) => Center(child: Text(e.toString())),
           ),
         ),
-
         Padding(
           padding: const EdgeInsets.all(12),
           child: CustomElevatedButton(
