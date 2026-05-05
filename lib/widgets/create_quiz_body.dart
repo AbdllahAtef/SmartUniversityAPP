@@ -7,7 +7,7 @@ import 'package:smart_university_app/models/create_quiz_model.dart';
 import 'package:smart_university_app/providers/quiz_provider.dart';
 import 'package:smart_university_app/widgets/course_header.dart';
 import 'package:smart_university_app/widgets/custom_elevated_button.dart';
-import 'package:smart_university_app/widgets/question_item_widget.dart';
+import 'package:smart_university_app/widgets/question_list_view.dart';
 import 'package:smart_university_app/widgets/quiz_info_section.dart';
 
 class CreateQuizBody extends ConsumerStatefulWidget {
@@ -129,17 +129,7 @@ class _CreateQuizBodyState extends ConsumerState<CreateQuizBody> {
                   onPickDate: _pickDate,
                 ),
                 SizedBox(height: 20.h),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: questions.length,
-                  itemBuilder: (context, index) {
-                    return QuestionItemWidget(
-                      index: index,
-                      q: questions[index],
-                    );
-                  },
-                ),
+                QuestionListView(questions: questions),
                 SizedBox(height: 10.h),
                 ElevatedButton(
                   onPressed: () =>

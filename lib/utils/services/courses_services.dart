@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:smart_university_app/models/course_students_model.dart';
 import 'package:smart_university_app/models/courses_model.dart';
 import 'package:smart_university_app/utils/dio_helper.dart';
 
@@ -30,7 +31,8 @@ class CourseService {
       rethrow;
     }
   }
-    Future<List<CourseModel>> getDoctorCourses() async {
+
+  Future<List<CourseModel>> getDoctorCourses() async {
     final response = await DioHelper.dio.get('/api/Courses/doctor');
 
     final data = response.data;
@@ -40,5 +42,15 @@ class CourseService {
     }
 
     return data.map<CourseModel>((e) => CourseModel.fromJson(e)).toList();
+  }
+
+  Future<List<CourseStudentsModel>> getCourseStudents(int courseId) async {
+    final response = await DioHelper.dio.get('/api/courses/$courseId/students');
+
+    final data = response.data;
+
+    if (data == null || data is! List) return [];
+
+    return data.map((e) => CourseStudentsModel.fromJson(e)).toList();
   }
 }

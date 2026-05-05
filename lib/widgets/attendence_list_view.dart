@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smart_university_app/models/courses_model.dart';
 import 'package:smart_university_app/models/lecture_model.dart';
 import 'package:smart_university_app/providers/schedule_provider.dart';
 import 'package:smart_university_app/widgets/universal_card.dart';
 
 class AttendenceListView extends ConsumerWidget {
-  const AttendenceListView({super.key, required this.lectures});
+  const AttendenceListView({
+    super.key,
+    required this.lectures,
+    required this.course,
+  });
   final List<LectureModel> lectures;
+  final CourseModel course;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sortedLectures = sortLectures(lectures);
@@ -21,6 +27,8 @@ class AttendenceListView extends ConsumerWidget {
           date: "${lec.subtitle} ",
           icon: Icons.menu_book,
           color: const Color(0XFF8B2072),
+          isAttendance: true,
+          course: course,
         );
       },
     );

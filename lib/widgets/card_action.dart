@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/models/assignments_model.dart';
+import 'package:smart_university_app/models/courses_model.dart';
 import 'package:smart_university_app/models/quizes_model.dart';
 import 'package:smart_university_app/providers/quiz_provider.dart';
 import 'package:smart_university_app/screens/assigment_submission_screen.dart';
+import 'package:smart_university_app/screens/attendance_screen.dart';
 import 'package:smart_university_app/screens/quiz_result_screen.dart';
 import 'package:smart_university_app/screens/quiz_screen.dart';
 import 'package:smart_university_app/utils/helper_services.dart';
@@ -13,14 +16,17 @@ class CardAction extends ConsumerWidget {
   final Color color;
   final AssignmentModel? assignment;
   final QuizModel? quiz;
+  final bool isAttendance;
+  final CourseModel? course;
 
   const CardAction({
     super.key,
     required this.color,
     this.assignment,
     this.quiz,
+    this.isAttendance = false,
+    this.course,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
@@ -29,10 +35,14 @@ class CardAction extends ConsumerWidget {
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
         ),
         child: Icon(
-          assignment != null ? Icons.upload_file_outlined : Icons.start_sharp,
+          assignment != null
+              ? Icons.upload_file_outlined
+              : quiz != null
+              ? Icons.start_sharp
+              : Icons.check_circle_outline, // attendance
           color: Colors.white,
         ),
       ),
@@ -46,6 +56,14 @@ class CardAction extends ConsumerWidget {
         MaterialPageRoute(
           builder: (_) => AssigmentSubmissionScreen(assignment: assignment!),
         ),
+      );
+      return;
+    }
+
+    if (isAttendance && course != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => AttendanceScreen(course: course!)),
       );
       return;
     }

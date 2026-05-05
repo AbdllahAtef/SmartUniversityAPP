@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:smart_university_app/models/course_students_model.dart';
 import 'package:smart_university_app/models/courses_model.dart';
 import 'package:smart_university_app/providers/user_id_provider.dart';
 import 'package:smart_university_app/utils/services/courses_services.dart';
@@ -17,8 +18,6 @@ final tabsProvider = Provider<List<String>>((ref) {
 
   return tabs;
 });
-
-final searchProvider = StateProvider<String>((ref) => '');
 final courseServiceProvider = Provider((ref) {
   return CourseService();
 });
@@ -46,16 +45,11 @@ final myCoursesProvider = FutureProvider<List<CourseModel>>((ref) async {
 
   return service.getMyCourses(ref.watch(userIdProvider) ?? 0);
 });
-final filteredCoursesProvider = Provider<AsyncValue<List<CourseModel>>>((ref) {
-  final search = ref.watch(searchProvider).toLowerCase();
-  final coursesAsync = ref.watch(coursesByRoleProvider);
-
-  return coursesAsync.whenData((courses) {
-    if (search.isEmpty) return courses;
-
-    return courses.where((course) {
-      return course.name.toLowerCase().contains(search) ||
-          course.code.toLowerCase().contains(search);
-    }).toList();
-  });
-});
+final courseStudentsProvider =
+    FutureProvider.family<List<CourseStudentsModel>, int>((
+      ref,
+      courseId,
+    ) async {
+      final service = ref.read(courseServiceProvider);
+      return service.getCourseStudents(courseId);
+    });

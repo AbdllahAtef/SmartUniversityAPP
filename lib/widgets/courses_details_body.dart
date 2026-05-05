@@ -102,7 +102,7 @@ class CoursesDetailsBody extends ConsumerWidget {
                           child: Text("No lectures available"),
                         );
                       }
-                      return AttendenceListView(lectures: lectures);
+                      return AttendenceListView(lectures: lectures, course: course);
                     },
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_university_app/providers/courses_provider.dart';
+import 'package:smart_university_app/providers/search_provider.dart';
 import 'package:smart_university_app/screens/courses_details_screen.dart';
 import 'package:smart_university_app/widgets/course_list_item.dart';
 
@@ -9,8 +10,7 @@ class CoursesList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final coursesAsync = ref.watch(coursesByRoleProvider);
-
+    final coursesAsync = ref.watch(filteredCoursesProvider);
     return coursesAsync.when(
       data: (courses) {
         if (courses.isEmpty) {
