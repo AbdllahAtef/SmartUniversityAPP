@@ -76,3 +76,22 @@ TextEditingController getController(int id, WidgetRef ref) {
     super.dispose();
   }
 }
+final midtermControllerProvider = Provider<TextEditingController>((ref) {
+  final controller = TextEditingController();
+
+  ref.onDispose(() {
+    controller.dispose();
+  });
+
+  return controller;
+});
+
+final finalControllerProvider = Provider<TextEditingController>((ref) {
+  final controller = TextEditingController();
+
+  ref.onDispose(() {
+    controller.dispose();
+  });
+
+  return controller;
+});

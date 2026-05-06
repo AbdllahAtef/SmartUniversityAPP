@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_university_app/models/add_grades_model.dart';
+import 'package:smart_university_app/models/grading_schema_model.dart';
 import 'package:smart_university_app/providers/attendence_provider.dart';
 import 'package:smart_university_app/providers/results_provider.dart';
 import 'package:smart_university_app/utils/services/attendence_service.dart';
@@ -86,4 +87,20 @@ String getErrorMessage(DioException e) {
   }
 
   return "Something went wrong";
+}
+Future<void> submitGradingScheme({
+  required WidgetRef ref,
+  required int courseId,
+}) async {
+  final midtermController = ref.read(midtermControllerProvider);
+  final finalController = ref.read(finalControllerProvider);
+
+  final service = ref.read(gradesServiceProvider);
+
+  final model = GradingSchemeModel(
+    maxMidterm: int.parse(midtermController.text),
+    maxFinal: int.parse(finalController.text),
+  );
+
+  await service.updateGradingScheme(courseId: courseId, model: model);
 }

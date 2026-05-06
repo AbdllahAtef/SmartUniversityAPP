@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_university_app/providers/search_provider.dart';
-import 'package:smart_university_app/screens/add_grades_screen.dart';
 import 'package:smart_university_app/screens/courses_details_screen.dart';
+import 'package:smart_university_app/screens/grades_distrbution_screen.dart';
 import 'package:smart_university_app/widgets/course_list_item.dart';
 
 class CoursesList extends ConsumerWidget {
@@ -30,13 +30,14 @@ class CoursesList extends ConsumerWidget {
                     ? Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => CoursesDetailsScreen(course: course),
+                          builder: (_) =>
+                              GradesDistrbutionScreen(course: course),
                         ),
                       )
                     : Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => AddGradesScreen(course: course),
+                          builder: (_) => CoursesDetailsScreen(course: course),
                         ),
                       );
               },

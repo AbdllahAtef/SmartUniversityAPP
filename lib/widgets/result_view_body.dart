@@ -28,7 +28,7 @@ class ResultViewBody extends ConsumerWidget {
         children: [
           CustomAppBar(title: "Grades"),
           SizedBox(height: 20),
-          Expanded(child: CoursesList()),
+          Expanded(child: CoursesList( isgrades:true)),
         ],
       );
     }

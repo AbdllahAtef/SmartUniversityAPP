@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_university_app/models/course_students_model.dart';
 import 'package:smart_university_app/models/courses_model.dart';
 import 'package:smart_university_app/providers/attendence_provider.dart';
 import 'package:smart_university_app/providers/courses_provider.dart';
-import 'package:smart_university_app/providers/results_provider.dart';
 import 'package:smart_university_app/utils/helpers.dart';
-import 'package:smart_university_app/utils/styles.dart';
 import 'package:smart_university_app/widgets/add_grades_list_view.dart';
 import 'package:smart_university_app/widgets/course_header.dart';
 import 'package:smart_university_app/widgets/custom_elevated_button.dart';
