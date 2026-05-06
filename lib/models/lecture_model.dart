@@ -1,21 +1,21 @@
 class LectureModel {
   final int id;
-  final int courseId;
+  final int? courseId;
   final String title;
   final String subtitle;
   final String room;
-  final String instructor;
+  final String? instructor;
   final int day;
   final String startTime;
   final String endTime;
 
   LectureModel({
     required this.id,
-    required this.courseId,
+    this.courseId,
     required this.title,
     required this.subtitle,
     required this.room,
-    required this.instructor,
+    this.instructor,
     required this.day,
     required this.startTime,
     required this.endTime,

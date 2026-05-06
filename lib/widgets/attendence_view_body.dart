@@ -11,7 +11,13 @@ import 'package:smart_university_app/widgets/students_attendance_list_view.dart'
 
 class AttendenceViewBody extends ConsumerWidget {
   final CourseModel course;
-  const AttendenceViewBody({super.key, required this.course});
+  final int sessionId;
+
+  const AttendenceViewBody({
+    super.key,
+    required this.course,
+    required this.sessionId,
+  });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final studentsAsync = ref.watch(filteredStudentsProvider(course.id));
@@ -56,11 +62,12 @@ class AttendenceViewBody extends ConsumerWidget {
                 ? null
                 : () async {
                     try {
-                      await submitAttendance(ref, course.id);
+                      await submitAttendance(ref, sessionId);
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Attendance submitted")),
                         );
+                        Navigator.pop(context);
                       }
                     } catch (e) {
                       ScaffoldMessenger.of(

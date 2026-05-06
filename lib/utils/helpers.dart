@@ -6,16 +6,15 @@ import 'package:smart_university_app/providers/attendence_provider.dart';
 import 'package:smart_university_app/providers/results_provider.dart';
 import 'package:smart_university_app/utils/services/attendence_service.dart';
 
-Future<void> submitAttendance(WidgetRef ref, int courseId) async {
+Future<void> submitAttendance(WidgetRef ref, int sessionId) async {
   final attendanceMap = ref.read(attendanceProvider);
+
   final service = AttendenceService();
 
   try {
     ref.read(isSubmittingProvider.notifier).state = true;
 
-    final sessionId = await service.createSession(courseId);
-
-    final presentStudents = attendanceMap.entries.where((e) => e.value == true);
+    final presentStudents = attendanceMap.entries.where((e) => e.value);
 
     await Future.wait(
       presentStudents.map((entry) {
@@ -104,3 +103,4 @@ Future<void> submitGradingScheme({
 
   await service.updateGradingScheme(courseId: courseId, model: model);
 }
+

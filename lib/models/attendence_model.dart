@@ -17,3 +17,9 @@ class AttendanceState {
     return AttendanceState(attendance: attendance ?? this.attendance);
   }
 }
+class AttendanceSessionModel {
+  final int sessionId;
+  final DateTime date;
+
+  AttendanceSessionModel({required this.sessionId, required this.date});
+}

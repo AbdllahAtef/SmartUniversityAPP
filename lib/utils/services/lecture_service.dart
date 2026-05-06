@@ -71,4 +71,29 @@ class ScheduleService {
 
     return results.expand((e) => e).toList();
   }
+  Future<List<LectureModel>> getDoctorLectures() async {
+    try {
+      final response = await DioHelper.dio.get('/api/lectures/doctor');
+
+      final rawData = response.data;
+
+      if (rawData == null) {
+        return [];
+      }
+
+      final data = rawData is List ? rawData : rawData['data'];
+
+      if (data == null || data is! List || data.isEmpty) {
+        return [];
+      }
+
+      return data.map<LectureModel>((e) => LectureModel.fromJson(e)).toList();
+    } catch (e) {
+      if (e is DioException && e.response?.statusCode == 404) {
+        return [];
+      }
+
+      rethrow;
+    }
+  }
 }

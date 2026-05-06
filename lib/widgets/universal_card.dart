@@ -18,6 +18,7 @@ class UniversalCard extends StatelessWidget {
   final QuizModel? quiz;
   final CourseModel? course;
   final bool isAttendance;
+  final int? sessionId;
 
   const UniversalCard({
     super.key,
@@ -30,7 +31,7 @@ class UniversalCard extends StatelessWidget {
     this.assignment,
     this.quiz,
     this.course,
-    this.isAttendance = false,
+    this.isAttendance = false, this.sessionId,
   });
 
   @override

@@ -23,10 +23,12 @@ class AttendenceService {
       await DioHelper.dio.post(
         '/api/attendance/record',
         queryParameters: {'sessionId': sessionId},
-        data: {"studentId": studentId, "isPresent": isPresent},
+        data: [
+          {"studentId": studentId, "isPresent": isPresent},
+        ],
       );
     } catch (e) {
-      throw Exception("Failed to send attendance for student $studentId");
+      throw Exception("$e");
     }
   }
 }

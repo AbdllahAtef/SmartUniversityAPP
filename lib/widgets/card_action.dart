@@ -18,11 +18,13 @@ class CardAction extends ConsumerWidget {
   final QuizModel? quiz;
   final bool isAttendance;
   final CourseModel? course;
+  final int? sessionId;
 
-  const CardAction({
+  const CardAction( {
     super.key,
     required this.color,
     this.assignment,
+    this.sessionId,
     this.quiz,
     this.isAttendance = false,
     this.course,
@@ -61,10 +63,23 @@ class CardAction extends ConsumerWidget {
     }
 
     if (isAttendance && course != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => AttendanceScreen(course: course!)),
-      );
+      try {
+
+        if (context.mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) =>
+                  AttendanceScreen(course: course!, sessionId: sessionId!),
+            ),
+          );
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toString())));
+      }
+
       return;
     }
 

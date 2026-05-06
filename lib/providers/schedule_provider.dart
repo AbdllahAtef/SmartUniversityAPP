@@ -26,9 +26,16 @@ final myCoursesProvider = FutureProvider<List<CourseModel>>((ref) async {
 });
 
 final allLecturesProvider = FutureProvider<List<LectureModel>>((ref) async {
-  final studentId = ref.watch(studentIdProvider);
-  if (studentId == null) return [];
+  final role = ref.watch(userRoleProvider);
   final service = ref.watch(scheduleServiceProvider);
+
+  if (role == 'doctor') {
+    return service.getDoctorLectures();
+  }
+  final studentId = ref.watch(studentIdProvider);
+
+  if (studentId == null) return [];
+
   return service.getAllLecturesForStudent(studentId);
 });
 

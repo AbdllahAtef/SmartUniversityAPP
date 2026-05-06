@@ -45,7 +45,7 @@ class ScheduleListView extends ConsumerWidget {
                   title: lecture.title,
                   subtitle: lecture.subtitle,
                   room: lecture.room,
-                  instructor: lecture.instructor,
+                  instructor: lecture.instructor ?? "",
                   color: getNiceRandomColor(),
                 ),
               );
