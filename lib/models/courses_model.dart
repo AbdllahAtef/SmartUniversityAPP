@@ -3,15 +3,20 @@ class CourseModel {
   final String name;
   final String code;
   final String description;
-  final String doctorId;
-  final String facultyId;
 
-  const CourseModel({
+  CourseModel({
     required this.id,
     required this.name,
     required this.code,
     required this.description,
-    required this.doctorId,
-    required this.facultyId,
   });
+
+  factory CourseModel.fromJson(Map<String, dynamic> json) {
+    return CourseModel(
+      id: json['id'],
+      name: json['name'] ?? '',
+      code: json['code'] ?? '',
+      description: json['description'] ?? '',
+    );
+  }
 }

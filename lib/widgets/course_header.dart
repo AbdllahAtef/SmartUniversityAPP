@@ -1,15 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smart_university_app/providers/attendence_provider.dart';
 import 'package:smart_university_app/utils/styles.dart';
+import 'package:smart_university_app/widgets/quiz_timer_widget.dart';
 
-class CourseHeader extends StatelessWidget {
-  const CourseHeader({super.key, required this.title});
+class CourseHeader extends ConsumerWidget {
+  const CourseHeader({
+    super.key,
+    required this.title,
+    this.isquiz = false,
+    this.isAttendance = false,
+    this.students = const [],
+  });
+
   final String title;
+  final bool isquiz;
+  final bool isAttendance;
+  final List<int> students; // ids
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final attendance = ref.watch(attendanceProvider);
+
+    final allSelected =
+        students.isNotEmpty && students.every((id) => attendance[id] == true);
+
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.all(16),
-
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -27,7 +46,19 @@ class CourseHeader extends StatelessWidget {
                 color: const Color(0xFF8B2072),
               ),
             ),
-            const Icon(Icons.more_vert),
+            if (isquiz)
+              const QuizTimerWidget()
+            else if (isAttendance)
+              Checkbox(
+                value: allSelected,
+                onChanged: (value) {
+                  ref
+                      .read(attendanceProvider.notifier)
+                      .toggleAll(students, value ?? false);
+                },
+              )
+            else
+              const Icon(Icons.more_vert),
           ],
         ),
       ),

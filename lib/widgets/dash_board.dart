@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:smart_university_app/screens/ai_assistant_screen.dart';
 import 'package:smart_university_app/utils/styles.dart';
 import 'package:smart_university_app/widgets/custom_list_tile.dart';
+import 'package:smart_university_app/widgets/settings.dart';
 
 class DashBoard extends StatelessWidget {
   const DashBoard({super.key});
@@ -29,21 +31,31 @@ class DashBoard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Column(
-            children: [
-              CustomListTile(
-                icon: Icons.settings,
-                title: "Setting",
-                iconColor: Colors.blue,
-                onTap: () {},
-              ),
-              CustomListTile(
-                icon: Icons.smart_toy,
-                title: "Your AI Assistant",
-                iconColor: Colors.orange,
-                onTap: () {},
-              ),
-            ],
+          CustomListTile(
+            icon: Icons.settings,
+            title: "Setting",
+            iconColor: Colors.blue,
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return const Settings();
+                },
+              );
+            },
+          ),
+          CustomListTile(
+            icon: Icons.smart_toy,
+            title: "Your AI Assistant",
+            iconColor: Colors.orange,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AiAssistantScreen(),
+                ),
+              );
+            },
           ),
         ],
       ),

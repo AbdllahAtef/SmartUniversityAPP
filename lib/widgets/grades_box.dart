@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/models/grades_model.dart';
+import 'package:smart_university_app/providers/results_provider.dart';
 import 'package:smart_university_app/utils/styles.dart';
 
-class GradesBox extends StatelessWidget {
+class GradesBox extends ConsumerWidget {
   const GradesBox({super.key, required this.grades});
-  final GradesModel grades;
+
+  final GradeResponseModel grades;
 
   @override
-  Widget build(BuildContext context) {
-    final isfinal = grades.type.toLowerCase() == "final grades";
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedType = ref.watch(selectedTypeProvider);
+
+    final isFinal = selectedType == "Final Grades";
+
+    final value = isFinal ? grades.total : grades.midterm;
+
     return Container(
       width: 60.w,
       height: 60.h,
@@ -24,28 +32,19 @@ class GradesBox extends StatelessWidget {
           ),
         ],
       ),
-
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          isfinal
-              ? Text(
-                  grades.letterGrade ?? "-",
-                  style: TextStyles.textstyle18.copyWith(
-                    color: const Color(0XFF8B2072),
-                    fontWeight: FontWeight.w600,
-                  ),
-                )
-              : Text(
-                  "${grades.score?.toInt()}/${grades.total?.toInt()}",
-                  style: TextStyles.textstyle18.copyWith(
-                    color: const Color(0XFF8B2072),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+          Text(
+            value.toString(),
+            style: TextStyles.textstyle18.copyWith(
+              color: const Color(0XFF8B2072),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           const SizedBox(height: 4),
           Text(
-            "S${grades.season}",
+            isFinal ? "Final" : "Midterm",
             style: TextStyles.textstyle12.copyWith(color: Colors.grey.shade600),
           ),
         ],

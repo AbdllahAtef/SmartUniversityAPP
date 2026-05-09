@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/utils/styles.dart';
 import 'package:smart_university_app/widgets/attendence_button.dart';
 import 'package:smart_university_app/widgets/stat_tile.dart';
 
 class ProfileStatisticsCard extends StatelessWidget {
   final String date;
-  final int attendance;
-  final int taskAndWork;
-  final int quiz;
+  final double acadimicscore;
+  final String riskLevel;
+  final String failProbability;
   final VoidCallback onMarkAttend;
 
   const ProfileStatisticsCard({
     super.key,
     required this.date,
-    required this.attendance,
-    required this.taskAndWork,
-    required this.quiz,
+    required this.riskLevel,
     required this.onMarkAttend,
+    required this.acadimicscore,
+    required this.failProbability,
   });
 
   @override
@@ -26,8 +27,8 @@ class ProfileStatisticsCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: const Color(0xFFF4F3FF),
-        border: BoxBorder.all(color: const Color(0xFF8B2072), width: 1),
-        borderRadius: BorderRadius.circular(16),
+        border: BoxBorder.all(color: const Color(0xFF8B2072), width: 1.w),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +46,7 @@ class ProfileStatisticsCard extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2.h),
                   Text(
                     date,
                     style: TextStyles.textstyle12.copyWith(color: Colors.grey),
@@ -55,37 +56,37 @@ class ProfileStatisticsCard extends StatelessWidget {
               AttendenceButton(onMarkAttend: onMarkAttend),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           Row(
             children: [
               Expanded(
                 child: StatTile(
                   icon: Icons.calendar_month,
                   iconColor: const Color(0xFFFF6B35),
-                  label: 'Attendance',
-                  value: '$attendance%',
+                  label: 'Academic Score',
+                  value: '$acadimicscore%',
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.h),
               Expanded(
                 child: StatTile(
-                  icon: Icons.task_alt,
+                  icon: Icons.analytics_outlined,
                   iconColor: const Color(0xFF8B5CF6),
-                  label: 'Task & Work',
-                  value: '$taskAndWork%',
+                  label: 'Risk Level',
+                  value: riskLevel,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
                 child: StatTile(
                   icon: Icons.quiz_outlined,
                   iconColor: const Color(0xFFEC4899),
-                  label: 'Quiz',
-                  value: '$quiz%',
+                  label: 'Fail Probability',
+                  value: failProbability,
                 ),
               ),
               const Expanded(child: SizedBox()),

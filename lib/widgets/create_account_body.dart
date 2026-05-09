@@ -118,18 +118,16 @@ class _CreateAccountBodyState extends ConsumerState<CreateAccountBody> {
                     );
                   },
                 ),
-                if (state.role == "Student") ...[
-                  const SizedBox(height: 30),
-                  FacultyDropdown(
-                    selectedFaculty: state.faculty,
-                    onChanged: (value) {
-                      notifier.changeFaculty(value);
-                    },
-                  ),
-                ],
+
+                const SizedBox(height: 30),
+                FacultyDropdown(
+                  selectedFaculty: state.faculty,
+                  onChanged: (value) {
+                    notifier.changeFaculty(value);
+                  },
+                ),
 
                 SizedBox(height: 50.h),
-
                 CustomElevatedButton(
                   onPressed: state.isLoading
                       ? null

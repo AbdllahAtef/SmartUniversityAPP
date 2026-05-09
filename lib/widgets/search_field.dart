@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_university_app/providers/courses_provider.dart';
 import 'package:smart_university_app/utils/styles.dart';
 
 class SearchField extends ConsumerWidget {
-  const SearchField({super.key});
+  const SearchField({super.key, required this.provider, this.hint = "Search"});
+
+  final StateProvider<String> provider;
+  final String hint;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.w),
       child: TextField(
         onChanged: (value) {
-          ref.read(searchProvider.notifier).state = value;
+          ref.read(provider.notifier).state = value;
         },
         decoration: InputDecoration(
-          hintText: 'Search',
+          hintText: hint,
           hintStyle: TextStyles.textstyle16.copyWith(
             color: Colors.grey.shade400,
           ),
@@ -28,17 +31,15 @@ class SearchField extends ConsumerWidget {
           border: searchBorder(),
           enabledBorder: searchBorder(),
           focusedBorder: searchBorder(),
-          errorBorder: searchBorder(),
-          focusedErrorBorder: searchBorder(),
         ),
       ),
     );
   }
 
   OutlineInputBorder searchBorder() {
-    return const OutlineInputBorder(
-      borderSide: BorderSide(color: Color(0XFFCBCBCB), width: 1),
-      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+    return OutlineInputBorder(
+      borderSide: const BorderSide(color: Color(0XFFCBCBCB), width: 1),
+      borderRadius: BorderRadius.circular(8.r),
     );
   }
 }

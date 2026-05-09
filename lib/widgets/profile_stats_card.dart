@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/widgets/stat_item.dart';
 
-class ProfileStatsCard extends StatelessWidget {
-  final double credits;
-  final double gpa;
-  final double year;
+class ProfileCard extends StatelessWidget {
+  final String email;
+  final String id;
+  final String faculty;
 
-  const ProfileStatsCard({
+  const ProfileCard({
     super.key,
-    required this.credits,
-    required this.gpa,
-    required this.year,
+    required this.email,
+    required this.id,
+    required this.faculty,
   });
 
   @override
@@ -24,11 +24,18 @@ class ProfileStatsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          StatItem(value: credits, label: 'Credit earns'),
-          StatItem(value: gpa, label: 'GPA'),
-          StatItem(value: year, label: 'Year student'),
+          Expanded(
+            child: StatItem(value: email, label: 'Email'),
+          ),
+
+          Expanded(
+            child: StatItem(value: id, label: 'National ID'),
+          ),
+
+          Expanded(
+            child: StatItem(value: faculty, label: 'Faculty'),
+          ),
         ],
       ),
     );

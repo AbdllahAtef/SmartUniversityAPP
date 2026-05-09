@@ -1,56 +1,55 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:smart_university_app/models/assignments_model.dart';
+import 'package:smart_university_app/models/course_students_model.dart';
 import 'package:smart_university_app/models/courses_model.dart';
-import 'package:smart_university_app/models/quizes_model.dart';
-import 'package:smart_university_app/utils/mock_data.dart';
+import 'package:smart_university_app/providers/user_id_provider.dart';
+import 'package:smart_university_app/utils/services/courses_services.dart';
+import 'package:smart_university_app/utils/services/enrollment_service.dart';
 
 final tabIndexProvider = StateProvider<int>((ref) => 0);
+final tabsProvider = Provider<List<String>>((ref) {
+  final role = ref.watch(userRoleProvider);
 
-final assignmentsByCourseProvider = Provider.family<List<AssignmentModel>, int>(
-  (ref, courseId) {
-    return assignments.where((a) => a.courseId == courseId).toList();
-  },
-);
+  final tabs = ["Assignments", "Quizzes"];
 
-final quizzesByCourseProvider = Provider.family<List<QuizModel>, int>((
-  ref,
-  courseId,
-) {
-  return quizzes.where((q) => q.courseId == courseId).toList();
+  if (role == "doctor") {
+    tabs.add("Attendance");
+  }
+
+  return tabs;
+});
+final courseServiceProvider = Provider((ref) {
+  return CourseService();
+});
+final coursesProvider = FutureProvider<List<CourseModel>>((ref) async {
+  final service = ref.read(courseServiceProvider);
+  return service.getCourses();
 });
 
-final tasksCountProvider = Provider.family<int, int>((ref, courseId) {
-  final tabIndex = ref.watch(tabIndexProvider);
+final coursesByRoleProvider = FutureProvider<List<CourseModel>>((ref) async {
+  final role = ref.watch(userRoleProvider);
+  final service = ref.read(courseServiceProvider);
 
-  final assignments = ref.watch(assignmentsByCourseProvider(courseId));
-
-  final quizzes = ref.watch(quizzesByCourseProvider(courseId));
-
-  return tabIndex == 0 ? assignments.length : quizzes.length;
+  if (role == "doctor") {
+    return await service.getDoctorCourses();
+  } else {
+    return await ref.watch(myCoursesProvider.future);
+  }
 });
-final assignmentByIdProvider = Provider.family<AssignmentModel, int>((
-  ref,
-  assignmentId,
-) {
-  return assignments.firstWhere((a) => a.id == assignmentId);
+final enrollmentServiceProvider = Provider((ref) {
+  return EnrollmentService();
 });
 
-const tabs = ["Assignments", "Quizzes"];
+final myCoursesProvider = FutureProvider<List<CourseModel>>((ref) async {
+  final service = ref.read(enrollmentServiceProvider);
 
-final searchProvider = StateProvider<String>((ref) => '');
-
-final filteredSubjectsProvider = Provider<List<CourseModel>>((ref) {
-  final search = ref.watch(searchProvider).toLowerCase();
-  final subjects = courses;
-
-  if (search.isEmpty) return subjects;
-
-  return subjects.where((course) {
-    return course.name.toLowerCase().contains(search) ||
-        course.code.toLowerCase().contains(search);
-  }).toList();
+  return service.getMyCourses(ref.watch(userIdProvider) ?? 0);
 });
-final isPickingFileProvider = StateProvider<bool>((ref) => false);
-final fileProvider = StateProvider<PlatformFile?>((ref) => null);
+final courseStudentsProvider =
+    FutureProvider.family<List<CourseStudentsModel>, int>((
+      ref,
+      courseId,
+    ) async {
+      final service = ref.read(courseServiceProvider);
+      return service.getCourseStudents(courseId);
+    });

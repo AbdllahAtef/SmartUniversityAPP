@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_university_app/utils/format_time.dart';
+import 'package:smart_university_app/utils/date_utils.dart';
 import 'package:smart_university_app/utils/styles.dart';
 
 class DeadlineCard extends StatelessWidget {

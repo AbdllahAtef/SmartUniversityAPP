@@ -9,24 +9,33 @@ class ResultListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final grades = ref.watch(gradesProvider);
+    final gradesAsync = ref.watch(allGradesProvider);
+
     return Expanded(
-      child: Container(
-        color: Colors.grey.withOpacity(0.1),
-        child: grades.isEmpty
-            ? const Center(child: Text("No results available"))
-            : ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: grades.length,
-                itemBuilder: (context, index) {
-                  final item = grades[index];
-                  return CourseListItem(
-                    title: item.name,
-                    onTap: () {},
-                    trailing: GradesBox(grades: item),
-                  );
-                },
-              ),
+      child: gradesAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+
+        error: (err, stack) => Center(child: Text(err.toString())),
+
+        data: (list) {
+          if (list.isEmpty) {
+            return const Center(child: Text("No grades available"));
+          }
+
+          return ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: list.length,
+            itemBuilder: (context, index) {
+              final item = list[index];
+
+              return CourseListItem(
+                title: "${item.course.name}\n(${item.course.code})",
+                onTap: () {},
+                trailing: GradesBox(grades: item.grade),
+              );
+            },
+          );
+        },
       ),
     );
   }

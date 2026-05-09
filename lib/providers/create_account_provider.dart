@@ -23,7 +23,7 @@ class CreateAccountNotifier extends StateNotifier<CreateAccountState> {
     state = state.copyWith(isLoading: true, error: null);
 
     try {
-      final response = await _authService.register(
+      await _authService.register(
         fullName: state.fullName,
         email: state.email,
         password: state.password,
@@ -97,6 +97,14 @@ final authServiceProvider = Provider<AuthService>((ref) {
 });
 
 final facultiesProvider = FutureProvider<List<Faculty>>((ref) async {
-  final response = await AuthService().getFaculties();
-  return (response.data as List).map((e) => Faculty.fromJson(e)).toList();
+  final data = await AuthService().getFaculties();
+
+  if (data.isEmpty) {
+    return [];
+  }
+
+  return data
+      .whereType<Map<String, dynamic>>()
+      .map<Faculty>((e) => Faculty.fromJson(e))
+      .toList();
 });
