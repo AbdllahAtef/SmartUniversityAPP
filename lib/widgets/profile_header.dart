@@ -22,9 +22,9 @@ class ProfileHeader extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: const Color(0XFF8B2072), width: 2),
           ),
-          child: CircleAvatar(
+          child: const CircleAvatar(
             radius: 30,
-            foregroundImage: NetworkImage(avatarPath),
+            child: Icon(Icons.person_2_outlined),
           ),
         ),
         const SizedBox(width: 14),

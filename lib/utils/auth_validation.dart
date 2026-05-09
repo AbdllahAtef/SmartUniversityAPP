@@ -30,7 +30,6 @@ class AuthValidation {
     return null;
   }
 
-  /// Validates password strength
   static String? validatePassword(String? password) {
     if (password == null || password.isEmpty) {
       return 'Password is required';
@@ -59,7 +58,6 @@ class AuthValidation {
     return null;
   }
 
-  /// Pre-login validation of credentials
   static Map<String, String> validateLoginCredentials(
     String email,
     String password,
@@ -68,13 +66,9 @@ class AuthValidation {
 
     final emailError = validateEmail(email);
     if (emailError != null) errors['email'] = emailError;
-
-    // For login, we're more lenient with password validation
     if (password.isEmpty) {
       errors['password'] = 'Password is required';
-    } else if (password.length < 1) {
-      errors['password'] = 'Password is too short';
-    }
+    } 
 
     return errors;
   }

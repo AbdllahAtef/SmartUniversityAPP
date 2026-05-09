@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:smart_university_app/models/user_model.dart';
+import 'package:smart_university_app/utils/services/user_service.dart';
 
 final tokenProvider = StateProvider<String?>((ref) => null);
 final userIdProvider = Provider<int?>((ref) {
@@ -26,7 +28,18 @@ final userRoleProvider = Provider<String?>((ref) {
       decodedToken['role'] ??
       decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
-  print("🔥 ROLE: $role");
 
   return role?.toString().toLowerCase();
+});
+
+final userServiceProvider = Provider((ref) => UserService());
+
+final currentUserProvider = FutureProvider<UserModel?>((ref) async {
+  final userId = ref.watch(userIdProvider);
+
+  if (userId == null) return null;
+
+  final service = ref.read(userServiceProvider);
+
+  return service.getUserById(userId);
 });

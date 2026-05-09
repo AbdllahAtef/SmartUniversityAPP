@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_university_app/providers/logout_controller.dart';
-import 'package:smart_university_app/providers/user_id_provider.dart';
 import 'package:smart_university_app/screens/sign_in_screen.dart';
 import 'package:smart_university_app/widgets/custom_list_tile.dart';
 
@@ -33,8 +32,6 @@ class Settings extends ConsumerWidget {
             iconColor: Colors.red,
             onTap: () {
               ref.read(logoutControllerProvider).logout();
-              final token = ref.read(tokenProvider);
-              print("TOKEN AFTER LOGOUT: $token");
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => const SignInScreen()),

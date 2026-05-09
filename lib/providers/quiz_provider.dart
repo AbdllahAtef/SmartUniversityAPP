@@ -42,7 +42,6 @@ class QuizNotifier extends StateNotifier<QuizState> {
 
   Future<void> submitQuiz(int quizId, List<QuestionModel> questions) async {
     if (state.isSubmitting) return;
-    print("ANSWERS: ${state.answers}");
     state = state.copyWith(isSubmitting: true, error: null);
 
     try {
@@ -65,7 +64,6 @@ class QuizNotifier extends StateNotifier<QuizState> {
       final correctOption = q.options.firstWhere(
         (o) => o.isCorrect == true,
         orElse: () {
-          print("❌ No correct option for question ${q.id}");
           return OptionModel(id: -1, text: '', isCorrect: false);
         },
       );

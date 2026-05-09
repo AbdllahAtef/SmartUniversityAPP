@@ -23,7 +23,6 @@ class DioHelper {
             options.headers["Authorization"] = "Bearer $_token";
           }
 
-          print("TOKEN: $_token"); 
 
           return handler.next(options);
         },

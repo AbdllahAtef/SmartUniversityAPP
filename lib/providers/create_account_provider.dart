@@ -104,7 +104,7 @@ final facultiesProvider = FutureProvider<List<Faculty>>((ref) async {
   }
 
   return data
-      .where((e) => e is Map<String, dynamic>)
+      .whereType<Map<String, dynamic>>()
       .map<Faculty>((e) => Faculty.fromJson(e))
       .toList();
 });

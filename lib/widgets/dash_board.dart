@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_university_app/screens/ai_assistant_screen.dart';
 import 'package:smart_university_app/utils/styles.dart';
 import 'package:smart_university_app/widgets/custom_list_tile.dart';
 import 'package:smart_university_app/widgets/settings.dart';
@@ -47,7 +48,14 @@ class DashBoard extends StatelessWidget {
             icon: Icons.smart_toy,
             title: "Your AI Assistant",
             iconColor: Colors.orange,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AiAssistantScreen(),
+                ),
+              );
+            },
           ),
         ],
       ),
