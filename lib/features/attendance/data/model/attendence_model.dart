@@ -19,7 +19,14 @@ class AttendanceState {
 }
 class AttendanceSessionModel {
   final int sessionId;
+
+  final int courseId;
+
   final DateTime date;
 
-  AttendanceSessionModel({required this.sessionId, required this.date});
+  AttendanceSessionModel({
+    required this.sessionId,
+    required this.courseId,
+    required this.date,
+  });
 }

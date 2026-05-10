@@ -4,7 +4,6 @@ import 'package:smart_university_app/features/attendance/data/model/attendence_m
 import 'package:smart_university_app/features/attendance/data/services/attendence_service.dart';
 import 'package:smart_university_app/features/attendance/presentation/manager/state/attendance_session_state.dart';
 
-
 final attendenceServiceProvider = Provider((ref) {
   return AttendenceService();
 });
@@ -62,6 +61,7 @@ class AttendanceSessionsNotifier
       final newSession = AttendanceSessionModel(
         sessionId: sessionId,
         date: DateTime.now(),
+        courseId: courseId,
       );
 
       state = state.copyWith(

@@ -2,32 +2,42 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_university_app/core/network/dio_helper.dart';
 import 'package:smart_university_app/features/ai/data/model/ai_analysis_model.dart';
-import 'package:smart_university_app/features/ai/data/model/chat_message_model.dart';
 
 class AiAnalysisService {
   final Dio dio = Dio();
-  final apiKey = dotenv.env['OPEN_ROUTER_API_KEY'];
+  final apiKey = dotenv.env['Grok_API_KEY'];
+
   Future<String> getChatResponse(String message) async {
     try {
-      final userMessage = ChatMessage(role: "user", content: message);
+      if (apiKey == null || apiKey!.isEmpty) {
+        return "Error: API Key Not Found";
+      }
+
+      const String url = 'https://api.groq.com/openai/v1/chat/completions';
+
+      final data = {
+        "model": "llama-3.3-70b-versatile",
+        "messages": [
+          {"role": "user", "content": message},
+        ],
+      };
+
       final response = await dio.post(
-        'https://openrouter.ai/api/v1/chat/completions',
+        url,
         options: Options(
           headers: {
             "Authorization": "Bearer $apiKey",
             "Content-Type": "application/json",
           },
         ),
-        data: {
-          "model": "poolside/laguna-m.1:free",
-          "messages": [userMessage.toJson()],
-        },
+        data: data,
       );
+
       return response.data['choices'][0]['message']['content'].toString();
     } on DioException catch (e) {
-      return e.response?.data.toString() ?? e.message ?? "Dio Error";
+      return "Connection Error: ${e.response?.data ?? e.message}";
     } catch (e) {
-      return e.toString();
+      return "Unexpected Error: ${e.toString()}";
     }
   }
 

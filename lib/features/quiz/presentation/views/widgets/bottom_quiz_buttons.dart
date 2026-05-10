@@ -6,12 +6,14 @@ class BottomQuizButtons extends StatelessWidget {
   final VoidCallback onNext;
   final VoidCallback onPrev;
   final bool isLast;
+  final bool isSubmitting;
 
   const BottomQuizButtons({
     super.key,
     required this.onNext,
     required this.onPrev,
     required this.isLast,
+    required this.isSubmitting,
   });
 
   @override
@@ -38,13 +40,21 @@ class BottomQuizButtons extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: ElevatedButton(
-              onPressed: onNext,
+              onPressed: isSubmitting ? null : onNext,
+
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF8B2072),
+
                 padding: EdgeInsets.symmetric(vertical: 14.h),
               ),
+
               child: Text(
-                isLast ? "Submit Quiz" : "Next Question",
+                isSubmitting
+                    ? "Submitting..."
+                    : isLast
+                    ? "Submit Quiz"
+                    : "Next Question",
+
                 style: TextStyles.textstyle16.copyWith(color: Colors.white),
               ),
             ),
@@ -54,5 +64,3 @@ class BottomQuizButtons extends StatelessWidget {
     );
   }
 }
-
-
