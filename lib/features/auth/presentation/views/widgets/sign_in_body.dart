@@ -10,40 +10,37 @@ class SignInBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 100.h),
-          Text(
-            'Welcome Back!\nSign in to continue!',
-            style: TextStyles.textstyle24.copyWith(color: Colors.black),
-            textAlign: TextAlign.center,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(height: 100.h),
+        Text(
+          'Welcome Back!\nSign in to continue!',
+          style: TextStyles.textstyle24.copyWith(color: Colors.black),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 50.h),
+        SigninWithButton(
+          onPressed: () {},
+          text: 'Log in with Google',
+          icon: Image.asset(AppAssets.google, width: 24.w, height: 24.h),
+        ),
+        SizedBox(height: 20.h),
+        SigninWithButton(
+          onPressed: () {},
+          text: 'Log in with Facebook',
+          icon: Image.asset(AppAssets.facebook, width: 24.w, height: 24.h),
+        ),
+        SizedBox(height: 40.h),
+        Text(
+          'or',
+          style: TextStyles.textstyle20.copyWith(
+            color: const Color(0xFF949494).withOpacity(0.5),
+            fontWeight: FontWeight.w300,
           ),
-          SizedBox(height: 50.h),
-          SigninWithButton(
-            onPressed: () {},
-            text: 'Log in with Google',
-            icon: Image.asset(AppAssets.google, width: 24.w, height: 24.h),
-          ),
-          SizedBox(height: 20.h),
-          SigninWithButton(
-            onPressed: () {},
-            text: 'Log in with Facebook',
-            icon: Image.asset(AppAssets.facebook, width: 24.w, height: 24.h),
-          ),
-          SizedBox(height: 40.h),
-          Text(
-            'or',
-            style: TextStyles.textstyle20.copyWith(
-              color: const Color(0xFF949494).withOpacity(0.5),
-              fontWeight: FontWeight.w300,
-            ),
-          ),
-           SignInWithEmail(),
-        ],
-      ),
+        ),
+         SignInWithEmail(),
+      ],
     );
   }
 }

@@ -1,17 +1,11 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_university_app/core/helpers/card_action_helper.dart';
 import 'package:smart_university_app/features/assignment/data/model/assignments_model.dart';
-import 'package:smart_university_app/features/assignment/presentation/helper/error_message_helper.dart';
-import 'package:smart_university_app/features/assignment/presentation/views/screens/assigment_submission_screen.dart';
-import 'package:smart_university_app/features/attendance/presentation/view/screens/attendance_screen.dart';
+import 'package:smart_university_app/features/auth/presentation/manager/user_id_provider.dart';
 import 'package:smart_university_app/features/course/data/model/courses_model.dart';
 import 'package:smart_university_app/features/quiz/data/model/quizes_model.dart';
-import 'package:smart_university_app/features/quiz/presentation/manager/quiz_provider.dart';
-import 'package:smart_university_app/features/quiz/presentation/views/screens/quiz_result_screen.dart';
-import 'package:smart_university_app/features/quiz/presentation/views/screens/quiz_screen.dart';
-
 
 class CardAction extends ConsumerWidget {
   final Color color;
@@ -21,7 +15,7 @@ class CardAction extends ConsumerWidget {
   final CourseModel? course;
   final int? sessionId;
 
-  const CardAction( {
+  const CardAction({
     super.key,
     required this.color,
     this.assignment,
@@ -32,8 +26,22 @@ class CardAction extends ConsumerWidget {
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final role = ref.watch(userRoleProvider);
+    if (role == "doctor" && (quiz != null || assignment != null)) {
+      return const SizedBox();
+    }
     return GestureDetector(
-      onTap: () => handleNavigation(context, ref),
+      onTap: () {
+        CardActionHelper.handleNavigation(
+          context: context,
+          ref: ref,
+          assignment: assignment,
+          quiz: quiz,
+          isAttendance: isAttendance,
+          course: course,
+          sessionId: sessionId,
+        );
+      },
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -45,85 +53,10 @@ class CardAction extends ConsumerWidget {
               ? Icons.upload_file_outlined
               : quiz != null
               ? Icons.start_sharp
-              : Icons.check_circle_outline, // attendance
+              : Icons.check_circle_outline,
           color: Colors.white,
         ),
       ),
     );
   }
-
-  Future<void> handleNavigation(BuildContext context, WidgetRef ref) async {
-    if (assignment != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => AssigmentSubmissionScreen(assignment: assignment!),
-        ),
-      );
-      return;
-    }
-
-    if (isAttendance && course != null) {
-      try {
-
-        if (context.mounted) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) =>
-                  AttendanceScreen(course: course!, sessionId: sessionId!),
-            ),
-          );
-        }
-      } catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(e.toString())));
-      }
-
-      return;
-    }
-
-    if (quiz != null) {
-      try {
-        final status = await ref.read(quizStatusProvider(quiz!.id).future);
-
-        if (status == null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("No data available for this quiz")),
-          );
-          return;
-        }
-
-        if (status.isSubmitted) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => QuizResultScreen(quiz: quiz!)),
-          );
-          return;
-        }
-
-        ref.read(quizProvider.notifier).reset();
-
-        if (!status.hasStarted) {
-          await ref.read(quizServiceProvider).startQuiz(quiz!.id);
-        }
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => QuizScreen(quiz: quiz!)),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              e is DioException ? getErrorMessage(e) : e.toString(),
-            ),
-          ),
-        );
-      }
-    }
-  }
 }
-
-

@@ -19,7 +19,6 @@ final assignmentsProvider = FutureProvider.family<List<AssignmentModel>, int>((
 
   return service.getAssignments(courseId);
 });
-
 final createAssignmentProvider =
     StateNotifierProvider<CreateAssignmentNotifier, CreateAssignmentState>((
       ref,
@@ -39,7 +38,7 @@ class CreateAssignmentNotifier extends StateNotifier<CreateAssignmentState> {
     required int maxGrade,
     required int courseId,
   }) async {
-    state = state.copyWith(isLoading: true, error: null);
+    state = state.copyWith(isLoading: true, isSuccess: false, error: null);
 
     try {
       final service = ref.read(assignmentServiceProvider);
@@ -54,15 +53,25 @@ class CreateAssignmentNotifier extends StateNotifier<CreateAssignmentState> {
 
       await service.createAssignment(model);
 
-      state = state.copyWith(isLoading: false);
+      state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        isSuccess: false,
+        error: e.toString(),
+      );
     }
   }
 }
+
 final assignmentSubmissionServiceProvider = Provider((ref) {
   return AssignmentSubmissionService();
 });
-final isPickingFileProvider = StateProvider<bool>((ref) => false);
 
-final fileProvider = StateProvider<PlatformFile?>((ref) => null);
+final isPickingFileProvider = StateProvider<bool>((ref) {
+  return false;
+});
+
+final fileProvider = StateProvider<PlatformFile?>((ref) {
+  return null;
+});

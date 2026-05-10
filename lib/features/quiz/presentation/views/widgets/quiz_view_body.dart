@@ -7,6 +7,7 @@ import 'package:smart_university_app/features/quiz/presentation/helpers/start_qu
 import 'package:smart_university_app/features/quiz/presentation/helpers/submit_quiz_helper.dart';
 import 'package:smart_university_app/features/quiz/presentation/manager/quiz_provider.dart';
 import 'package:smart_university_app/features/quiz/presentation/manager/timer_provider.dart';
+import 'package:smart_university_app/features/quiz/presentation/views/screens/quiz_result_screen.dart';
 import 'package:smart_university_app/features/quiz/presentation/views/widgets/answers_list_view.dart';
 import 'package:smart_university_app/features/quiz/presentation/views/widgets/bottom_quiz_buttons.dart';
 import 'package:smart_university_app/features/quiz/presentation/views/widgets/question_card.dart';
@@ -79,33 +80,40 @@ class _QuizBodyState extends ConsumerState<QuizViewBody> {
           child: Column(
             children: [
               CourseHeader(title: widget.quiz.title, isquiz: true),
-
               QuizProgress(
                 current: quizState.currentIndex + 1,
                 total: questions.length,
               ),
-
               SizedBox(height: 20.h),
-
               QuestionCard(text: currentQuestion.text),
-
               Expanded(child: AnswersListView(question: currentQuestion)),
-
-              BottomQuizButtons(
+             BottomQuizButtons(
                 isLast: isLast,
+                isSubmitting: quizState.isSubmitting,
+
                 onPrev: () {
                   ref.read(quizProvider.notifier).previousQuestion();
                 },
-                onNext: () async {
-                  if (isLast) {
-                    if (quizState.isSubmitting) {
-                      return;
-                    }
 
+                onNext: () async {
+                  if (quizState.isSubmitting) {
+                    return;
+                  }
+
+                  if (isLast) {
                     await SubmitQuizHelper.submit(
                       ref: ref,
                       quizId: widget.quiz.id,
                     );
+
+                    if (context.mounted) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => QuizResultScreen(quiz: widget.quiz),
+                        ),
+                      );
+                    }
                   } else {
                     ref
                         .read(quizProvider.notifier)

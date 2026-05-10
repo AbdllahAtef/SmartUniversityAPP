@@ -7,7 +7,6 @@ class AttendenceService {
         '/api/attendance/session',
         queryParameters: {'courseId': courseId},
       );
-
       return response.data['sessionId'];
     } catch (e) {
       throw Exception("$e");
@@ -32,5 +31,3 @@ class AttendenceService {
     }
   }
 }
-
-

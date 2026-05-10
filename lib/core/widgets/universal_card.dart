@@ -32,7 +32,8 @@ class UniversalCard extends StatelessWidget {
     this.assignment,
     this.quiz,
     this.course,
-    this.isAttendance = false, this.sessionId,
+    this.isAttendance = false,
+    this.sessionId,
   });
 
   @override
@@ -67,10 +68,10 @@ class UniversalCard extends StatelessWidget {
             quiz: quiz,
             isAttendance: isAttendance,
             course: course,
+            sessionId: sessionId,
           ),
         ],
       ),
     );
   }
 }
-

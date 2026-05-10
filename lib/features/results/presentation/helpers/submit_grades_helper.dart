@@ -87,7 +87,6 @@ class ResultsSubmitHelper {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("Saved Successfully")));
-
       Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => AddGradesScreen(course: course)),
