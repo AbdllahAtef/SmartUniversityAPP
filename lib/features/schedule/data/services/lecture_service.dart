@@ -122,12 +122,11 @@ class ScheduleService {
       "endTime": model.endTime,
     };
 
-    print(data);
 
     try {
       await DioHelper.dio.put('/api/lectures/$id', data: data);
-    } on DioException catch (e) {
-      print(e.response?.data);
+    } on DioException {
+      
 
       rethrow;
     }
