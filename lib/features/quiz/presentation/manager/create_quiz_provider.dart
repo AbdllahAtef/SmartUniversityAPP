@@ -6,7 +6,6 @@ import 'package:smart_university_app/features/quiz/data/model/question_form_mode
 import 'package:smart_university_app/features/quiz/presentation/manager/quiz_provider.dart';
 import 'package:smart_university_app/features/quiz/presentation/manager/states/create_quiz_state.dart';
 
-
 final createQuestionsProvider =
     StateNotifierProvider.autoDispose<
       CreateQuestionsNotifier,
@@ -71,8 +70,6 @@ class CreateQuestionsNotifier extends StateNotifier<List<QuestionFormModel>> {
   }
 }
 
-
-
 final createQuizProvider =
     StateNotifierProvider<CreateQuizNotifier, CreateQuizState>((ref) {
       return CreateQuizNotifier(ref);
@@ -104,6 +101,8 @@ class CreateQuizNotifier extends StateNotifier<CreateQuizState> {
           ),
         );
       }
+
+      ref.invalidate(quizzesProvider);
 
       state = state.copyWith(isLoading: false);
 

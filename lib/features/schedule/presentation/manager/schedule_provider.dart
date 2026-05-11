@@ -68,6 +68,3 @@ List<LectureModel> sortLectures(List<LectureModel> lectures) {
 
   return sorted;
 }
-
-
-

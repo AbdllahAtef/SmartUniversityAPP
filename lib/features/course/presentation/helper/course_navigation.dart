@@ -14,12 +14,12 @@ Future<void> handleCourseAction({
   if (tabIndex == 0) {
     Navigator.push(
       context,
+
       MaterialPageRoute(builder: (_) => CreateAssignmentScreen(course: course)),
     );
 
     return;
   }
-
   if (tabIndex == 1) {
     Navigator.push(
       context,
@@ -28,12 +28,15 @@ Future<void> handleCourseAction({
 
     return;
   }
+  if (tabIndex == 2) {
+    try {
+      await ref.read(attendanceSessionsProvider.notifier).addSession(course.id);
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: $e")));
+    }
 
-  try {
-    await ref.read(attendanceSessionsProvider.notifier).addSession(course.id);
-  } catch (e) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text("Error: $e")));
+    return;
   }
 }

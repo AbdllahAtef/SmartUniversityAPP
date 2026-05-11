@@ -47,6 +47,7 @@ class NewsCard extends StatelessWidget {
 
                   Text(
                     news.content,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyles.textstyle14.copyWith(
                       color: Colors.grey[600],
                       fontSize: 13.sp,

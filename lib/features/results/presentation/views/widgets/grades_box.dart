@@ -41,14 +41,12 @@ class GradesBox extends ConsumerWidget {
         children: [
           Text(
             '$value/$maxValue',
-            style: TextStyles.textstyle16.copyWith(
+            style: TextStyles.textstyle14.copyWith(
               color: const Color(0XFF8B2072),
               fontWeight: FontWeight.w600,
             ),
           ),
-
           SizedBox(height: 4.h),
-
           Text(
             isFinal ? "Final" : "Midterm",
             style: TextStyles.textstyle12.copyWith(color: Colors.grey.shade600),

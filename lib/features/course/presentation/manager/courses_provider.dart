@@ -10,10 +10,11 @@ final tabIndexProvider = StateProvider<int>((ref) => 0);
 final tabsProvider = Provider<List<String>>((ref) {
   final role = ref.watch(userRoleProvider);
 
-  final tabs = ["Assignments", "Quizzes"];
+  final tabs = ["Assignments", "Quizzes",];
 
   if (role == "doctor") {
     tabs.add("Attendance");
+    tabs.add("Lecture_Date");
   }
 
   return tabs;
@@ -53,5 +54,3 @@ final courseStudentsProvider =
       final service = ref.read(courseServiceProvider);
       return service.getCourseStudents(courseId);
     });
-
-

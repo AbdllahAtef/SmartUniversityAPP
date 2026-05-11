@@ -6,6 +6,7 @@ import 'package:smart_university_app/features/course/data/model/courses_model.da
 import 'package:smart_university_app/features/quiz/presentation/manager/quiz_provider.dart';
 import 'package:smart_university_app/features/assignment/presentation/views/widgets/assignments_list_view.dart';
 import 'package:smart_university_app/features/quiz/presentation/views/widgets/quizzes_list_view.dart';
+import 'package:smart_university_app/features/schedule/presentation/views/widgets/lectures_list_view.dart';
 
 class CourseContentSection extends ConsumerWidget {
   const CourseContentSection({
@@ -49,7 +50,9 @@ class CourseContentSection extends ConsumerWidget {
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, _) => Center(child: Text("Error: $e")),
             )
-          : AttendenceListView(course: course),
+          : safeIndex == 2
+          ? AttendenceListView(course: course)
+          : LecturesListView(course: course)
     );
   }
 }

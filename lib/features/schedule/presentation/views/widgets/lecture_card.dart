@@ -10,6 +10,7 @@ class LectureCard extends StatelessWidget {
     required this.room,
     required this.instructor,
     required this.color,
+    this.onPressed,
   });
 
   final String title;
@@ -17,6 +18,7 @@ class LectureCard extends StatelessWidget {
   final String room;
   final String instructor;
   final Color color;
+  final void Function(String value)? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,17 @@ class LectureCard extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyles.textstyle18.copyWith(color: Colors.black),
+                ),
+                PopupMenuButton<String>(
+                  onSelected: (value) {
+                    if (onPressed != null) {
+                      onPressed!(value);
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(value: 'edit', child: Text("Edit")),
+                    const PopupMenuItem(value: 'delete', child: Text("Delete")),
+                  ],
                 ),
               ],
             ),
@@ -75,5 +88,3 @@ class LectureCard extends StatelessWidget {
     );
   }
 }
-
-
