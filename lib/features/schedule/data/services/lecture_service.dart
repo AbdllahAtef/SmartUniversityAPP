@@ -71,6 +71,7 @@ class ScheduleService {
 
     return results.expand((e) => e).toList();
   }
+
   Future<List<LectureModel>> getDoctorLectures() async {
     try {
       final response = await DioHelper.dio.get('/api/lectures/doctor');
@@ -96,6 +97,43 @@ class ScheduleService {
       rethrow;
     }
   }
+
+  Future<void> createLecture(LectureModel model) async {
+    await DioHelper.dio.post('/api/lectures', data: model.toJson());
+  }
+
+  Future<void> updateLecture({
+    required int id,
+    required LectureModel model,
+  }) async {
+    final data = {
+      "title": model.title,
+
+      "subtitle": model.subtitle,
+
+      "room": model.room,
+
+      "instructor": model.instructor,
+
+      "day": model.day,
+
+      "startTime": model.startTime,
+
+      "endTime": model.endTime,
+    };
+
+    print(data);
+
+    try {
+      await DioHelper.dio.put('/api/lectures/$id', data: data);
+    } on DioException catch (e) {
+      print(e.response?.data);
+
+      rethrow;
+    }
+  }
+
+  Future<void> deleteLecture(int id) async {
+    await DioHelper.dio.delete('/api/lectures/$id');
+  }
 }
-
-

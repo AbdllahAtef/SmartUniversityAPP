@@ -7,7 +7,11 @@ class SubmitQuizHelper {
     required WidgetRef ref,
     required int quizId,
   }) async {
-    ref.read(quizTimerProvider.notifier).stop();
-    await ref.read(quizProvider.notifier).submitQuiz(quizId);
+    final timerNotifier = ref.read(quizTimerProvider.notifier);
+    final quizNotifier = ref.read(quizProvider.notifier);
+
+    timerNotifier.stop();
+
+    await quizNotifier.submitQuiz(quizId);
   }
 }

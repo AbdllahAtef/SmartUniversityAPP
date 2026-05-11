@@ -8,7 +8,6 @@ class GradesService {
   Future<GradeResponseModel?> getGradeByCourseId(int courseId) async {
     try {
       final response = await DioHelper.dio.get('/api/grades/$courseId');
-
       final data = response.data;
 
       if (data == null) return null;
@@ -18,16 +17,19 @@ class GradesService {
       }
 
       return null;
-    } catch (e) {
-      if (e is DioException && e.response?.statusCode == 404) {
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404 || e.response?.statusCode == 400) {
         return null;
       }
+
       rethrow;
     }
   }
+
   Future<void> submitGrade(SubmitGradeModel model) async {
     await DioHelper.dio.post(model.endpoint, data: model.toJson());
   }
+
   Future<void> updateGradingScheme({
     required int courseId,
     required GradingSchemeModel model,
@@ -38,5 +40,3 @@ class GradesService {
     );
   }
 }
-
-

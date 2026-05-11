@@ -13,10 +13,8 @@ import 'package:smart_university_app/features/quiz/presentation/views/widgets/bo
 import 'package:smart_university_app/features/quiz/presentation/views/widgets/question_card.dart';
 import 'package:smart_university_app/features/quiz/presentation/views/widgets/quiz_progress.dart';
 import 'package:smart_university_app/features/course/presentation/views/widgets/course_header.dart';
-
 class QuizViewBody extends ConsumerStatefulWidget {
   const QuizViewBody({super.key, required this.quiz});
-
   final QuizModel quiz;
 
   @override
@@ -26,9 +24,13 @@ class QuizViewBody extends ConsumerStatefulWidget {
 class _QuizBodyState extends ConsumerState<QuizViewBody> {
   ProviderSubscription<int>? _timerSub;
 
+  late final QuizTimerNotifier timerNotifier;
+
   @override
   void initState() {
     super.initState();
+
+    timerNotifier = ref.read(quizTimerProvider.notifier);
 
     Future.microtask(() async {
       final status = await ref.read(quizStatusProvider(widget.quiz.id).future);
@@ -53,9 +55,7 @@ class _QuizBodyState extends ConsumerState<QuizViewBody> {
   @override
   void dispose() {
     _timerSub?.close();
-
-    ref.read(quizTimerProvider.notifier).stop();
-
+    timerNotifier.stop();
     super.dispose();
   }
 
@@ -77,6 +77,7 @@ class _QuizBodyState extends ConsumerState<QuizViewBody> {
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
+
           child: Column(
             children: [
               CourseHeader(title: widget.quiz.title, isquiz: true),
@@ -87,33 +88,30 @@ class _QuizBodyState extends ConsumerState<QuizViewBody> {
               SizedBox(height: 20.h),
               QuestionCard(text: currentQuestion.text),
               Expanded(child: AnswersListView(question: currentQuestion)),
-             BottomQuizButtons(
+              BottomQuizButtons(
                 isLast: isLast,
                 isSubmitting: quizState.isSubmitting,
-
                 onPrev: () {
                   ref.read(quizProvider.notifier).previousQuestion();
                 },
-
                 onNext: () async {
                   if (quizState.isSubmitting) {
                     return;
                   }
-
                   if (isLast) {
                     await SubmitQuizHelper.submit(
                       ref: ref,
                       quizId: widget.quiz.id,
                     );
-
-                    if (context.mounted) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => QuizResultScreen(quiz: widget.quiz),
-                        ),
-                      );
+                    if (!context.mounted) {
+                      return;
                     }
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => QuizResultScreen(quiz: widget.quiz),
+                      ),
+                    );
                   } else {
                     ref
                         .read(quizProvider.notifier)
@@ -121,15 +119,16 @@ class _QuizBodyState extends ConsumerState<QuizViewBody> {
                   }
                 },
               ),
-
               SizedBox(height: 20.h),
             ],
           ),
         );
       },
+
       error: (e, _) {
         return Center(child: Text(e.toString()));
       },
+
       loading: () {
         return const Center(child: CircularProgressIndicator());
       },

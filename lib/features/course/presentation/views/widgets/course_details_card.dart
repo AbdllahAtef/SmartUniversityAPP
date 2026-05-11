@@ -39,11 +39,14 @@ class CourseDetailsCard extends StatelessWidget {
               color: const Color(0xFF8B2072),
               fontWeight: FontWeight.w800,
             ),
+            maxLines: 2,
+            textAlign: TextAlign.center,
           ),
           SizedBox(height: 10.h),
           Text(
             description,
             textAlign: TextAlign.center,
+            maxLines: 2,
             style: TextStyles.textstyle16.copyWith(color: Colors.grey),
           ),
         ],
@@ -51,5 +54,3 @@ class CourseDetailsCard extends StatelessWidget {
     );
   }
 }
-
-

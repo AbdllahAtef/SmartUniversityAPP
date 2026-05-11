@@ -74,7 +74,7 @@ class SessionCard extends ConsumerWidget {
                 ),
                 SizedBox(height: 8.h),
                 Text(
-                  lecture.instructor ?? "",
+                  lecture.instructor ,
                   style: TextStyles.textstyle8.copyWith(
                     color: Colors.grey,
                     fontSize: 10.sp,

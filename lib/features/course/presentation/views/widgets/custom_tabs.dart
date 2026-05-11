@@ -11,17 +11,18 @@ class CustomTabs extends ConsumerWidget {
     final tabs = ref.watch(tabsProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Row(
-        children: List.generate(tabs.length, (index) {
-          final isSelected = index == selectedIndex;
-          return Expanded(
-            child: GestureDetector(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(tabs.length, (index) {
+            final isSelected = index == selectedIndex;
+            return GestureDetector(
               onTap: () {
                 ref.read(tabIndexProvider.notifier).state = index;
               },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
-                padding: EdgeInsets.symmetric(vertical: 10.h),
+                padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
                 margin: const EdgeInsets.symmetric(horizontal: 4),
                 decoration: BoxDecoration(
                   color: isSelected
@@ -39,9 +40,9 @@ class CustomTabs extends ConsumerWidget {
                   ),
                 ),
               ),
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }

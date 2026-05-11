@@ -14,20 +14,16 @@ class ResultListView extends ConsumerWidget {
     return Expanded(
       child: gradesAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-
         error: (err, stack) => Center(child: Text(err.toString())),
-
         data: (list) {
           if (list.isEmpty) {
             return const Center(child: Text("No grades available"));
           }
-
           return ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: list.length,
             itemBuilder: (context, index) {
               final item = list[index];
-
               return CourseListItem(
                 title: "${item.course.name}\n(${item.course.code})",
                 onTap: () {},
@@ -40,4 +36,3 @@ class ResultListView extends ConsumerWidget {
     );
   }
 }
-
