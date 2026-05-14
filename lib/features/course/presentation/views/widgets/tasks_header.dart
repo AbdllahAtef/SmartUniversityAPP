@@ -44,33 +44,24 @@ class TasksHeader extends ConsumerWidget {
             if (role == "doctor" && onTab != null)
               GestureDetector(
                 onTap: canCreate ? onTab : null,
-
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 12.w,
                     vertical: 6.h,
                   ),
-
                   margin: EdgeInsets.only(right: 8.w),
-
                   decoration: BoxDecoration(
                     color: canCreate ? const Color(0xFF8B2072) : Colors.grey,
-
                     borderRadius: BorderRadius.circular(20.r),
                   ),
-
                   child: Row(
                     children: [
                       const Icon(Icons.add, size: 16, color: Colors.white),
-
                       SizedBox(width: 4.w),
-
                       Text(
                         "Create",
-
                         style: TextStyles.textstyle12.copyWith(
                           color: Colors.white,
-
                           fontWeight: FontWeight.w600,
                         ),
                       ),
