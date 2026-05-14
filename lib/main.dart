@@ -12,7 +12,6 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
   runApp(const ProviderScope(child: SmartUniversityApp()));
 }
-
 class SmartUniversityApp extends StatelessWidget {
   const SmartUniversityApp({super.key});
 

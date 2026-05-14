@@ -65,7 +65,6 @@ class CoursesDetailsBody extends ConsumerWidget {
                 ? attendanceState.sessions.length
                 : ((lecturesAsync.value?.length ?? 0) +
                       ref.watch(localLecturesProvider).length),
-
             canCreate: safeIndex == 3
                 ? (((lecturesAsync.value?.length ?? 0) +
                           ref.watch(localLecturesProvider).length) <
