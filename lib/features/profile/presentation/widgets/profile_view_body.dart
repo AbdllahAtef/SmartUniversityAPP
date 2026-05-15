@@ -52,7 +52,9 @@ class ProfileViewBody extends ConsumerWidget {
                           date: "Today",
                           failProbability: analysis.failProbability,
                           riskLevel: analysis.riskLevel,
-                          onMarkAttend: () {},
+                          onMarkAttend: () {
+                            ref.invalidate(aiAnalysisProvider);
+                          },
                           acadimicscore: analysis.academicScore,
                         );
                       },

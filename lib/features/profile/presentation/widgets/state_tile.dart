@@ -38,7 +38,7 @@ class StateTile extends StatelessWidget {
             ),
             Text(
               value,
-              style: TextStyles.textstyle16.copyWith(
+              style: TextStyles.textstyle14.copyWith(
                 fontWeight: FontWeight.w600,
                 color: Colors.black87,
               ),
@@ -49,5 +49,3 @@ class StateTile extends StatelessWidget {
     );
   }
 }
-
-

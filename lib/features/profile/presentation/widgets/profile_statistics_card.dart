@@ -86,6 +86,7 @@ class ProfileStatisticsCard extends StatelessWidget {
                   iconColor: const Color(0xFF8B5CF6),
                   label: 'Risk Level',
                   value: riskLevel,
+                  
                 ),
               ),
             ],

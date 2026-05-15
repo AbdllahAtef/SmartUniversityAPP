@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smart_university_app/features/ai/presentation/manager/ai_provider.dart';
 import 'package:smart_university_app/features/auth/presentation/manager/user_id_provider.dart';
 import 'package:smart_university_app/core/network/dio_helper.dart';
 import 'package:smart_university_app/features/home/presentation/manager/home_view_provider.dart';
@@ -15,6 +16,7 @@ class LogoutController {
   void logout() {
     DioHelper.setToken("");
     ref.read(tokenProvider.notifier).state = null;
+    ref.invalidate(aiAnalysisProvider);
     ref.read(bottomNavProvider.notifier).state = 0;
   }
 }
