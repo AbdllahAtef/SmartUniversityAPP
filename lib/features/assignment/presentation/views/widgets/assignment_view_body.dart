@@ -34,7 +34,7 @@ class AssignmentViewBody extends ConsumerWidget {
 
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text("Submitted successfully ✅")));
+      ).showSnackBar(const SnackBar(content: Text("Submitted successfully ")));
 
       Navigator.pop(context);
     } catch (e) {

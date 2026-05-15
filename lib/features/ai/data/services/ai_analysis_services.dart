@@ -42,7 +42,10 @@ class AiAnalysisService {
   }
 
   Future<AiAnalysisModel?> getAnalysis() async {
-    final response = await DioHelper.dio.get('/api/student/ai-analysis');
+    final response = await DioHelper.dio.get(
+      '/api/student/ai-analysis',
+      options: Options(headers: {"Cache-Control": "no-cache"}),
+    );
     if (response.data == null) {
       return null;
     }

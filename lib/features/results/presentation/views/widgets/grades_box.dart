@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_university_app/core/styles/app_styles.dart';
 import 'package:smart_university_app/features/results/data/model/grades_model.dart';
+import 'package:smart_university_app/features/results/presentation/helpers/grades_rank.dart';
 import 'package:smart_university_app/features/results/presentation/manager/results_provider.dart';
 
 class GradesBox extends ConsumerWidget {
@@ -13,14 +14,21 @@ class GradesBox extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedType = ref.watch(selectedTypeProvider);
-
     final isFinal = selectedType == "Final Grades";
 
-    final value = isFinal ? grades.total : grades.midterm;
+    final finalGrade = grades.finalGrade;
+
+    final value = isFinal
+        ? (finalGrade == 0 ? 0 : grades.midterm + finalGrade)
+        : grades.midterm;
 
     final maxValue = isFinal
         ? grades.maxMidterm + grades.maxFinal
         : grades.maxMidterm;
+
+    final gradeLetter = (isFinal && finalGrade != 0)
+        ? getGradeLetter(value)
+        : null;
 
     return Container(
       width: 60.w,
@@ -47,6 +55,17 @@ class GradesBox extends ConsumerWidget {
             ),
           ),
           SizedBox(height: 4.h),
+          if (gradeLetter != null)
+            Text(
+              gradeLetter,
+              style: TextStyles.textstyle12.copyWith(
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+          SizedBox(height: 2.h),
+
           Text(
             isFinal ? "Final" : "Midterm",
             style: TextStyles.textstyle12.copyWith(color: Colors.grey.shade600),
