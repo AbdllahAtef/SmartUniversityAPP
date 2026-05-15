@@ -9,20 +9,17 @@ class DioHelper {
   static void init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://10.0.2.2:7146',
-        headers: {
-          "Content-Type": "application/json",
-        },
+        baseUrl: 'http://smartuniversity.runasp.net',
+        // baseUrl: 'https://10.0.2.2:7146',
+        headers: {"Content-Type": "application/json"},
       ),
     );
-
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
           if (_token != null && _token!.isNotEmpty) {
             options.headers["Authorization"] = "Bearer $_token";
           }
-
 
           return handler.next(options);
         },
